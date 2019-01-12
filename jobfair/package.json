@@ -1,0 +1,32 @@
+{
+    "name": "jobfair",
+    "version": "1.0.0",
+    "description": "Web application for Job fair - MEAN stack",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/maricak/JobFairPIA.git"
+    },
+    "keywords": [
+        "job",
+        "fair",
+        "jobfair",
+        "pia",
+        "mean",
+        "stack",
+        "angular"
+    ],
+    "author": "Marija Kostić",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/maricak/JobFairPIA/issues"
+    },
+    "homepage": "https://github.com/maricak/JobFairPIA#readme",
+    "dependencies": {
+        "express": "^4.16.4"
+    }
+}
