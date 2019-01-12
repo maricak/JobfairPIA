@@ -2,7 +2,7 @@ const crypto = require('crypto').randomBytes(256).toString('hex'); // Provides c
 
 // Export config object
 module.exports = {
-    uri: 'mongodb://localhost:27017/' + this.db, //process.env.databaseUri, // Databse URI and database name
+    uri: 'mongodb://localhost:27017/jobfair', //+ this.db, //process.env.databaseUri, // Databse URI and database name
     secret: crypto, // Cryto-created secret
     db: 'jobfair'//process.env.databaseName // Database name
 }
