@@ -14,4 +14,8 @@ export class SearchService {
     searchBasic(data) {   
         return this.http.post(`${this.uri}/search/basic`, data);
     }
+
+    searchComplex(data) {
+        return this.http.post(`${this.uri}/search/complex`, data);
+    }
 }

@@ -3,7 +3,8 @@ website regex, moraju poceti sa www
 dodati slike
 dodati ogranicenja za mnjanje cv koje admin zadaje
 dodati min imax za duzine tekstualih polja
-
+dodati fajlove u konkurs
+napredna pretgraga
 auth guards
 
 trim();

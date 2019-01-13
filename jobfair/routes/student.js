@@ -27,7 +27,9 @@ router.use((req, res, next) => {
 router.get('/info/:id', (req, res) => {
     let id = req.params.id;
     console.log(req.decoded);
-    if (id !== req.decoded.id) {
+    if(req.decoded.type != "student") {
+        res.json({success : false, message : "This daa is only for stdents"});
+    } else if (id !== req.decoded.id) {
         res.json({ success: false, message: "Access to others student's data is not allowed" })
     } else {
         Student.findById(id, (err, student) => {

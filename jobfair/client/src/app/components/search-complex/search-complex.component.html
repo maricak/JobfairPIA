@@ -1,0 +1,84 @@
+<h1 class="page-header  text-center">Company/Application Search</h1>
+
+<div [ngClass]="messageClass" *ngIf="message" class="w-75 mx-auto">
+    {{message}}
+</div>
+
+<!-- Search Form -->
+<form [formGroup]="form" (submit)="onSeachSubmit()" class="w-75 mx-auto">
+
+    <!-- work filed input -->
+    <div class="form-group">
+        <label for="choice">Search type</label>
+        <select class="form-control" formControlName="choice" size="1">
+            <option value="company">Companies</option>
+            <option value="job">Job openings</option>
+            <option value="internship">Internship openings</option>
+            <option value="all">All openings</option>
+        </select>
+    </div>
+
+    <!-- companyName Input -->
+    <div class="form-group">
+        <label for="companyName">Company name</label>
+        <input type="text" name="companyName" class="form-control" autocomplete="off" placeholder="*Name"
+            formControlName="companyName" />
+    </div>
+
+    <!-- openingName Input -->
+    <div class="form-group">
+        <label for="openingName">Opening name</label>
+        <input type="text" name="openingName" class="form-control" autocomplete="off" placeholder="*Name"
+            formControlName="openingName" />
+    </div>
+    <!-- Submit Input -->
+    <input [disabled]="!form.valid" type="submit" class="btn btn-info" value="Search" />
+</form>
+<!-- Search Form /-->
+
+<br />
+
+<h5 class="text-center text-info" *ngIf="companies?.length > 0">Companies</h5>
+<table *ngIf="companies?.length > 0" class="table">
+    <thead>
+        <td>Name</td>
+        <td>City</td>
+        <td>Address</td>
+        <td>PIB</td>
+        <td>Number of employees</td>
+        <td>Email</td>
+        <td>Web site</td>
+        <td>Work field</td>
+        <td>Specialty</td>
+    </thead>
+    <tr *ngFor="let c of companies">
+        <td>{{c.name}}</td>
+        <td>{{c.city}}</td>
+        <td>{{c.address}}</td>
+        <td>{{c.pib}}</td>
+        <td>{{c.numberOfEmployees}}</td>
+        <td>{{c.email}}</td>
+        <td><a href="{{'http://' + c.webSite}}">{{c.webSite}}</a></td>
+        <td>{{c.workField}}</td>
+        <td>{{c.specialty}}</td>
+    </tr>
+</table>
+
+<h5 class="text-center text-info" *ngIf="openings?.length > 0">Openings</h5>
+<table *ngIf="openings?.length > 0" class="table">
+    <thead>
+        <td>Company</td>
+        <td>Name</td>
+        <td>Deadline</td>
+    </thead>
+    <ng-container *ngFor="let o of openings">
+        <tr>
+            <td>{{o.companyName}}</td>
+            <td>{{o.name}}</td>
+            <td>{{o.deadline}}</td>
+        </tr>
+        <tr>
+            <td colspan="3">{{o.text}}</td>
+        </tr>
+    </ng-container>
+</table>

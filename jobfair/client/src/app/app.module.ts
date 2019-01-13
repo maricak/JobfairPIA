@@ -13,6 +13,7 @@ import { SearchBasicComponent } from './components/search-basic/search-basic.com
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { CvComponent } from './components/cv/cv.component';
 import { StudentComponent } from './components/student/student.component';
+import { SearchComplexComponent } from './components/search-complex/search-complex.component';
 
 @NgModule({
     declarations: [
@@ -24,7 +25,8 @@ import { StudentComponent } from './components/student/student.component';
         SearchBasicComponent,
         ChangePasswordComponent,
         CvComponent,
-        StudentComponent
+        StudentComponent,
+        SearchComplexComponent
     ],
     imports: [
         BrowserModule,
