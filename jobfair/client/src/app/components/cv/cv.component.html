@@ -1,0 +1,429 @@
+<h1 class="page-header text-center">CV corner</h1>
+
+<div [ngClass]="messageClass" class="w-75 mx-auto">
+    {{message}}
+</div>
+
+<!-- Registration Form -->
+<form [formGroup]="form" class="w-75 mx-auto" action="post">
+
+    <h5 class="text-center text-info">
+        Personal information
+    </h5>
+    <!-- Name Input -->
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" name="name" class="form-control" autocomplete="off" placeholder="*Name" formControlName="name" />
+    </div>
+
+    <!-- Surname Input -->
+    <div class="form-group">
+        <label for="surname">Surname</label>
+        <input type="text" name="surname" class="form-control" autocomplete="off" placeholder="*Surname"
+            formControlName="surname" />
+    </div>
+
+    <!-- Address Input -->
+    <div class="form-group">
+        <label for="address">Address</label>
+        <input type="text" name="address" class="form-control" autocomplete="off" placeholder="*Address"
+            formControlName="address" />
+    </div>
+
+    <!-- Telephone Input -->
+    <div class="form-group">
+        <label for="telephone">Telephone</label>
+        <input type="text" name="telephone" class="form-control" autocomplete="off" placeholder="*Telephone"
+            formControlName="telephone" />
+        <!-- Validation -->
+        <ul class="form-text text-danger">
+            <li *ngIf="form.controls.telephone.errors?.validateTelephone && form.controls.telephone.dirty">This
+                must be a valid telephone</li>
+        </ul>
+    </div>
+
+    <!-- Email Input -->
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="text" name="email" class="form-control" autocomplete="off" placeholder="*Email" formControlName="email" />
+        <!-- Validation -->
+        <ul class="form-text text-danger">
+            <li *ngIf="form.controls.email.errors?.validateEmail && form.controls.email.dirty">This must be a valid
+                e-mail</li>
+        </ul>
+    </div>
+
+    <!-- Website Input -->
+    <div class="form-group">
+        <label for="webSite">Personal website</label>
+        <input type="text" name="webSite" class="form-control" autocomplete="off" placeholder="*Personal web site"
+            formControlName="webSite" />
+        <!-- Validation -->
+        <ul class="form-text text-danger">
+            <li *ngIf="form.controls.webSite.errors?.validateWebsite && form.controls.webSite.dirty">This must be a
+                valid
+                web site</li>
+        </ul>
+    </div>
+
+    <!-- im account Input -->
+    <div class="form-group">
+        <label for="imAccount">IM account</label>
+        <input type="text" name="imAccount" class="form-control" autocomplete="off" placeholder="*IM account"
+            formControlName="imAccount" />
+    </div>
+
+    <!-- sex -->
+    <div>
+        <label>Sex &nbsp;</label>
+        <div class="form-check form-check-inline">
+            <input formControlName="sex" class="form-check-input" type="radio" value="male" name="sex">
+            <label class="form-check-label" for="male">male</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input formControlName="sex" class="form-check-input" type="radio" value="female" name="sex">
+            <label class="form-check-label" for="female">female</label>
+        </div>
+    </div>
+
+    <!-- dateOfBirth Input -->
+    <div class="form-group">
+        <label for="dateOfBirth">Date of birth</label>
+        <input type="date" name="dateOfBirth" class="form-control" autocomplete="off" placeholder="*Date of birth"
+            formControlName="dateOfBirth" />
+    </div>
+
+    <!-- nationality Input -->
+    <div class="form-group">
+        <label for="nationality">Nationality</label>
+        <input type="text" name="nationality" class="form-control" autocomplete="off" placeholder="*Nationality"
+            formControlName="nationality" />
+    </div>
+
+    <h5 class="text-center text-info">Experience</h5>
+    <!-- experience -->
+    <div formArrayName="experience">
+        <div class="form-group border border-info" *ngFor="let e of form.get('experience').controls; let i = index"
+            [formGroupName]="i">
+            <h5 class="text-center text-info">Experience {{i+1}}</h5>
+            <div name="i">
+                <div class="form-group">
+                    <label for="startDate">Start Date</label>
+                    <input type="date" name="startDate" class="form-control" autocomplete="off" placeholder="*Start date"
+                        formControlName="startDate" />
+
+                    <!-- Validation -->
+                    <ul class="form-text text-danger">
+                        <li *ngIf="e.controls.startDate.errors?.required">This
+                            field is required</li>
+                    </ul>
+                </div>
+                <div class="form-group">
+                    <label for="endDate">End Date</label>
+                    <input type="date" name="endDate" class="form-control" autocomplete="off" placeholder="*End date"
+                        formControlName="endDate" />
+                </div>
+                <div class="form-group">
+                    <label for="position">Position</label>
+                    <input type="text" name="position" class="form-control" autocomplete="off" placeholder="*Position"
+                        formControlName="position" />
+
+                    <!-- Validation -->
+                    <ul class="form-text text-danger">
+                        <li *ngIf="e.controls.position.errors?.required">This
+                            field is required</li>
+                    </ul>
+                </div>
+                <div class="form-group">
+                    <label for="employer">Employer</label>
+                    <input type="text" name="employer" class="form-control" autocomplete="off" placeholder="*Employer"
+                        formControlName="employer" />
+
+                    <!-- Validation -->
+                    <ul class="form-text text-danger">
+                        <li *ngIf="e.controls.employer.errors?.required">This
+                            field is required</li>
+                    </ul>
+                </div>
+                <div class="form-group">
+                    <label for="activities">Activities</label>
+                    <input type="text" name="activities" class="form-control" autocomplete="off" placeholder="*Activities"
+                        formControlName="activities" />
+                </div>
+            </div>
+            <button class="btn btn-info" (click)="onDeleteExperience(i)">Delete</button>
+        </div>
+        <button class="btn btn-info" (click)="onAddExperience()">Add experience</button>
+    </div>
+
+    <h5 class="text-center text-info">Education</h5>
+    <!-- education -->
+    <div formArrayName="education">
+        <div class="form-group border border-info" *ngFor="let e of form.get('education').controls; let i = index"
+            [formGroupName]="i">
+            <h5 class="text-center text-info">Education {{i+1}}</h5>
+            <div name="i">
+                <div class="form-group">
+                    <label for="startDate">Start Date</label>
+                    <input type="date" name="startDate" class="form-control" autocomplete="off" placeholder="*Start date"
+                        formControlName="startDate" />
+                    <!-- Validation -->
+                    <ul class="form-text text-danger">
+                        <li *ngIf="e.controls.startDate.errors?.required">This
+                            field is required</li>
+                    </ul>
+                </div>
+                <div class="form-group">
+                    <label for="endDate">End Date</label>
+                    <input type="date" name="endDate" class="form-control" autocomplete="off" placeholder="*End date"
+                        formControlName="endDate" />
+                </div>
+                <div class="form-group">
+                    <label for="qualification">Qualification</label>
+                    <input type="text" name="qualification" class="form-control" autocomplete="off" placeholder="*Qualification"
+                        formControlName="qualification" />
+                    <!-- Validation -->
+                    <ul class="form-text text-danger">
+                        <li *ngIf="e.controls.qualification.errors?.required">This
+                            field is required</li>
+                    </ul>
+                </div>
+                <div class="form-group">
+                    <label for="institution">Institution</label>
+                    <input type="text" name="institution" class="form-control" autocomplete="off" placeholder="*Institution"
+                        formControlName="institution" />
+                    <!-- Validation -->
+                    <ul class="form-text text-danger">
+                        <li *ngIf="e.controls.institution.errors?.required">This
+                            field is required</li>
+                    </ul>
+                </div>
+                <div class="form-group">
+                    <label for="subjects">Subjects</label>
+                    <input type="text" name="subjects" class="form-control" autocomplete="off" placeholder="*Subjects"
+                        formControlName="subjects" />
+                </div>
+            </div>
+            <button class="btn btn-info" (click)="onDeleteEducation(i)">Delete</button>
+        </div>
+        <button class="btn btn-info" (click)="onAddEducation()">Add education</button>
+    </div>
+
+    <h5 class="text-center text-info">Personal skills</h5>
+
+    <!-- mother tounge -->
+    <div class="form-group">
+        <label for="motherTongue">Mother tongue</label>
+        <input type="text" name="motherTongue" class="form-control" autocomplete="off" placeholder="*Mother tongue"
+            formControlName="motherTongue" />
+    </div>
+
+    <!-- languages -->
+    <div formArrayName="languages">
+        <div class="form-group border border-info" *ngFor="let e of form.get('languages').controls; let i = index"
+            [formGroupName]="i">
+            <h5 class="text-center text-info">Language {{i+1}}</h5>
+            <div name="i">
+                <div class="form-group">
+                    <label for="language">Language</label>
+                    <input type="text" name="language" class="form-control" autocomplete="off" placeholder="*Language"
+                        formControlName="language" />
+                    <!-- Validation -->
+                    <ul class="form-text text-danger">
+                        <li *ngIf="e.controls.language.errors?.required">This
+                            field is required</li>
+                    </ul>
+                </div>
+
+                <!-- listenig -->
+                <div>
+                    <label for="listenig">Listening &nbsp;</label>
+                    <div class="form-check form-check-inline">
+                        <input formControlName="listenig" class="form-check-input" type="radio" value="A1" name="listenig">
+                        <label class="form-check-label" for="A1">A1</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input formControlName="listenig" class="form-check-input" type="radio" value="A2" name="listenig">
+                        <label class="form-check-label" for="A2">A2</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input formControlName="listenig" class="form-check-input" type="radio" value="B1" name="listenig">
+                        <label class="form-check-label" for="B1">B1</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input formControlName="listenig" class="form-check-input" type="radio" value="B2" name="listenig">
+                        <label class="form-check-label" for="B2">B2</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input formControlName="listenig" class="form-check-input" type="radio" value="C1" name="listenig">
+                        <label class="form-check-label" for="C1">C1</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input formControlName="listenig" class="form-check-input" type="radio" value="C2" name="listenig">
+                        <label class="form-check-label" for="C2">C2</label>
+                    </div>
+
+                    <ul class="form-text text-danger">
+                        <li *ngIf="e.controls.listenig.errors?.required">This
+                            field is required</li>
+                    </ul>
+                </div>
+
+                <!-- reading -->
+                <div>
+                    <label for="reading">Reading &nbsp;</label>
+                    <div class="form-check form-check-inline">
+                        <input formControlName="reading" class="form-check-input" type="radio" value="A1" name="reading">
+                        <label class="form-check-label" for="A1">A1</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input formControlName="reading" class="form-check-input" type="radio" value="A2" name="reading">
+                        <label class="form-check-label" for="A2">A2</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input formControlName="reading" class="form-check-input" type="radio" value="B1" name="reading">
+                        <label class="form-check-label" for="B1">B1</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input formControlName="reading" class="form-check-input" type="radio" value="B2" name="reading">
+                        <label class="form-check-label" for="B2">B2</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input formControlName="reading" class="form-check-input" type="radio" value="C1" name="reading">
+                        <label class="form-check-label" for="C1">C1</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input formControlName="reading" class="form-check-input" type="radio" value="C2" name="reading">
+                        <label class="form-check-label" for="C2">C2</label>
+                    </div>
+                    <ul class="form-text text-danger">
+                        <li *ngIf="e.controls.reading.errors?.required">This
+                            field is required</li>
+                    </ul>
+                </div>
+
+                <!-- writing -->
+                <div>
+                    <label for="writing">Writing &nbsp;</label>
+                    <div class="form-check form-check-inline">
+                        <input formControlName="writing" class="form-check-input" type="radio" value="A1" name="writing">
+                        <label class="form-check-label" for="A1">A1</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input formControlName="writing" class="form-check-input" type="radio" value="A2" name="writing">
+                        <label class="form-check-label" for="A2">A2</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input formControlName="writing" class="form-check-input" type="radio" value="B1" name="writing">
+                        <label class="form-check-label" for="B1">B1</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input formControlName="writing" class="form-check-input" type="radio" value="B2" name="writing">
+                        <label class="form-check-label" for="B2">B2</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input formControlName="writing" class="form-check-input" type="radio" value="C1" name="writing">
+                        <label class="form-check-label" for="C1">C1</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input formControlName="writing" class="form-check-input" type="radio" value="C2" name="writing">
+                        <label class="form-check-label" for="C2">C2</label>
+                    </div>
+                    <ul class="form-text text-danger">
+                        <li *ngIf="e.controls.writing.errors?.required">This
+                            field is required</li>
+                    </ul>
+                </div>
+
+                <!-- speaking -->
+                <div>
+                    <label for="speaking">Speaking &nbsp;</label>
+                    <div class="form-check form-check-inline">
+                        <input formControlName="speaking" class="form-check-input" type="radio" value="A1" name="speaking">
+                        <label class="form-check-label" for="A1">A1</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input formControlName="speaking" class="form-check-input" type="radio" value="A2" name="speaking">
+                        <label class="form-check-label" for="A2">A2</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input formControlName="speaking" class="form-check-input" type="radio" value="B1" name="speaking">
+                        <label class="form-check-label" for="B1">B1</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input formControlName="speaking" class="form-check-input" type="radio" value="B2" name="speaking">
+                        <label class="form-check-label" for="B2">B2</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input formControlName="speaking" class="form-check-input" type="radio" value="C1" name="speaking">
+                        <label class="form-check-label" for="C1">C1</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input formControlName="speaking" class="form-check-input" type="radio" value="C2" name="speaking">
+                        <label class="form-check-label" for="C2">C2</label>
+                    </div>
+                    <ul class="form-text text-danger">
+                        <li *ngIf="e.controls.speaking.errors?.required">This
+                            field is required</li>
+                    </ul>
+                </div>
+            </div>
+            <button class="btn btn-info" (click)="onDeleteLanguage(i)">Delete</button>
+        </div>
+        <button class="btn btn-info" (click)="onAddLanguage()">Add language</button>
+    </div>
+
+    <!-- communicationSkills -->
+    <div class="form-group">
+        <label for="communicationSkills">Communication skills</label>
+        <input type="text" name="communicationSkills" class="form-control" autocomplete="off" placeholder="*Communication skills"
+            formControlName="communicationSkills" />
+    </div>
+
+    <!-- organisationslSkills -->
+    <div class="form-group">
+        <label for="organisationslSkills">Organisational skills</label>
+        <input type="text" name="organisationslSkills" class="form-control" autocomplete="off" placeholder="*Organisational skills"
+            formControlName="organisationslSkills" />
+    </div>
+
+    <!-- jobRelatedSkills -->
+    <div class="form-group">
+        <label for="jobRelatedSkills">Job related skills</label>
+        <input type="text" name="jobRelatedSkills" class="form-control" autocomplete="off" placeholder="*Job related skills"
+            formControlName="jobRelatedSkills" />
+    </div>
+
+    <!-- digitalSkills -->
+    <div class="form-group">
+        <label for="digitalSkills">Digital skills</label>
+        <input type="text" name="digitalSkills" class="form-control" autocomplete="off" placeholder="*Digital skills"
+            formControlName="digitalSkills" />
+    </div>
+
+    <!-- otherSkills -->
+    <div class="form-group">
+        <label for="otherSkills">Other skills</label>
+        <input type="text" name="otherSkills" class="form-control" autocomplete="off" placeholder="*Other skills"
+            formControlName="otherSkills" />
+    </div>
+
+    <!-- drivingLicence -->
+    <div class="form-group">
+        <label for="drivingLicence">Driving licence</label>
+        <input type="text" name="drivingLicence" class="form-control" autocomplete="off" placeholder="*Driving licence"
+            formControlName="drivingLicence" />
+    </div>
+
+    <!-- additionalInformation -->
+    <div class="form-group">
+        <label for="additionalInformation">Additional information licence</label>
+        <input type="text" name="additionalInformation" class="form-control" autocomplete="off" placeholder="*Additional information"
+            formControlName="additionalInformation" />
+    </div>
+
+    <!-- Submit Input -->
+    <input [disabled]="!form.valid" type="submit" class="btn btn-info" value="Submit" (click)="onCvSubmit()" />
+
+</form>
+<!-- Registration Form /-->

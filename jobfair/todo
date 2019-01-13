@@ -1,6 +1,8 @@
 promeni regex za password i poruku za password koji ne odgovara na serveru i frontendu
 website regex, moraju poceti sa www
-dodati slikue
+dodati slike
+dodati ogranicenja za mnjanje cv koje admin zadaje
+dodati min imax za duzine tekstualih polja
 
 auth guards
 

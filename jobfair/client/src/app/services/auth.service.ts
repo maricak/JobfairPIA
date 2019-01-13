@@ -10,18 +10,21 @@ export class AuthService {
 
     uri: string = "http://localhost:8080";
     token: string;
-    username: string;
+    id: string;
+    type: string;
 
 
     constructor(private http: HttpClient) { }
 
-    loadToken() {
+    loadData() {
         this.token = localStorage.getItem('token');
+        this.id = localStorage.getItem('id');
+        this.type = localStorage.getItem('type');
     }
 
     logout() {
         this.token = null;
-        this.username = null;
+        this.id = null;
         localStorage.clear();
     }
 
@@ -54,21 +57,23 @@ export class AuthService {
     }
 
     getAdminData() {
-        this.loadToken();
+        this.loadData();
         console.log(this.token);
         return this.http.get(`${this.uri}/profile`, { headers: { 'Content-type': 'application/json', 'auth': this.token } });
     }
 
-    storeUserData(token, username) {
+    storeUserData(token: string, id: string, type: string) {
         localStorage.setItem('token', token);
-        localStorage.setItem('username', username);
+        localStorage.setItem('id', id);
+        localStorage.setItem('type', type);
 
         this.token = token;
-        this.username = username;
+        this.id = id;
+        this.type = type;
     }
 
     loggedIn() {
-        this.loadToken();
+        this.loadData();
         const helper = new JwtHelperService();
         if (this.token) {
             let ret = helper.isTokenExpired(this.token);
@@ -76,5 +81,17 @@ export class AuthService {
         } else {
             return false;
         }
+    }
+
+    isAdmin() {
+        return this.loggedIn() && this.type == "admin";
+    }
+
+    isStudent() {
+        return this.loggedIn() && this.type == "student";
+    }
+
+    isCompany() {
+        return this.loggedIn() && this.type == "company";
     }
 }

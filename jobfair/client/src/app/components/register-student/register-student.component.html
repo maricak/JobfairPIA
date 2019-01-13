@@ -42,7 +42,7 @@
         <input type="password" name="confirm" class="form-control" [ngClass]="{'is-invalid': (form.controls.confirm.errors && form.controls.confirm.dirty) || (form.errors?.matchingPasswords && form.controls.confirm.dirty), 'is-valid': !form.controls.confirm.errors && !form.errors?.matchingPasswords}"
             autocomplete="off" placeholder="*Confirm Password" formControlName="confirm" />
         <!-- Validation -->
-        <ul class="from-text text-danger">
+        <ul class="form-text text-danger">
             <li *ngIf="form.controls.confirm.errors?.required && form.controls.confirm.dirty">This field is
                 required</li>
             <li *ngIf="form.errors?.matchingPasswords && form.controls.confirm.dirty">Password do not match</li>
@@ -55,7 +55,7 @@
         <input type="text" name="name" class="form-control" [ngClass]="{'is-invalid': (form.controls.name.errors && form.controls.name.dirty), 'is-valid': !form.controls.name.errors}"
             autocomplete="off" placeholder="*Name" formControlName="name" />
         <!-- Validation -->
-        <ul class="from-text text-danger">
+        <ul class="form-text text-danger">
             <li *ngIf="form.controls.name.errors?.required && form.controls.name.dirty">This field is required</li>
         </ul>
     </div>
@@ -66,7 +66,7 @@
         <input type="text" name="surname" class="form-control" [ngClass]="{'is-invalid': (form.controls.surname.errors && form.controls.surname.dirty), 'is-valid': !form.controls.surname.errors}"
             autocomplete="off" placeholder="*Surname" formControlName="surname" />
         <!-- Validation -->
-        <ul class="from-text text-danger">
+        <ul class="form-text text-danger">
             <li *ngIf="form.controls.surname.errors?.required && form.controls.surname.dirty">This field is
                 required</li>
         </ul>
@@ -78,7 +78,7 @@
         <input type="text" name="telephone" class="form-control" [ngClass]="{'is-invalid': (form.controls.telephone.errors && form.controls.telephone.dirty), 'is-valid': !form.controls.telephone.errors}"
             autocomplete="off" placeholder="*Telephone" formControlName="telephone" />
         <!-- Validation -->
-        <ul class="from-text text-danger">
+        <ul class="form-text text-danger">
             <li *ngIf="form.controls.telephone.errors?.required && form.controls.telephone.dirty">This field is
                 required</li>
             <li *ngIf="form.controls.telephone.errors?.validateTelephone && form.controls.telephone.dirty">This
@@ -93,7 +93,7 @@
         <input type="text" name="email" class="form-control" [ngClass]="{'is-invalid': (form.controls.email.errors && form.controls.email.dirty), 'is-valid': !form.controls.email.errors}"
             autocomplete="off" placeholder="*Email" formControlName="email" />
         <!-- Validation -->
-        <ul class="from-text text-danger">
+        <ul class="form-text text-danger">
             <li *ngIf="form.controls.email.errors?.required && form.controls.email.dirty">This field is required</li>
             <li *ngIf="form.controls.email.errors?.validateEmail && form.controls.email.dirty">This must be a valid
                 e-mail</li>
@@ -106,7 +106,7 @@
         <input type="number" min="1" max="5" name="currentYear" class="form-control" [ngClass]="{'is-invalid': (form.controls.currentYear.errors && form.controls.currentYear.dirty), 'is-valid': !form.controls.currentYear.errors}"
             autocomplete="off" placeholder="*Current year" formControlName="currentYear" />
         <!-- Validation -->
-        <ul class="from-text text-danger">
+        <ul class="form-text text-danger">
             <li *ngIf="form.controls.currentYear.errors?.required && form.controls.currentYear.dirty">This field is
                 required</li>
             <li *ngIf="form.controls.currentYear.errors?.validateYear && form.controls.currentYear.dirty">This must

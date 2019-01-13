@@ -70,14 +70,14 @@ export class LoginComponent implements OnInit {
     }
 
     loginAdmin(admin) {
-        this.authService.loginAdmin(admin).subscribe((data: { success: boolean, message: string, token: string, username: string }) => {
+        this.authService.loginAdmin(admin).subscribe((data: { success: boolean, message: string, token: string, id: string }) => {
             if (!data.success) {
                 this.messageClass = 'alert alert-danger';
                 this.message = data.message;
             } else {
                 this.messageClass = 'alert alert-success';
                 this.message = data.message;
-                this.authService.storeUserData(data.token, data.username);
+                this.authService.storeUserData(data.token, data.id, "admin");
                 setTimeout(() => {
                     this.router.navigate(['/admin']);
                 }, 2000);
@@ -85,14 +85,14 @@ export class LoginComponent implements OnInit {
         });
     };
     loginStudent(student) {
-        this.authService.loginStudent(student).subscribe((data: { success: boolean, message: string, token: string, username: string }) => {
+        this.authService.loginStudent(student).subscribe((data: { success: boolean, message: string, token: string, id: string }) => {
             if (!data.success) {
                 this.messageClass = 'alert alert-danger';
                 this.message = data.message;
             } else {
                 this.messageClass = 'alert alert-success';
                 this.message = data.message;
-                this.authService.storeUserData(data.token, data.username);
+                this.authService.storeUserData(data.token, data.id, "student");
                 setTimeout(() => {
                     this.router.navigate(['/student']);
                 }, 2000);
@@ -100,14 +100,14 @@ export class LoginComponent implements OnInit {
         });
     }
     loginCompany(company) {
-        this.authService.loginCompany(company).subscribe((data: { success: boolean, message: string, token: string, username: string }) => {
+        this.authService.loginCompany(company).subscribe((data: { success: boolean, message: string, token: string, id: string }) => {
             if (!data.success) {
                 this.messageClass = 'alert alert-danger';
                 this.message = data.message;
             } else {
                 this.messageClass = 'alert alert-success';
                 this.message = data.message;
-                this.authService.storeUserData(data.token, data.username);
+                this.authService.storeUserData(data.token, data.id, "company");
                 setTimeout(() => {
                     this.router.navigate(['/company']);
                 }, 2000);

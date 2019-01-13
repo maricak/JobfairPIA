@@ -14,10 +14,52 @@ const studentSchema = new Schema({
     telephone: { type: String, required: true, validate: validators.telephoneValidators },
     email: { type: String, required: true, unique: true, validate: validators.emailValidators },
     currentYear: { type: Number, required: true, validate: validators.yearValidators },
-    graduated: { type: Boolean, required: true }
+    graduated: { type: Boolean, required: true },
+    cv: {
+        name: String,
+        surname: String,
+        address: String,
+        telephone: { type: String, validate: validators.telephoneValidators },
+        email: { type: String, validate: validators.emailValidators },
+        website: { type: String, validate: validators.webSiteValidators },
+        imAccount: String,
+        sex: { type: String, enum: ['male', 'female'] },
+        dateOfBirth: Date,
+        nationality: String,
+        personalStatement: String,
+        experience: [{
+            startDate: Date,
+            endDate: Date,
+            position: String,
+            employer: String,
+            activities: String
+        }],
+        education: [{
+            startDate: Date,
+            endDate: Date,
+            qualification: String,
+            institution: String,
+            subjects: String
+        }],
+        motherTongue: String,
+        languagues: [{
+            language: String,
+            listenig: String,
+            reading: String,
+            writing: String,
+            speaking: String
+        }],
+        communicationSkills: String,
+        organisationslSkills: String,
+        jobRelatedSkills: String,
+        digitalSkills: String,
+        otherSkills: String,
+        drivingLicence: String,
+        additionalInformation: String
+    }
 });
 
-studentSchema.pre('save', function(next) {
+studentSchema.pre('save', function (next) {
     if (!this.isModified('password'))
         return next();
     bcrypt.hash(this.password, null, null, (err, hash) => {
@@ -29,7 +71,7 @@ studentSchema.pre('save', function(next) {
     });
 });
 
-studentSchema.methods.comparePassword = function(password) {
+studentSchema.methods.comparePassword = function (password) {
     return bcrypt.compareSync(password, this.password);
 };
 

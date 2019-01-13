@@ -9,7 +9,7 @@ const cors = require('cors');
 const loginRouter = require('./routes/login');
 const registerRouter = require('./routes/register');
 const searchRouter = require('./routes/search');
-const authRouter = require('./routes/auth');
+const studentRouter = require('./routes/student');
 const changePasswordRouter = require('./routes/changePassword');
 
 mongoose.Promise = global.Promise;
@@ -30,7 +30,7 @@ app.use('/login', loginRouter);
 app.use('/register', registerRouter);
 app.use('/search', searchRouter);
 app.use('/changePassword', changePasswordRouter);
-app.use('/admin', authRouter);
+app.use('/student', studentRouter);
 
 
 app.get('/profile', (req, res) => {

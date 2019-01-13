@@ -102,7 +102,7 @@ export class RegisterCompanyComponent implements OnInit {
         if (regExp.test(controls.value)) {
             return null;
         } else {
-            return { 'validateNumber': true }
+            return { 'validateWebsite': true }
         }
     }
 

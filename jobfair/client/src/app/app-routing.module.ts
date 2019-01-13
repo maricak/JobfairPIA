@@ -5,15 +5,23 @@ import { RegisterStudentComponent } from './components/register-student/register
 import { RegisterCompanyComponent } from './components/register-company/register-company.component';
 import { SearchBasicComponent } from './components/search-basic/search-basic.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { StudentComponent } from './components/student/student.component';
+
+import { StudentGuard } from './guards/student.guard';
+import { NotAuthGuard } from './guards/not-auth.guard';
+import { HomeGuard } from './guards/home.guard';
+import { CvComponent } from './components/cv/cv.component';
 
 const routes: Routes = [
-    { path: '', component: LoginComponent },
-    { path: 'login', component: LoginComponent, pathMatch: "full" },
-    { path: 'register/student', component: RegisterStudentComponent, pathMatch: "full" },
-    { path: 'register/company', component: RegisterCompanyComponent, pathMatch: "full" },
-    { path: 'changePassword', component: ChangePasswordComponent, pathMatch: "full" },
-    { path: 'search', component: SearchBasicComponent, pathMatch: "full" },
-    { path: '**', component: LoginComponent }
+    { path: 'login', component: LoginComponent, pathMatch: 'full', canActivate: [NotAuthGuard] },
+    { path: 'register/student', component: RegisterStudentComponent, pathMatch: 'full', canActivate: [NotAuthGuard] },
+    { path: 'register/company', component: RegisterCompanyComponent, pathMatch: 'full', canActivate: [NotAuthGuard] },
+    { path: 'changePassword', component: ChangePasswordComponent, pathMatch: 'full' },
+    { path: 'search', component: SearchBasicComponent, pathMatch: 'full' },
+    { path: 'student', component: StudentComponent, canActivate: [StudentGuard] },
+    { path: 'student/cv', component: CvComponent, canActivate: [StudentGuard] },
+    { path: '', component: LoginComponent, pathMatch: 'full', canActivate: [HomeGuard] },
+    { path: '**', component: LoginComponent, pathMatch: 'full', canActivate: [HomeGuard] },
 ];
 
 @NgModule({

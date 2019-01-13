@@ -95,59 +95,80 @@ router.post('/student', (req, res) => {
     }
 });
 
-// router.post('/admin', (req, res) => {
-//     if (!req.body.username || req.body.username == "") {
-//         res.json({ success: false, message: 'You must provide a username' });
-//     } else if (!req.body.password || req.body.password == "") {
-//         res.json({ success: false, message: 'You must provide a password' });
-//     } else if (!req.body.name || req.body.name == "") {
-//         res.json({ success: false, message: 'You must provide a name' });
-//     } else if (!req.body.surname || req.body.surname == "") {
-//         res.json({ success: false, message: 'You must provide a surname' });
-//     } else if (!req.body.telephone || req.body.telephone == "") {
-//         res.json({ success: false, message: 'You must provide a telephone' });
-//     } else if (!req.body.email || req.body.email == "") {
-//         res.json({ success: false, message: 'You must provide an e-mail' });
-//     } else {
-//         let admin = new Admin({
-//             username: req.body.username,
-//             password: req.body.password,
-//             name: req.body.name,
-//             surname: req.body.surname,
-//             telephone: req.body.telephone,
-//             email: req.body.email
-//         });
-//         admin.save((err) => {
-//             if (err) {
-//                 // console.log(err.code);
-//                 if (err.code && err.code === 11000) {
-//                     res.json({ success: false, message: 'Username or e-mail already exists' });
-//                 } else if (err.errors) {
-//                     if (err.errors.username) {
-//                         res.json({ success: false, message: err.errors.username.message });
-//                     } else if (err.errors.password) {
-//                         res.json({ success: false, message: err.errors.password.message });
-//                     } else if (err.errors.name) {
-//                         res.json({ success: false, message: err.errors.name.message });
-//                     } else if (err.errors.surname) {
-//                         res.json({ success: false, message: err.errors.surname.message });
-//                     } else if (err.errors.telephone) {
-//                         res.json({ success: false, message: err.errors.telephone.message });
-//                     } else if (err.errors.email) {
-//                         res.json({ success: false, message: err.errors.email.message });
-//                     } else {
-//                         res.json({ success: false, message: err });
-//                     }
-//                 } else {
-//                     res.json({ success: false, message: 'Could not admin user. Error: ' + err });
-//                 }
-//             }
-//             else {
-//                 res.json({ success: true, message: 'Account registered!' }); // Return success
-//             }
-//         });
-//     }
-// });
+router.post('/admin', (req, res) => {
+    if (!req.body.username || req.body.username == "") {
+        res.json({ success: false, message: 'You must provide a username' });
+    } else if (!req.body.password || req.body.password == "") {
+        res.json({ success: false, message: 'You must provide a password' });
+    } else if (!req.body.name || req.body.name == "") {
+        res.json({ success: false, message: 'You must provide a name' });
+    } else if (!req.body.surname || req.body.surname == "") {
+        res.json({ success: false, message: 'You must provide a surname' });
+    } else if (!req.body.telephone || req.body.telephone == "") {
+        res.json({ success: false, message: 'You must provide a telephone' });
+    } else if (!req.body.email || req.body.email == "") {
+        res.json({ success: false, message: 'You must provide an e-mail' });
+    } else {
+        found = false;
+        Student.find({ $or: [{ username: req.body.username }, { email: req.body.email }] }, (err, student) => {
+            if (err) {
+                console.log(err);
+            }
+            else if (student) {
+                found = true;
+            }
+        });
+        Company.find({ $or: [{ username: req.body.username }, { email: req.body.email }] }, (err, company) => {
+            if (err) {
+                console.log(err);
+            }
+            else if (company) {
+                found = true;
+            }
+        });
+        if (found) {
+            res.json({ success: false, message: 'Username or e-mail already exists' });
+        } else {
+            let admin = new Admin({
+                username: req.body.username,
+                password: req.body.password,
+                name: req.body.name,
+                surname: req.body.surname,
+                telephone: req.body.telephone,
+                email: req.body.email
+            });
+            admin.save((err) => {
+                if (err) {
+                    // console.log(err.code);
+                    if (err.code && err.code === 11000) {
+                        res.json({ success: false, message: 'Username or e-mail already exists' });
+                    } else if (err.errors) {
+                        if (err.errors.username) {
+                            res.json({ success: false, message: err.errors.username.message });
+                        } else if (err.errors.password) {
+                            res.json({ success: false, message: err.errors.password.message });
+                        } else if (err.errors.name) {
+                            res.json({ success: false, message: err.errors.name.message });
+                        } else if (err.errors.surname) {
+                            res.json({ success: false, message: err.errors.surname.message });
+                        } else if (err.errors.telephone) {
+                            res.json({ success: false, message: err.errors.telephone.message });
+                        } else if (err.errors.email) {
+                            res.json({ success: false, message: err.errors.email.message });
+                        } else {
+                            res.json({ success: false, message: err });
+                        }
+                    } else {
+                        res.json({ success: false, message: 'Could not admin user. Error: ' + err });
+                    }
+                }
+                else {
+                    res.json({ success: true, message: 'Account registered!' }); // Return success
+                }
+            });
+        }
+    }
+});
 
 
 router.post('/company', (req, res) => {

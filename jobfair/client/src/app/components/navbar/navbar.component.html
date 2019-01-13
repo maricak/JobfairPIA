@@ -15,6 +15,9 @@
             <li *ngIf="!service.loggedIn()" class="nav-item" routerLinkActive="active">
                 <a class="nav-link" routerLink="/register/company">Company registration</a>
             </li>
+            <li *ngIf="service.isStudent()" class="nav-item" routerLinkActive="active">
+                <a class="nav-link" routerLink="/student/cv">CV</a>
+            </li>
             <li class="nav-item" routerLinkActive="active">
                 <a class="nav-link" routerLink="/changePassword">Change password</a>
             </li>

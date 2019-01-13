@@ -6,19 +6,19 @@ import { AuthService } from '../services/auth.service';
 @Injectable({
     providedIn: 'root'
 })
-export class NotAuthGuard implements CanActivate {
-
-    constructor(private service: AuthService, private router : Router) {
-
+export class CompanyGuard implements CanActivate {
+    constructor(private authService: AuthService, private router: Router) {
     }
 
     canActivate(
         next: ActivatedRouteSnapshot,
         state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-        if (this.service.loggedIn()) {
-            return false;            
-        } else {
+
+        if (this.authService.isCompany()) {
             return true;
+        } else {
+            this.router.navigate(['/']);
+            return false;
         }
     }
 }
