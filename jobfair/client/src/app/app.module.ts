@@ -7,20 +7,20 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { LoginComponent } from './components/login/login.component';
-// import { RegisterComponent } from './components/register/register.component';
 import { RegisterStudentComponent } from './components/register-student/register-student.component';
-// import { RegisterAdminComponent } from './components/register-admin/register-admin.component';
 import { RegisterCompanyComponent } from './components/register-company/register-company.component';
+import { SearchBasicComponent } from './components/search-basic/search-basic.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         NavbarComponent,
         LoginComponent,
-        // RegisterComponent,
         RegisterStudentComponent,
-        // RegisterAdminComponent,
-        RegisterCompanyComponent
+        RegisterCompanyComponent,
+        SearchBasicComponent,
+        ChangePasswordComponent
     ],
     imports: [
         BrowserModule,

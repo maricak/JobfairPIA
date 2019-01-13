@@ -8,7 +8,9 @@ const cors = require('cors');
 
 const loginRouter = require('./routes/login');
 const registerRouter = require('./routes/register');
+const searchRouter = require('./routes/search');
 const authRouter = require('./routes/auth');
+const changePasswordRouter = require('./routes/changePassword');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.uri, (err) => {
@@ -26,7 +28,15 @@ app.use(express.static(__dirname + '/client/dist'));
 
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
-app.use('/', authRouter);
+app.use('/search', searchRouter);
+app.use('/changePassword', changePasswordRouter);
+app.use('/admin', authRouter);
+
+
+app.get('/profile', (req, res) => {
+    res.send(req.decoded);
+});
+
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname + '/client/dist/index.html'));
 });

@@ -49,7 +49,7 @@ export class RegisterStudentComponent implements OnInit {
             ])],
             graduated: [false],
 
-        }, { validator: this.matchingPasswords('password', 'confirm') }); // Add custom validator to form for matching passwords
+        }, { validator: this.matchingPasswords('password', 'confirm') }); 
     }
     validatePassword(controls) {
         const regExp = new RegExp(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{8,12}$/);

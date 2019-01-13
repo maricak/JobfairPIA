@@ -98,7 +98,7 @@ export class RegisterCompanyComponent implements OnInit {
     }
 
     validateWebsite(controls) {
-        const regExp = new RegExp(/^((?:http(?:s)?\:\/\/)?[a-zA-Z0-9_-]+(?:.[a-zA-Z0-9_-]+)*.[a-zA-Z]{2,4}(?:\/[a-zA-Z0-9_]+)*(?:\/[a-zA-Z0-9_]+.[a-zA-Z]{2,4}(?:\?[a-zA-Z0-9_]+\=[a-zA-Z0-9_]+)?)?(?:\&[a-zA-Z0-9_]+\=[a-zA-Z0-9_]+)*)$/);
+        const regExp = new RegExp(/^w{3}[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/);
         if (regExp.test(controls.value)) {
             return null;
         } else {
@@ -125,7 +125,7 @@ export class RegisterCompanyComponent implements OnInit {
             name: this.form.get('name').value,
             city: this.form.get('city').value,
             address: this.form.get('address').value,
-            numberOfEmployees : this.form.get('numberOfEmployees').value,
+            numberOfEmployees: this.form.get('numberOfEmployees').value,
             pib: this.form.get('pib').value,
             email: this.form.get('email').value,
             webSite: this.form.get('webSite').value,
@@ -133,7 +133,6 @@ export class RegisterCompanyComponent implements OnInit {
             specialty: this.form.get('specialty').value
         };
 
-        console.log(company);
         this.authService.registerCompany(company).subscribe((data: { success: boolean, message: string }) => {
             if (!data.success) {
                 this.message = data.message;

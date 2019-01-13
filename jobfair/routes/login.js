@@ -9,7 +9,6 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/database');
 
 router.post('/student', (req, res) => {
-
     if (!req.body.username || req.body.username == "") {
         res.json({ success: false, message: 'You must provide a username', token: null, username: null });
     } else if (!req.body.password || req.body.password == "") {
@@ -19,10 +18,11 @@ router.post('/student', (req, res) => {
             if (err) {
                 res.json({ success: false, message: err });
             } else if (student) {
-                console.log(req.body);
                 if (student.comparePassword(req.body.password)) {
-                    const token = jwt.sign({ id: student._id }, config.secret, { expiresIn: '24h' }); // Create a token for client
+                    const token = jwt.sign({ id: student._id, type: "student" }, config.secret, { expiresIn: '24h' }); // Create a token for client
                     res.json({ success: true, message: 'Success!', token: token, username: student.username }); // Return success and token to frontend
+                } else {
+                    res.json({ success: false, message: "Wrong password", toke: null, username: null })
                 }
             } else {
                 res.json({ success: false, message: 'No student in the database', token: null, username: null });
@@ -42,8 +42,10 @@ router.post('/company', (req, res) => {
                 res.json({ success: false, message: err });
             } else if (company) {
                 if (company.comparePassword(req.body.password)) {
-                    const token = jwt.sign({ id: company._id }, config.secret, { expiresIn: '24h' }); // Create a token for client
+                    const token = jwt.sign({ id: company._id, type: "company" }, config.secret, { expiresIn: '24h' }); // Create a token for client
                     res.json({ success: true, message: 'Success!', token: token, username: company.username }); // Return success and token to frontend
+                } else {
+                    res.json({ success: false, message: "Wrong password", toke: null, username: null })
                 }
             } else {
                 res.json({ success: false, message: 'No company in the database', token: null, username: null });
@@ -63,8 +65,10 @@ router.post('/admin', (req, res) => {
                 res.json({ success: false, message: err });
             } else if (admin) {
                 if (admin.comparePassword(req.body.password)) {
-                    const token = jwt.sign({ id: admin._id }, config.secret, { expiresIn: '24h' }); // Create a token for client
+                    const token = jwt.sign({ id: admin._id, type: "admin" }, config.secret, { expiresIn: '24h' }); // Create a token for client
                     res.json({ success: true, message: 'Success!', token: token, username: admin.username }); // Return success and token to frontend
+                } else {
+                    res.json({ success: false, message: "Wrong password", toke: null, username: null })
                 }
             } else {
                 res.json({ success: false, message: 'No admin in the database', token: null, username: null });

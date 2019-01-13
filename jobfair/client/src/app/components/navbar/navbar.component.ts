@@ -18,5 +18,4 @@ export class NavbarComponent implements OnInit {
         this.service.logout();
         this.router.navigate(['/']);
     }
-
 }

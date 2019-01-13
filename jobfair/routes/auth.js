@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/database');
 
 router.use((req, res, next) => {
-    console.log("provera");
+    console.log("PROVERA");
     let token = req.headers['auth'];
     if (!token) {
         res.json({ success: false, message: "No token provided" });
@@ -21,10 +21,5 @@ router.use((req, res, next) => {
         })
     }
 });
-
-router.use('/profile', (req, res) => {
-    res.send(req.decoded);
-});
-
 
 module.exports = router;

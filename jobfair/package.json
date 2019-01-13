@@ -4,7 +4,7 @@
     "description": "Web application for Job fair - MEAN stack",
     "main": "index.js",
     "scripts": {
-        "start": "node index.js",
+        "start": "nodemon index.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
@@ -26,7 +26,7 @@
         "url": "https://github.com/maricak/JobFairPIA/issues"
     },
     "homepage": "https://github.com/maricak/JobFairPIA#readme",
-    "dependencies": {
+    "dependencies": {   
         "bcrypt-nodejs": "0.0.3",
         "body-parser": "^1.18.3",
         "cors": "^2.8.5",

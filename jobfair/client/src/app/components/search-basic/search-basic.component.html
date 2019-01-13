@@ -1,0 +1,67 @@
+<h1 class="page-header  text-center">Company Search</h1>
+
+<div [ngClass]="messageClass" *ngIf="message" class="w-75 mx-auto">
+    {{message}}
+</div>
+
+<!-- Search Form -->
+<form [formGroup]="form" (submit)="onSeachSubmit()" class="w-75 mx-auto">
+
+    <!-- Name Input -->
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" name="name" class="form-control" autocomplete="off" placeholder="*Name" formControlName="name" />
+    </div>
+
+    <!-- City Input -->
+    <div class="form-group">
+        <label for="city">City</label>
+        <input type="text" name="city" class="form-control" autocomplete="off" placeholder="*City" formControlName="city" />
+    </div>
+
+    <!-- work filed input -->
+    <div class="form-group">
+        <label for="workField">Work filed</label>
+        <select class="form-control" formControlName="workField" multiple="multiple">
+            <option value="IT">IT</option>
+            <option value="Telecomunications">Telecomunications</option>
+            <option value="Civil Engineering">Civil Engineering</option>
+            <option value="Energetics">Energetics</option>
+            <option value="Architecture">Architecture</option>
+        </select>
+
+    </div>
+
+    <!-- Submit Input -->
+    <input [disabled]="!form.valid" type="submit" class="btn btn-info" value="Search" />
+
+
+</form>
+<!-- Search Form /-->
+
+<br />
+
+<table *ngIf="companies?.length > 0" class="table">
+    <thead>
+        <td>Name</td>
+        <td>City</td>
+        <td>Address</td>
+        <td>PIB</td>
+        <td>Number of employees</td>
+        <td>Email</td>
+        <td>Web site</td>
+        <td>Work field</td>
+        <td>Specialty</td>
+    </thead>
+    <tr *ngFor="let c of companies">
+        <td>{{c.name}}</td>
+        <td>{{c.city}}</td>
+        <td>{{c.address}}</td>
+        <td>{{c.pib}}</td>
+        <td>{{c.numberOfEmployees}}</td>
+        <td>{{c.email}}</td>
+        <td><a href="{{'http://' + c.webSite}}">{{c.webSite}}</a></td>
+        <td>{{c.workField}}</td>
+        <td>{{c.specialty}}</td>
+    </tr>
+</table>
