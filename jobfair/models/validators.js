@@ -50,7 +50,7 @@ let validTelephone = function (telephone) {
     if (!telephone) {
         return false;
     } else {
-        const regExp = new RegExp(/[0-9]*/);
+        const regExp = new RegExp(/^[0-9]*$/);
         return regExp.test(telephone);
     }
 }
@@ -66,7 +66,7 @@ let validYear = function (year) {
     if (!year) {
         return false;
     } else {
-        const regExp = new RegExp(/[1-5]*/);
+        const regExp = new RegExp(/[1-5]{1}/);
         return regExp.test(year);
     }
 }
@@ -110,7 +110,7 @@ let validPib = (pib) => {
     if (!pib) {
         return false;
     } else {
-        const regExp = new RegExp(/[0-9]{8}/);
+        const regExp = new RegExp(/^[0-9]{8}$/);
         return regExp.test(pib);
     }
 };

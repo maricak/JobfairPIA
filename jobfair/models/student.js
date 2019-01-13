@@ -29,7 +29,7 @@ studentSchema.pre('save', function(next) {
     });
 });
 
-studentSchema.methods.comparePassword = (password) => {
+studentSchema.methods.comparePassword = function(password) {
     return bcrypt.compareSync(password, this.password);
 };
 

@@ -17,7 +17,7 @@ const companySchema = new Schema({
     email: { type: String, required: true, unique: true, validate: validators.emailValidators },
     webSite: { type: String, required: true, unique: true, validate: validators.webSiteValidators },
     workField: { type: String, required: true },
-    speciality: { type: String, required: true }
+    specialty: { type: String, required: true }
 });
 
 companySchema.pre('save', function (next) {
@@ -32,7 +32,7 @@ companySchema.pre('save', function (next) {
     });
 });
 
-companySchema.methods.comparePassword = (password) => {
+companySchema.methods.comparePassword = function(password) {
     return bcrypt.compareSync(password, this.password);
 };
 

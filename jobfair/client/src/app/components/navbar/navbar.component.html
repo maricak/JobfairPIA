@@ -6,14 +6,17 @@
     <div class="collapse navbar-collapse" id="navbarToggler">
         <a class="navbar-brand" routerLink="/home">Jobfair</a>
         <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <!-- <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link" routerLink="/home">Home</a>
+            </li> -->
             <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" routerLink="/home">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" routerLink="/register/student">Student registration</a>
             </li>
             <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" routerLink="/login">Logout</a>
+                <a class="nav-link" routerLink="/register/company">Company registration</a>
             </li>
             <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link" routerLink="/register">Register</a>
+                <a class="nav-link" (click)="onLogoutClick()">Logout</a>
             </li>
         </ul>
     </div>

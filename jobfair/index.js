@@ -4,7 +4,11 @@ const mongoose = require('mongoose');
 const config = require('./config/database');
 const path = require('path');
 const bodyParser = require('body-parser');
-const registerRouter = require('./routes/register.js');
+const cors = require('cors');
+
+const loginRouter = require('./routes/login');
+const registerRouter = require('./routes/register');
+const authRouter = require('./routes/auth');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.uri, (err) => {
@@ -15,12 +19,14 @@ mongoose.connect(config.uri, (err) => {
     }
 });
 
-
+app.use(cors({ origin: 'http://localhost:4200' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/client/dist'));
-app.use('/', registerRouter);
 
+app.use('/login', loginRouter);
+app.use('/register', registerRouter);
+app.use('/', authRouter);
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname + '/client/dist/index.html'));
 });

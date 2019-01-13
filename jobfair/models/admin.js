@@ -27,7 +27,7 @@ adminSchema.pre('save', function (next) {
     });
 });
 
-adminSchema.methods.comparePassword = (password) => {
+adminSchema.methods.comparePassword = function(password) {
     return bcrypt.compareSync(password, this.password);
 };
 
