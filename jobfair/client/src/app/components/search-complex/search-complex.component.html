@@ -55,7 +55,7 @@
         <td>Specialty</td>
     </thead>
     <tr *ngFor="let c of companies">
-        <td>{{c.name}}</td>
+        <td><a href="" routerLink="../company/{{c.name}}">{{c.name}}</a></td>
         <td>{{c.city}}</td>
         <td>{{c.address}}</td>
         <td>{{c.pib}}</td>
@@ -70,14 +70,14 @@
 <h5 class="text-center text-info" *ngIf="openings?.length > 0">Openings</h5>
 <table *ngIf="openings?.length > 0" class="table">
     <thead>
-        <td>Company</td>
-        <td>Name</td>
-        <td>Deadline</td>
+        <td style="width: 33%">Company</td>
+        <td style="width: 33%">Name</td>
+        <td style="width: 33%">Deadline</td>
     </thead>
     <ng-container *ngFor="let o of openings">
         <tr>
-            <td>{{o.companyName}}</td>
-            <td>{{o.name}}</td>
+            <td><a href="" routerLink="../opening/{{o.companyName}}">{{o.companyName}}</a></td>            
+            <td><a href="" routerLink="../opening/{{o._id}}">{{o.name}}</a></td>            
             <td>{{o.deadline}}</td>
         </tr>
         <tr>

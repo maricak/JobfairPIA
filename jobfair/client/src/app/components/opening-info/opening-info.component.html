@@ -1,0 +1,44 @@
+<br />
+<h1 class="page-header  text-center">{{opening?.name}}</h1>
+<br />
+
+<div [ngClass]="messageClass" *ngIf="message" class="w-75 mx-auto mt-3">
+    {{message}}
+</div>
+
+
+<table class="table table-sm table-striped table-bordered border-info">
+    <tr>
+        <td class="w-25 font-weight-bold">Name:</td>
+        <td>{{opening?.name}}</td>
+    </tr>
+    <tr>
+        <td class="w-25 font-weight-bold">Company:</td>
+        <td><a href="" routerLink="../../company/{{opening?.companyName}}">{{opening?.companyName}}</a></td>
+    </tr>
+    <tr>
+        <td class="w-25 font-weight-bold">Type:</td>
+        <td>{{opening?.type}}</td>
+    </tr>
+    <tr>
+        <td class="w-25 font-weight-bold">Description:</td>
+        <td>{{opening?.text}}</td>
+    </tr>
+    <tr>
+        <td class="w-25 font-weight-bold">Deadline:</td>
+        <td>{{opening?.deadline}}</td>
+    </tr>
+</table>
+
+<h5 class="text-center text-info">Apply</h5>
+
+
+<form [formGroup]="form" (submit)="onSubmitApply()">
+    <div>
+        <label class="d-inline-block pt-2">Cover letter:</label>
+        <button class="btn btn-info float-right" [disabled]="form.controls.coverLetter.value!==''">Upload cover letter</button>
+        <br />
+    </div>
+    <textarea rows="10" class="w-100" formControlName="coverLetter" placeholder="Write your cover letter or upload a document"></textarea>
+    <button class="btn btn-info">Apply</button>
+</form>

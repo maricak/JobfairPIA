@@ -1,10 +1,14 @@
-promeni regex za password i poruku za password koji ne odgovara na serveru i frontendu
-website regex, moraju poceti sa www
-dodati slike
-dodati ogranicenja za mnjanje cv koje admin zadaje
-dodati min imax za duzine tekstualih polja
-dodati fajlove u konkurs
-napredna pretgraga
-auth guards
+-promeni regex za password i poruku za password koji ne odgovara na serveru i frontendu
+-website regex, moraju poceti sa www
+-dodati slike
+-dodati ogranicenja za menjanje cv koje admin zadaje - misli se na proveru datuma
+-dodati min imax za duzine tekstualih polja
+
+-dodati fajlove u konkurs
+
+
+-format ispisa datuma popraviti
+-uraditi prijavu na konkurs
+
 
 trim();

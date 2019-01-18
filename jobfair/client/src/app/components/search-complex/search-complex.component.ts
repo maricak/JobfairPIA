@@ -64,6 +64,7 @@ export class SearchComplexComponent implements OnInit {
                         this.message = "Succesfull search!";
                         this.messageClass = 'alert alert-success';
                         this.openings = data.openings;
+                        console.log(this.openings);
                     }
                 }
             } else {

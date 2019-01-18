@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
     providedIn: 'root'
 })
-export class CompanyService {
+export class OpeningService {
 
     uri: string = "http://localhost:8080";
 
@@ -15,9 +15,9 @@ export class CompanyService {
 
     constructor(private http: HttpClient) { }
 
-    getCompany(username: string) {
+    getOpening(id: string) {
         this.loadData();
-        return this.http.get(`${this.uri}/company/info/${username}`, 
+        return this.http.get(`${this.uri}/opening/info/${id}`, 
         { headers: { 'Content-type': 'application/json', 'auth': this.token } });
     }
 

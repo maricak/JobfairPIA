@@ -25,28 +25,22 @@ const config = require('../config/database');
 //     }
 // });
 
-router.get('/info/:username', (req, res) => {
-    let username = req.params.username;
+router.get('/info/:id', (req, res) => {
+    let id = req.params.id;
     // if (req.decoded.type != "student") {
     //     res.json({ success: false, message: "This data is only for students" });
     // } else if (id !== req.decoded.id) {
     //     res.json({ success: false, message: "Access to others student's data is not allowed" })
     // } else {
-        Company.findOne({ username: username }, (err, company) => {
-            if (err) {
-                res.json({ success: false, message: "Error happend while retreaving company's data: " + err });
-            } else if (company) {
-                Opening.find({ companyUsername: username }, (err, openings) => {
-                    if (err) {
-                        res.json({ success: false, message: "Error happend while retreaving openings: " + err });
-                    } else {
-                        res.json({ success: true, message: "Success", company: company, openings : openings });
-                    }
-                })
-            } else {
-                res.json({ success: false, message: "No company in the database" });
-            }
-        })
+    Opening.findById(id, (err, opening) => {
+        if (err) {
+            res.json({ success: false, message: "Error happend while retreaving opening's data: " + err });
+        } else if (opening) {
+            res.json({ success: true, message: "Success", opening: opening });
+        } else {
+            res.json({ success: false, message: "No opening in the database" });
+        }
+    })
     //}
 })
 

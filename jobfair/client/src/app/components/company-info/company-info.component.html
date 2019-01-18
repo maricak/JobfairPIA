@@ -1,0 +1,65 @@
+<br/>
+<h1 class="page-header  text-center">{{company?.name}}</h1>
+<br/>
+
+<div [ngClass]="messageClass" *ngIf="message" class="w-75 mx-auto mt-3">
+    {{message}}
+</div>
+
+<table class="table table-sm table-striped table-bordered border-info">
+    <tr>
+        <td class="w-25 font-weight-bold">Name:</td>
+        <td>{{company?.name}}</td>
+    </tr>
+    <tr>
+        <td class="w-25 font-weight-bold">City:</td>
+        <td>{{company?.city}}</td>
+    </tr>
+    <tr>
+        <td class="w-25 font-weight-bold">Address:</td>
+        <td>{{company?.address}}</td>
+    </tr>
+    <tr>
+        <td class="w-25 font-weight-bold">PIB:</td>
+        <td>{{company?.pib}}</td>
+    </tr>
+    <tr>
+        <td class="w-25 font-weight-bold">Number of employees:</td>
+        <td>{{company?.numberOfEmployees}}</td>
+    </tr>
+    <tr>
+        <td class="w-25 font-weight-bold">Email:</td>
+        <td>{{company?.email}}</td>
+    </tr>
+    <tr>
+        <td class="w-25 font-weight-bold">Web site:</td>
+        <td><a href="{{'http://' + company?.webSite}}">{{company?.webSite}}</a></td>
+    </tr>
+    <tr>
+        <td class="w-25 font-weight-bold">Work field</td>
+        <td>{{company?.workField}}</td>
+    </tr>
+    <tr>
+        <td class="w-25 font-weight-bold">Specialty</td>
+        <td>{{company?.specialty}}</td>
+    </tr>
+</table>
+
+<h5 class="text-center text-info" *ngIf="openings?.length > 0">Openings</h5>
+<table *ngIf="openings?.length > 0" class="table">
+    <thead>
+        <td>#</td>
+        <td>Name</td>
+        <td>Deadline</td>
+    </thead>
+    <ng-container *ngFor="let o of openings; let i = index">
+        <tr>
+            <td>{{i+1}}</td>
+            <td><a href="" routerLink="../../opening/{{o._id}}">{{o.name}}</a></td>
+            <td>{{o.deadline}}</td>
+        </tr>
+        <tr>
+            <td colspan="3" class="text-center">{{o.text}}</td>
+        </tr>
+    </ng-container>
+</table>

@@ -14,6 +14,8 @@ import { ChangePasswordComponent } from './components/change-password/change-pas
 import { CvComponent } from './components/cv/cv.component';
 import { StudentComponent } from './components/student/student.component';
 import { SearchComplexComponent } from './components/search-complex/search-complex.component';
+import { CompanyInfoComponent } from './components/company-info/company-info.component';
+import { OpeningInfoComponent } from './components/opening-info/opening-info.component';
 
 @NgModule({
     declarations: [
@@ -26,7 +28,9 @@ import { SearchComplexComponent } from './components/search-complex/search-compl
         ChangePasswordComponent,
         CvComponent,
         StudentComponent,
-        SearchComplexComponent
+        SearchComplexComponent,
+        CompanyInfoComponent,
+        OpeningInfoComponent
     ],
     imports: [
         BrowserModule,

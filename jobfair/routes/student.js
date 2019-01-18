@@ -26,7 +26,6 @@ router.use((req, res, next) => {
 
 router.get('/info/:id', (req, res) => {
     let id = req.params.id;
-    console.log(req.decoded);
     if(req.decoded.type != "student") {
         res.json({success : false, message : "This data is only for students"});
     } else if (id !== req.decoded.id) {

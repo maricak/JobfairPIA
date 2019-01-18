@@ -10,6 +10,8 @@ const loginRouter = require('./routes/login');
 const registerRouter = require('./routes/register');
 const searchRouter = require('./routes/search');
 const studentRouter = require('./routes/student');
+const companyRouter = require('./routes/company');
+const openingRouter = require('./routes/opening');
 const changePasswordRouter = require('./routes/changePassword');
 
 mongoose.Promise = global.Promise;
@@ -31,6 +33,8 @@ app.use('/register', registerRouter);
 app.use('/search', searchRouter);
 app.use('/changePassword', changePasswordRouter);
 app.use('/student', studentRouter);
+app.use('/company', companyRouter);
+app.use('/opening', openingRouter);
 
 
 app.get('/profile', (req, res) => {

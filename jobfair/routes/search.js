@@ -32,9 +32,7 @@ router.post('/basic', (req, res) => {
 
 router.use((req, res, next) => {
     console.log("student PROVERA");
-    console.log(req);
     let token = req.headers['auth'];
-    console.log(token);
     if (!token) {
         res.json({ success: false, message: "No token provided" });
     } else {
@@ -48,7 +46,6 @@ router.use((req, res, next) => {
         })
     }
 });
-
 
 router.post('/complex', (req, res) => {
     if (req.decoded.type != "student") {
@@ -69,7 +66,6 @@ router.post('/complex', (req, res) => {
             } if (req.body.choice == "job" || req.body.choice == "internship") {
                 searchOptions.type = req.body.choice;
             }
-            console.log(searchOptions);
             if (req.body.choice == "company" && !(searchOptions.name)) {
                 Company.find({ name: { $regex: ".*" + req.body.companyName + ".*" } }, { _id: 0, password: 0 }, (err, companies) => {
                     if (err) {
@@ -83,7 +79,6 @@ router.post('/complex', (req, res) => {
                     if (err) {
                         res.json({ success: false, message: "Error happened whil searching openings" + err });
                     } else {
-                        console.log(openings);
                         if (req.body.choice == "company") {
                             let companyUsernames = openings.map((e) => { return e.companyUsername; });
                             Company.find({ username: { $in: companyUsernames } }, { _id: 0, password: 0 }, (err, companies) => {
@@ -94,7 +89,6 @@ router.post('/complex', (req, res) => {
                                 }
                             })
                         } else {
-
                             res.json({ success: true, message: "Success", openings: openings });
                         }
                     }
