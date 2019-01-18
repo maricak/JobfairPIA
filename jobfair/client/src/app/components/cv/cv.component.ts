@@ -6,8 +6,7 @@ import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-cv',
-    templateUrl: './cv.component.html',
-    styleUrls: ['./cv.component.css']
+    templateUrl: './cv.component.html'
 })
 export class CvComponent implements OnInit {
 

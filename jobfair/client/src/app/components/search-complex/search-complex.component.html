@@ -1,17 +1,20 @@
 <h1 class="page-header  text-center">Company/Application Search</h1>
 
-<div [ngClass]="messageClass" *ngIf="message" class="w-75 mx-auto">
+<div [ngClass]="messageClass" *ngIf="message" class="w-75 mx-auto  alert-dismissible fade show" role="alert">
     {{message}}
+    <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
 </div>
 
 <!-- Search Form -->
-<form [formGroup]="form" (submit)="onSeachSubmit()" class="w-75 mx-auto">
+<form [formGroup]="form" (submit)="onSearchSubmit()" action="post" class="w-75 mx-auto">
 
     <!-- work filed input -->
     <div class="form-group">
         <label for="choice">Search type</label>
-        <select class="form-control" formControlName="choice" size="1">
-            <option value="company">Companies</option>
+        <select class="form-control" formControlName="choice">
+            <option value="company" selected="selected">Companies</option>
             <option value="job">Job openings</option>
             <option value="internship">Internship openings</option>
             <option value="all">All openings</option>
@@ -78,7 +81,7 @@
             <td>{{o.deadline}}</td>
         </tr>
         <tr>
-            <td colspan="3">{{o.text}}</td>
+            <td colspan="3" class="text-center">{{o.text}}</td>
         </tr>
     </ng-container>
 </table>

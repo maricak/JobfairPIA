@@ -4,17 +4,18 @@ var router = express.Router();
 const Company = require('../models/company');
 const Opening = require('../models/opening');
 
+const jwt = require('jsonwebtoken');
+const config = require('../config/database');
+
 router.post('/basic', (req, res) => {
     console.log(req.body);
     let searchOptions = {}
     if (req.body.name && req.body.name != "") {
         searchOptions.name = req.body.name;
     }
-
     if (req.body.city && req.body.city != "") {
         searchOptions.city = req.body.city;
     }
-
     if (req.body.workFields && req.body.workFields != "") {
         searchOptions.workField = { $in: req.body.workFields };
     }
@@ -29,32 +30,77 @@ router.post('/basic', (req, res) => {
     })
 });
 
+router.use((req, res, next) => {
+    console.log("student PROVERA");
+    console.log(req);
+    let token = req.headers['auth'];
+    console.log(token);
+    if (!token) {
+        res.json({ success: false, message: "No token provided" });
+    } else {
+        jwt.verify(token, config.secret, (err, decoded) => {
+            if (err) {
+                res.json({ success: false, message: "Token invalid: " + err });
+            } else {
+                req.decoded = decoded;
+                next();
+            }
+        })
+    }
+});
+
 
 router.post('/complex', (req, res) => {
-    //console.log(req.body);
-    let searchOptions = {}
-    if (!req.body.choice || req.body.choice == "") {
-        res.json({ success: false, message: "You must provide search criteria" })
+    if (req.decoded.type != "student") {
+        res.json({ success: false, message: "This data is only for students" });
     } else {
-        if (req.body.companyName && req.boy.companyName != "") {
-            searchOptions.companyName = req.body.companyName;
-        }
-        if (req.body.openingName && req.boy.openingName != "") {
-            searchOptions.name = req.body.openingName;
-        } if (choice == "job" || choice == "internship") {
-            searchOptions.type = choice;
-        }     
-        Opening.find(searchOptions, (err, openings) => {
-            if (err) {
-                res.json({ success: false, message: "Error happened whil searchig jobs" + err });
-            } else {
-                if (choice == "company") {
-                    Company.find({name : {  }})
-                } else {
-                    res.json({ success: true, message: "Success", opening: openings });
-                }
+        let searchOptions = {}
+        if (!req.body.choice || req.body.choice == "") {
+            res.json({ success: false, message: "You must provide search choice" })
+        } else if (req.body.choice !== "job" && req.body.choice !== "internship"
+            && req.body.choice !== "company" && req.body.choice !== "all") {
+            res.json({ success: false, message: "You must provide a valid search choice : job / internship / company / all" })
+        } else {
+            if (req.body.companyName && req.body.companyName != "") {
+                searchOptions.companyName = { $regex: ".*" + req.body.companyName + ".*" };
             }
-        })         
+            if (req.body.openingName && req.body.openingName != "") {
+                searchOptions.name = { $regex: ".*" + req.body.openingName + ".*" };
+            } if (req.body.choice == "job" || req.body.choice == "internship") {
+                searchOptions.type = req.body.choice;
+            }
+            console.log(searchOptions);
+            if (req.body.choice == "company" && !(searchOptions.name)) {
+                Company.find({ name: { $regex: ".*" + req.body.companyName + ".*" } }, { _id: 0, password: 0 }, (err, companies) => {
+                    if (err) {
+                        res.json({ success: false, message: "Error happened whil searchig companies" + err });
+                    } else {
+                        res.json({ success: true, message: "Success", companies: companies });
+                    }
+                });
+            } else {
+                Opening.find(searchOptions, (err, openings) => {
+                    if (err) {
+                        res.json({ success: false, message: "Error happened whil searching openings" + err });
+                    } else {
+                        console.log(openings);
+                        if (req.body.choice == "company") {
+                            let companyUsernames = openings.map((e) => { return e.companyUsername; });
+                            Company.find({ username: { $in: companyUsernames } }, { _id: 0, password: 0 }, (err, companies) => {
+                                if (err) {
+                                    res.json({ success: false, message: "Error happened whil searchig companies" + err });
+                                } else {
+                                    res.json({ success: true, message: "Success", companies: companies });
+                                }
+                            })
+                        } else {
+
+                            res.json({ success: true, message: "Success", openings: openings });
+                        }
+                    }
+                })
+            }
+        }
     }
 });
 

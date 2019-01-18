@@ -8,14 +8,25 @@ export class SearchService {
 
     uri: string = "http://localhost:8080";
 
+    token: string
+    id: string
+
 
     constructor(private http: HttpClient) { }
 
-    searchBasic(data) {   
+    searchBasic(data) {
         return this.http.post(`${this.uri}/search/basic`, data);
     }
 
     searchComplex(data) {
-        return this.http.post(`${this.uri}/search/complex`, data);
+        this.loadData();
+        console.log(this.token);
+        return this.http.post(`${this.uri}/search/complex`, data,
+            { headers: { 'Content-type': 'application/json', 'auth': this.token } });
+    }
+
+    loadData() {
+        this.token = localStorage.getItem('token');
+        this.id = localStorage.getItem('id');
     }
 }

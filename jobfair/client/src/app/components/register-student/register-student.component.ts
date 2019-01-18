@@ -5,8 +5,7 @@ import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
     selector: 'app-register-student',
-    templateUrl: './register-student.component.html',
-    styleUrls: ['./register-student.component.css']
+    templateUrl: './register-student.component.html'
 })
 export class RegisterStudentComponent implements OnInit {
 

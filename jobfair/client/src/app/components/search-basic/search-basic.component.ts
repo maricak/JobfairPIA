@@ -6,8 +6,7 @@ import { Company } from 'src/app/models/company';
 
 @Component({
     selector: 'app-search-basic',
-    templateUrl: './search-basic.component.html',
-    styleUrls: ['./search-basic.component.css']
+    templateUrl: './search-basic.component.html'
 })
 export class SearchBasicComponent implements OnInit {
 

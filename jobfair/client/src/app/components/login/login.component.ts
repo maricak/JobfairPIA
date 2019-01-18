@@ -6,8 +6,7 @@ import { stringify } from '@angular/core/src/render3/util';
 
 @Component({
     selector: 'app-home',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.css']
+    templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit {
 
