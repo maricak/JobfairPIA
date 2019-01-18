@@ -11,7 +11,6 @@ import { Opening } from 'src/app/models/opening';
 })
 export class CompanyInfoComponent implements OnInit {
 
-
     message: string;
     messageClass: string;
 
@@ -26,7 +25,7 @@ export class CompanyInfoComponent implements OnInit {
     }
     getCompany() {
         this.companyUsername = this.route.snapshot.paramMap.get('username');
-        this.service.getCompany(this.companyUsername).subscribe((data: {
+        this.service.getCompanyInfo(this.companyUsername).subscribe((data: {
             success: boolean,
             message : string,
             company: Company,

@@ -1,7 +1,10 @@
 <h1 class="page-header text-center" *ngIf="student">Welcome {{ student.name }}</h1>
 
-<div [ngClass]="messageClass" *ngIf="message" class="w-75 mx-auto mt-3">
+<div [ngClass]="messageClass" *ngIf="message" class="w-75 mx-auto  alert-dismissible fade show" role="alert">
     {{message}}
+    <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
 </div>
 
 <app-search-complex></app-search-complex>

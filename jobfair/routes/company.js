@@ -48,7 +48,28 @@ router.get('/info/:username', (req, res) => {
             }
         })
     //}
+});
+
+
+router.get('/acc/:id', (req, res) => {
+    let id = req.params.id;
+   /* if(req.decoded.type != "company") {
+        res.json({success : false, message : "This data is only for companies"});
+    } else if (id !== req.decoded.id) {
+        res.json({ success: false, message: "Access to others company's data is not allowed" })
+    } else {*/
+        Company.findById(id, (err, company) => {
+            if (err) {
+                res.json({ success: false, message: "Error happend while retreaving company's data: " + err });
+            } else if (company) {
+                res.json({ success: true, message: "Success", company: company });
+            } else {
+                res.json({ success: false, message: "No company in the database" });
+            }
+        })
+    /*}*/
 })
+
 
 
 module.exports = router;

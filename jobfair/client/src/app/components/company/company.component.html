@@ -1,0 +1,57 @@
+<h1 class="page-header text-center">Welcome {{company?.name}}</h1>
+
+<div [ngClass]="messageClass" *ngIf="message" class="w-75 mx-auto  alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<h5 class="text-center text-info">Create opening</h5>
+
+<form [formGroup]="form" (submit)="onOpeningSubmit()">
+
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" name="name" class="form-control" [ngClass]="{'is-invalid': (form.controls.name.errors && form.controls.name.dirty), 'is-valid': !form.controls.name.errors}"
+            autocomplete="off" placeholder="*Name" formControlName="name" />
+        <ul class="form-text text-danger">
+            <li *ngIf="form.controls.name.errors?.required && form.controls.name.dirty">This field is
+                required</li>
+        </ul>
+    </div>
+
+    <div>
+        <label>Opening type</label> &nbsp;&nbsp;&nbsp;
+        <div class="form-check form-check-inline">
+            <input formControlName="type" class="form-check-input" type="radio" value="job" name="type">
+            <label class="form-check-label" for="admin">Job</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input formControlName="type" class="form-check-input" type="radio" value="internship" name="type">
+            <label class="form-check-label" for="student">Internship</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="text">Description</label>
+        <input type="text" name="text" class="form-control" [ngClass]="{'is-invalid': (form.controls.text.errors && form.controls.text.dirty), 'is-valid': !form.controls.text.errors}"
+            autocomplete="off" placeholder="*Description" formControlName="text" />
+        <ul class="form-text text-danger">
+            <li *ngIf="form.controls.text.errors?.required && form.controls.text.dirty">This field is
+                required</li>
+        </ul>
+    </div>
+
+    <div class="form-group">
+        <label for="text">Deadline</label>
+        <input type="datetime-local" name="deadline" class="form-control" [ngClass]="{'is-invalid': (form.controls.deadline.errors && form.controls.deadline.dirty), 'is-valid': !form.controls.deadline.errors}"
+            autocomplete="off" placeholder="*Description" formControlName="deadline" />
+        <ul class="form-text text-danger">
+            <li *ngIf="form.controls.deadline.errors?.required && form.controls.deadline.dirty">This field is
+                required</li>
+        </ul>
+    </div>
+
+    <button [disabled]="!form.valid" type="submit" class="btn btn-info">Create opening</button>
+</form>

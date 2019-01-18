@@ -16,6 +16,7 @@ import { StudentComponent } from './components/student/student.component';
 import { SearchComplexComponent } from './components/search-complex/search-complex.component';
 import { CompanyInfoComponent } from './components/company-info/company-info.component';
 import { OpeningInfoComponent } from './components/opening-info/opening-info.component';
+import { CompanyComponent } from './components/company/company.component';
 
 @NgModule({
     declarations: [
@@ -30,7 +31,8 @@ import { OpeningInfoComponent } from './components/opening-info/opening-info.com
         StudentComponent,
         SearchComplexComponent,
         CompanyInfoComponent,
-        OpeningInfoComponent
+        OpeningInfoComponent,
+        CompanyComponent
     ],
     imports: [
         BrowserModule,

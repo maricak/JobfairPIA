@@ -8,17 +8,21 @@ export class CompanyService {
 
     uri: string = "http://localhost:8080";
 
-
     token: string
     id: string
-
-
+    
     constructor(private http: HttpClient) { }
 
-    getCompany(username: string) {
+    getCompany() {
         this.loadData();
-        return this.http.get(`${this.uri}/company/info/${username}`, 
-        { headers: { 'Content-type': 'application/json', 'auth': this.token } });
+        return this.http.get(`${this.uri}/company/acc/${this.id}`,
+            { headers: { 'Content-type': 'application/json', 'auth': this.token } });
+    }
+
+    getCompanyInfo(username: string) {
+        this.loadData();
+        return this.http.get(`${this.uri}/company/info/${username}`,
+            { headers: { 'Content-type': 'application/json', 'auth': this.token } });
     }
 
     loadData() {

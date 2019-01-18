@@ -16,13 +16,17 @@ export class StudentComponent implements OnInit {
     constructor(private studentService: StudentService) { }
 
     ngOnInit() {
+        this.getStudent();
+    }
+
+    getStudent() {
         this.studentService.getStudent().subscribe((data: {
             success: boolean,
             message: string,
             student: Student
         }) => {
             if (data.success) {
-                this.student = data.student;               
+                this.student = data.student;
             } else {
                 console.log(data);
                 this.message = data.message;

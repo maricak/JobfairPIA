@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
+import { Student } from '../models/student';
 
 @Injectable({
     providedIn: 'root'
@@ -8,15 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class StudentService {
 
     uri: string = "http://localhost:8080";
-    student: {
-        username: string,
-        name: string,
-        surname: string,
-        telephone: string,
-        email: string,
-        currnentYear: number,
-        graduated: boolean
-    };
+    student: Student;
 
     token: string
     id: string
@@ -25,7 +18,7 @@ export class StudentService {
 
     getStudent() {
         this.loadData();
-        return this.http.get(`${this.uri}/student/info/${this.id}`,
+        return this.http.get(`${this.uri}/student/acc/${this.id}`,
             { headers: { 'Content-type': 'application/json', 'auth': this.token }});
     }
 
