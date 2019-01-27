@@ -58,12 +58,12 @@
 
     <!-- Website Input -->
     <div class="form-group">
-        <label for="webSite">Personal website</label>
-        <input type="text" name="webSite" class="form-control" autocomplete="off" placeholder="*Personal web site"
-            formControlName="webSite" />
+        <label for="website">Personal website</label>
+        <input type="text" name="website" class="form-control" autocomplete="off" placeholder="*Personal web site"
+            formControlName="website" />
         <!-- Validation -->
         <ul class="form-text text-danger">
-            <li *ngIf="form.controls.webSite.errors?.validateWebsite && form.controls.webSite.dirty">This must be a
+            <li *ngIf="form.controls.website.errors?.validateWebsite && form.controls.website.dirty">This must be a
                 valid
                 web site</li>
         </ul>

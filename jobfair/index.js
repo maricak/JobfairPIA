@@ -15,9 +15,9 @@ const openingRouter = require('./routes/opening');
 const changePasswordRouter = require('./routes/changePassword');
 
 mongoose.Promise = global.Promise;
-mongoose.connect(config.uri, (err) => {
+mongoose.connect(config.uri, { useNewUrlParser: true }, (err) => {
     if (err) {
-        console.log("Could not connect to database: " + err);
+        console.log("Could not connect to database: " + err.message );
     } else {
         console.log("Connected to database " + config.db)
     }

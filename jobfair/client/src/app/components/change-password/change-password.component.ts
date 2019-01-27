@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { ChangePasswordUser } from 'src/app/models/user';
+import * as validation from 'src/app/validators';
+// import { validatePassword } from 'src/app/validators';
 
 @Component({
     selector: 'app-change-password',
@@ -12,46 +15,51 @@ export class ChangePasswordComponent implements OnInit {
     form: FormGroup;
     message: string;
     messageClass: string;
+    validationData: { [key: string]: { [type: string]: any[] } };
 
     constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
+        this.validationData = validation.validationData;        
         this.createForm();
     }
+
     createForm() {
         this.form = this.formBuilder.group({
             username: ['', Validators.compose([
                 Validators.required,
+                Validators.minLength(validation.usernameMinLength),
+                Validators.maxLength(validation.usernameMaxLength)
             ])],
             password: ['', Validators.compose([
                 Validators.required,
-                Validators.minLength(8),
-                Validators.maxLength(12),
-                this.validatePassword
+                Validators.minLength(validation.passwordMinLength),
+                Validators.maxLength(validation.passwordMaxLength),
+                Validators.pattern(validation.passwordRegex)
             ])],
-
-            new_password: ['', Validators.compose([
+            newPassword: ['', Validators.compose([
                 Validators.required,
-                Validators.minLength(8),
-                Validators.maxLength(12),
-                this.validatePassword
+                Validators.minLength(validation.passwordMinLength),
+                Validators.maxLength(validation.passwordMaxLength),
+                Validators.pattern(validation.passwordRegex)
             ])],
             type: ['admin']
         });
     }
 
-    validatePassword(controls) {
-        const regExp = new RegExp(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{8,12}$/);
-        if (regExp.test(controls.value)) {
-            return null;
-        } else {
-            return { 'validatePassword': true }
-        }
+    get username() {
+        return this.form.controls['username'];
+    }
+    get password() {
+        return this.form.controls['password'];
+    }
+    get newPassword() {
+        return this.form.controls['newPassword'];
     }
 
     onChangePasswordSubmit() {
-        const user = {
+        const user: ChangePasswordUser = {
             username: this.form.get('username').value,
             password: this.form.get('password').value,
-            new_password: this.form.get('new_password').value
+            newPassword: this.form.get('newPassword').value
         };
         const type = this.form.get('type').value;
         if (type === "admin") {
@@ -63,7 +71,7 @@ export class ChangePasswordComponent implements OnInit {
         }
     }
 
-    changePasswordAdmin(admin) {
+    changePasswordAdmin(admin: ChangePasswordUser) {
         this.authService.changePasswordAdmin(admin).subscribe((data: { success: boolean, message: string }) => {
             if (!data.success) {
                 this.messageClass = 'alert alert-danger';
@@ -79,7 +87,7 @@ export class ChangePasswordComponent implements OnInit {
 
     }
 
-    changePasswordStudent(student) {
+    changePasswordStudent(student: ChangePasswordUser) {
         this.authService.changePasswordStudent(student).subscribe((data: { success: boolean, message: string }) => {
             if (!data.success) {
                 this.messageClass = 'alert alert-danger';
@@ -94,8 +102,8 @@ export class ChangePasswordComponent implements OnInit {
         });
     }
 
-    changePasswordCompany(company) {
-        this.authService.changePasswordAdmin(company).subscribe((data: { success: boolean, message: string }) => {
+    changePasswordCompany(company: ChangePasswordUser) {
+        this.authService.changePasswordCompany(company).subscribe((data: { success: boolean, message: string }) => {
             if (!data.success) {
                 this.messageClass = 'alert alert-danger';
                 this.message = data.message;
@@ -109,5 +117,4 @@ export class ChangePasswordComponent implements OnInit {
         });
     }
     ngOnInit() { }
-
 }

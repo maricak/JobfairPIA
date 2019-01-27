@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { Company } from 'src/app/models/company';
 @Component({
     selector: 'app-register-company',
     templateUrl: './register-company.component.html'
@@ -48,7 +49,7 @@ export class RegisterCompanyComponent implements OnInit {
                 Validators.required,
                 this.validateEmail
             ])],
-            webSite: ['', Validators.compose([
+            website: ['', Validators.compose([
                 Validators.required,
                 this.validateWebsite
             ])],
@@ -60,7 +61,7 @@ export class RegisterCompanyComponent implements OnInit {
             ])],
         }, { validator: this.matchingPasswords('password', 'confirm') }); // Add custom validator to form for matching passwords
     }
-    validatePassword(controls) {
+    validatePassword(controls: FormControl) {
         const regExp = new RegExp(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{8,12}$/);
         if (regExp.test(controls.value)) {
             return null;
@@ -69,7 +70,7 @@ export class RegisterCompanyComponent implements OnInit {
         }
     }
 
-    validatePib(controls) {
+    validatePib(controls: FormControl) {
         const regExp = new RegExp(/^[0-9]{8}$/);
         if (regExp.test(controls.value)) {
             return null;
@@ -78,7 +79,7 @@ export class RegisterCompanyComponent implements OnInit {
         }
     }
 
-    validateEmail(controls) {
+    validateEmail(controls: FormControl) {
         const regExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
         if (regExp.test(controls.value)) {
             return null;
@@ -87,7 +88,7 @@ export class RegisterCompanyComponent implements OnInit {
         }
     }
 
-    validateNumber(controls) {
+    validateNumber(controls: FormControl) {
         const regExp = new RegExp(/^[0-9]*$/);
         if (regExp.test(controls.value)) {
             return null;
@@ -96,7 +97,7 @@ export class RegisterCompanyComponent implements OnInit {
         }
     }
 
-    validateWebsite(controls) {
+    validateWebsite(controls: FormControl) {
         const regExp = new RegExp(/^w{3}[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/);
         if (regExp.test(controls.value)) {
             return null;
@@ -107,7 +108,7 @@ export class RegisterCompanyComponent implements OnInit {
 
 
 
-    matchingPasswords(password, confirm) {
+    matchingPasswords(password : string, confirm: string) {
         return (group: FormGroup) => {
             if (group.controls[password].value === group.controls[confirm].value) {
                 return null;
@@ -118,7 +119,7 @@ export class RegisterCompanyComponent implements OnInit {
     }
 
     onRegisterSubmit() {
-        const company = {
+        const company : Company = {
             username: this.form.get('username').value,
             password: this.form.get('password').value,
             name: this.form.get('name').value,
@@ -127,7 +128,7 @@ export class RegisterCompanyComponent implements OnInit {
             numberOfEmployees: this.form.get('numberOfEmployees').value,
             pib: this.form.get('pib').value,
             email: this.form.get('email').value,
-            webSite: this.form.get('webSite').value,
+            website: this.form.get('website').value,
             workField: this.form.get('workField').value,
             specialty: this.form.get('specialty').value
         };

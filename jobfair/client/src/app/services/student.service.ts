@@ -18,7 +18,7 @@ export class StudentService {
 
     getStudent() {
         this.loadData();
-        return this.http.get(`${this.uri}/student/acc/${this.id}`,
+        return this.http.get(`${this.uri}/student/account/${this.id}`,
             { headers: { 'Content-type': 'application/json', 'auth': this.token }});
     }
 

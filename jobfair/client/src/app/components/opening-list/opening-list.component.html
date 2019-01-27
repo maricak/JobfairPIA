@@ -1,0 +1,29 @@
+<br />
+<h1 class="page-header  text-center">My openings</h1>
+<br />
+
+<div [ngClass]="messageClass" *ngIf="message" class="w-75 mx-auto mt-3 alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<h5 class="text-center text-info" *ngIf="openings?.length > 0">Openings</h5>
+<table *ngIf="openings?.length > 0" class="table">
+    <thead>
+        <td>#</td>
+        <td>Name</td>
+        <td>Deadline</td>
+    </thead>
+    <ng-container *ngFor="let o of openings; let i = index">
+        <tr>
+            <td>{{i+1}}</td>
+            <td><a href="" routerLink="../../opening/{{o._id}}">{{o.name}}</a></td>
+            <td>{{o.deadline}}</td>
+        </tr>
+        <tr>
+            <td colspan="3" class="text-center">{{o.text}}</td>
+        </tr>
+    </ng-container>
+</table>

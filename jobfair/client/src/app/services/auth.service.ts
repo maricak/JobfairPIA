@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
-
+import { Student } from '../models/student';
+import { Company } from '../models/company';
+import { User, ChangePasswordUser } from '../models/user';
 
 @Injectable({
     providedIn: 'root'
@@ -28,31 +30,31 @@ export class AuthService {
         localStorage.clear();
     }
 
-    registerStudent(student) {
+    registerStudent(student: Student) {
         return this.http.post(`${this.uri}/register/student`, student);
     }
 
-    registerCompany(company) {
+    registerCompany(company: Company) {
         return this.http.post(`${this.uri}/register/company`, company);
     }
 
-    loginCompany(company) {
+    loginCompany(company: User) {
         return this.http.post(`${this.uri}/login/company`, company);
     }
-    loginStudent(student) {
+    loginStudent(student: User) {
         return this.http.post(`${this.uri}/login/student`, student);
     }
-    loginAdmin(admin) {
+    loginAdmin(admin: User) {
         return this.http.post(`${this.uri}/login/admin`, admin);
     }
 
-    changePasswordCompany(company) {
+    changePasswordCompany(company: ChangePasswordUser) {
         return this.http.post(`${this.uri}/changePassword/company`, company);
     }
-    changePasswordStudent(student) {
+    changePasswordStudent(student: ChangePasswordUser) {
         return this.http.post(`${this.uri}/changePassword/student`, student);
     }
-    changePasswordAdmin(admin) {
+    changePasswordAdmin(admin: ChangePasswordUser) {
         return this.http.post(`${this.uri}/changePassword/admin`, admin);
     }
 

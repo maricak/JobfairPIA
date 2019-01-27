@@ -17,6 +17,8 @@ import { SearchComplexComponent } from './components/search-complex/search-compl
 import { CompanyInfoComponent } from './components/company-info/company-info.component';
 import { OpeningInfoComponent } from './components/opening-info/opening-info.component';
 import { CompanyComponent } from './components/company/company.component';
+import { OpeningListComponent } from './components/opening-list/opening-list.component';
+// import { ErrorMessageDirective } from './directives/error-message.directive';
 
 @NgModule({
     declarations: [
@@ -32,7 +34,9 @@ import { CompanyComponent } from './components/company/company.component';
         SearchComplexComponent,
         CompanyInfoComponent,
         OpeningInfoComponent,
-        CompanyComponent
+        CompanyComponent,
+        OpeningListComponent,
+        // ErrorMessageDirective
     ],
     imports: [
         BrowserModule,

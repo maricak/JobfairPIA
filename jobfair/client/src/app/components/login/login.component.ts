@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { stringify } from '@angular/core/src/render3/util';
+import { User } from 'src/app/models/user';
 
 @Component({
     selector: 'app-home',
@@ -37,7 +38,7 @@ export class LoginComponent implements OnInit {
         });
     }
 
-    validatePassword(controls) {
+    validatePassword(controls: FormControl) {
         const regExp = new RegExp(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{8,12}$/);
         if (regExp.test(controls.value)) {
             return null;
@@ -53,7 +54,7 @@ export class LoginComponent implements OnInit {
     }
 
     onLoginSubmit() {
-        const user = {
+        const user : User = {
             username: this.form.get('username').value,
             password: this.form.get('password').value
         };
@@ -68,7 +69,7 @@ export class LoginComponent implements OnInit {
         }
     }
 
-    loginAdmin(admin) {
+    loginAdmin(admin : User) {
         this.authService.loginAdmin(admin).subscribe((data: { success: boolean, message: string, token: string, id: string }) => {
             if (!data.success) {
                 this.messageClass = 'alert alert-danger';
@@ -83,7 +84,7 @@ export class LoginComponent implements OnInit {
             }
         });
     };
-    loginStudent(student) {
+    loginStudent(student : User) {
         this.authService.loginStudent(student).subscribe((data: { success: boolean, message: string, token: string, id: string }) => {
             if (!data.success) {
                 this.messageClass = 'alert alert-danger';
@@ -98,7 +99,7 @@ export class LoginComponent implements OnInit {
             }
         });
     }
-    loginCompany(company) {
+    loginCompany(company : User) {
         this.authService.loginCompany(company).subscribe((data: { success: boolean, message: string, token: string, id: string }) => {
             if (!data.success) {
                 this.messageClass = 'alert alert-danger';

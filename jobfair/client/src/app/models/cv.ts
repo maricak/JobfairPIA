@@ -4,7 +4,7 @@ export interface CV {
     address: string,
     telephone: string,
     email: string,
-    webSite: string,
+    website: string,
     imAccount: string,
     sex: string,
     dateOfBirth: Date,
@@ -25,7 +25,7 @@ export interface CV {
         subjects: string
     }[],
     motherTongue: string,
-    languagues: {
+    languages: {
         language: string,
         listenig: string,
         reading: string,

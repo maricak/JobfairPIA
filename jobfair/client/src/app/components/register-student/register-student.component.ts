@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { Student } from 'src/app/models/student';
 
 @Component({
     selector: 'app-register-student',
@@ -50,7 +51,7 @@ export class RegisterStudentComponent implements OnInit {
 
         }, { validator: this.matchingPasswords('password', 'confirm') }); 
     }
-    validatePassword(controls) {
+    validatePassword(controls: FormControl) {
         const regExp = new RegExp(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{8,12}$/);
         if (regExp.test(controls.value)) {
             return null;
@@ -59,7 +60,7 @@ export class RegisterStudentComponent implements OnInit {
         }
     }
 
-    validateTelephone(controls) {
+    validateTelephone(controls: FormControl) {
         const regExp = new RegExp(/^[0-9]*$/);
         if (regExp.test(controls.value)) {
             return null;
@@ -68,7 +69,7 @@ export class RegisterStudentComponent implements OnInit {
         }
     }
 
-    validateEmail(controls) {
+    validateEmail(controls: FormControl) {
         const regExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
         if (regExp.test(controls.value)) {
             return null;
@@ -77,7 +78,7 @@ export class RegisterStudentComponent implements OnInit {
         }
     }
 
-    validateYear(controls) {
+    validateYear(controls: FormControl) {
         const regExp = new RegExp(/[1-5]*/);
         if (regExp.test(controls.value)) {
             return null;
@@ -86,7 +87,7 @@ export class RegisterStudentComponent implements OnInit {
         }
     }
 
-    matchingPasswords(password, confirm) {
+    matchingPasswords(password : string, confirm : string) {
         return (group: FormGroup) => {
             if (group.controls[password].value === group.controls[confirm].value) {
                 return null;
@@ -97,7 +98,7 @@ export class RegisterStudentComponent implements OnInit {
     }
 
     onRegisterSubmit() {
-        const student = {
+        const student : Student= {
             username: this.form.get('username').value.trim(),
             password: this.form.get('password').value.trim(),
             name: this.form.get('name').value.trim(),
@@ -105,7 +106,8 @@ export class RegisterStudentComponent implements OnInit {
             telephone: this.form.get('telephone').value.trim(),
             email: this.form.get('email').value.trim(),
             currentYear: this.form.get('currentYear').value,
-            graduated: this.form.get('graduated').value
+            graduated: this.form.get('graduated').value,
+            cv : null
         };
         this.authService.registerStudent(student).subscribe((data: { success: boolean, message: string }) => {
             if (!data.success) {

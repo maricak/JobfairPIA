@@ -15,7 +15,7 @@ router.use((req, res, next) => {
     } else {
         jwt.verify(token, config.secret, (err, decoded) => {
             if (err) {
-                res.json({ success: false, message: "Token invalid: " + err });
+                res.json({ success: false, message: "Token invalid: " + err.message });
             } else {
                 req.decoded = decoded;
                 next();
@@ -24,16 +24,16 @@ router.use((req, res, next) => {
     }
 });
 
-router.get('/acc/:id', (req, res) => {
+router.get('/account/:id', (req, res) => {
     let id = req.params.id;
-    if(req.decoded.type != "student") {
-        res.json({success : false, message : "This data is only for students"});
+    if (req.decoded.type != "student") {
+        res.json({ success: false, message: "This data is only for students" });
     } else if (id !== req.decoded.id) {
         res.json({ success: false, message: "Access to others student's data is not allowed" })
     } else {
         Student.findById(id, (err, student) => {
             if (err) {
-                res.json({ success: false, message: "Error happend while retreaving student's data: " + err });
+                res.json({ success: false, message: "Error happend while retrieving student's data: ".message });
             } else if (student) {
                 res.json({ success: true, message: "Success", student: student });
             } else {
@@ -47,7 +47,7 @@ router.post('/cvupdate', (req, res) => {
     let id = req.decoded.id;
     Student.findById(id, (err, student) => {
         if (err) {
-            res.json({ success: false, message: "Error happend while retreaving student's data: " + err });
+            res.json({ success: false, message: "Error happend while retrieving student's data: " + err.message });
         } else if (student) {
 
             let cv = req.body.cv;
@@ -58,19 +58,12 @@ router.post('/cvupdate', (req, res) => {
                 console.log(err);
                 if (err) {
                     if (err.errors) {
-                        if (err.errors['cv.telephone']) {
-                            res.json({ success: false, message: err.errors['cv.telephone'].message });
-                        } else if (err.errors['cv.email']) {
-                            res.json({ success: false, message: err.errors['cv.email'].message });
-                        } else if (err.errors['cv.webSite']) {
-                            res.json({ success: false, message: err.errors['cv.webSite'].message });
-                        } else if (err.errors['cv.sex']) {
-                            res.json({ success: false, message: err.errors['cv.sex'].message });
-                        } else {
-                            res.json({ success: false, message: err });
+                        for (const key in err.errors) {
+                            res.json({ success: false, message: err.errors[key].message });
+                            break;
                         }
                     } else {
-                        res.json({ success: false, message: 'Could not save cv info. Error: ' + err });
+                        res.json({ success: false, message: 'Could not save cv info. Error: ' + err.message });
                     }
                 } else if (updatedStudent) {
                     res.json({ success: true, message: 'Success!' });

@@ -131,13 +131,13 @@
 
     <!-- Website Input -->
     <div class="form-group">
-        <label for="webSite">Web site</label>
-        <input type="text" name="webSite" class="form-control" [ngClass]="{'is-invalid': (form.controls.webSite.errors && form.controls.webSite.dirty), 'is-valid': !form.controls.webSite.errors}"
-            autocomplete="off" placeholder="*Web site" formControlName="webSite" />
+        <label for="website">Web site</label>
+        <input type="text" name="website" class="form-control" [ngClass]="{'is-invalid': (form.controls.website.errors && form.controls.website.dirty), 'is-valid': !form.controls.website.errors}"
+            autocomplete="off" placeholder="*Web site" formControlName="website" />
         <!-- Validation -->
         <ul class="form-text text-danger">
-            <li *ngIf="form.controls.webSite.errors?.required && form.controls.webSite.dirty">This field is required</li>
-            <li *ngIf="form.controls.webSite.errors?.validateWebsite && form.controls.webSite.dirty">This must be a
+            <li *ngIf="form.controls.website.errors?.required && form.controls.website.dirty">This field is required</li>
+            <li *ngIf="form.controls.website.errors?.validateWebsite && form.controls.website.dirty">This must be a
                 valid
                 web site address</li>
         </ul>

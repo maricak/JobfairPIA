@@ -15,13 +15,19 @@ export class CompanyService {
 
     getCompany() {
         this.loadData();
-        return this.http.get(`${this.uri}/company/acc/${this.id}`,
+        return this.http.get(`${this.uri}/company/account/${this.id}`,
             { headers: { 'Content-type': 'application/json', 'auth': this.token } });
     }
 
-    getCompanyInfo(username: string) {
+    getCompanyInfo(id: string) {
         this.loadData();
-        return this.http.get(`${this.uri}/company/info/${username}`,
+        return this.http.get(`${this.uri}/company/info/${id}`,
+            { headers: { 'Content-type': 'application/json', 'auth': this.token } });
+    }
+
+    getCompanyOpenings() {
+        this.loadData();
+        return this.http.get(`${this.uri}/company/openings/${this.id}`,
             { headers: { 'Content-type': 'application/json', 'auth': this.token } });
     }
 

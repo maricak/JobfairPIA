@@ -20,9 +20,9 @@ router.post('/basic', (req, res) => {
         searchOptions.workField = { $in: req.body.workFields };
     }
     console.log(searchOptions);
-    Company.find(searchOptions, { _id: 0, password: 0 }, (err, companies) => {
+    Company.find(searchOptions, {password: 0 }, (err, companies) => {
         if (err) {
-            res.json({ success: false, message: "Error happened while searching: " + err });
+            res.json({ success: false, message: "Error happened while searching: " + err.message  });
         } else {
             res.json({ success: true, message: "Sucess!", companies: companies });
 
@@ -38,7 +38,7 @@ router.use((req, res, next) => {
     } else {
         jwt.verify(token, config.secret, (err, decoded) => {
             if (err) {
-                res.json({ success: false, message: "Token invalid: " + err });
+                res.json({ success: false, message: "Token invalid: " + err.message  });
             } else {
                 req.decoded = decoded;
                 next();
@@ -67,9 +67,9 @@ router.post('/complex', (req, res) => {
                 searchOptions.type = req.body.choice;
             }
             if (req.body.choice == "company" && !(searchOptions.name)) {
-                Company.find({ name: { $regex: ".*" + req.body.companyName + ".*" } }, { _id: 0, password: 0 }, (err, companies) => {
+                Company.find({ name: { $regex: ".*" + req.body.companyName + ".*" } }, {password: 0 }, (err, companies) => {
                     if (err) {
-                        res.json({ success: false, message: "Error happened whil searchig companies" + err });
+                        res.json({ success: false, message: "Error happened whil searchig companies" + err.message  });
                     } else {
                         res.json({ success: true, message: "Success", companies: companies });
                     }
@@ -77,13 +77,13 @@ router.post('/complex', (req, res) => {
             } else {
                 Opening.find(searchOptions, (err, openings) => {
                     if (err) {
-                        res.json({ success: false, message: "Error happened whil searching openings" + err });
+                        res.json({ success: false, message: "Error happened whil searching openings" + err.message  });
                     } else {
                         if (req.body.choice == "company") {
                             let companyUsernames = openings.map((e) => { return e.companyUsername; });
-                            Company.find({ username: { $in: companyUsernames } }, { _id: 0, password: 0 }, (err, companies) => {
+                            Company.find({ username: { $in: companyUsernames } }, { password: 0 }, (err, companies) => {
                                 if (err) {
-                                    res.json({ success: false, message: "Error happened whil searchig companies" + err });
+                                    res.json({ success: false, message: "Error happened whil searchig companies" + err.message  });
                                 } else {
                                     res.json({ success: true, message: "Success", companies: companies });
                                 }

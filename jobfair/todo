@@ -11,5 +11,13 @@
 -format ispisa datuma popraviti
 -uraditi prijavu na konkurs
 
-
+- za svaki parametar kome se pristupa na serveru proveriti da li uopste postoji
 trim();
+
+-------
+username duzina 5 - 25
+
+dodati trim u schema mongoose
+proveriti formu datuma u mongoose i validaciju ya njih
+
+express catch  parsing error

@@ -3,6 +3,7 @@ import { Student } from 'src/app/models/student';
 import { StudentService } from 'src/app/services/student.service';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CV } from 'src/app/models/cv';
 
 @Component({
     selector: 'app-cv',
@@ -28,7 +29,7 @@ export class CvComponent implements OnInit {
             address: [''],
             telephone: ['', this.validateTelephone],
             email: ['', this.validateEmail],
-            webSite: ['', this.validateWebsite],
+            website: ['', this.validateWebsite],
             imAccount: [''],
             sex: ['male'],
             dateOfBirth: [''],
@@ -126,12 +127,13 @@ export class CvComponent implements OnInit {
 
     onCvSubmit() {
         console.log(this.form.controls);
-        const cv = {
+        const cv : CV= {
             name: this.form.get('name').value.trim(),
             surname: this.form.get('surname').value.trim(),
+            address: this.form.get('address').value.trim(),
             telephone: this.form.get('telephone').value.trim(),
             email: this.form.get('email').value.trim(),
-            webSite: this.form.get('webSite').value,
+            website: this.form.get('website').value,
             imAccount: this.form.get('imAccount').value,
             sex: this.form.get('sex').value,
             dateOfBirth: this.form.get('dateOfBirth').value,
@@ -160,7 +162,7 @@ export class CvComponent implements OnInit {
             address: this.student.cv.address,
             telephone: this.student.cv.telephone,
             email: this.student.cv.email,
-            webSite: this.student.cv.webSite,
+            website: this.student.cv.website,
             imAccount: this.student.cv.imAccount,
             sex: this.student.cv.sex,
             dateOfBirth: this.student.cv.dateOfBirth,
@@ -189,14 +191,14 @@ export class CvComponent implements OnInit {
             });
         }
 
-        if (this.student.cv && this.student.cv.languagues.length > 0) {
-            this.student.cv.languagues.forEach(e => {
-                const el = <FormArray>this.form.get('languagues');
+        if (this.student.cv && this.student.cv.languages.length > 0) {
+            this.student.cv.languages.forEach(e => {
+                const el = <FormArray>this.form.get('languages');
                 el.push(this.createLanguage(e.language, e.listenig, e.reading, e.writing, e.speaking));
             });
         }
     }
-    validateTelephone(controls) {
+    validateTelephone(controls: FormControl) {
         const regExp = new RegExp(/^[0-9]*$/);
         if (!controls.value || regExp.test(controls.value)) {
             return null;
@@ -205,7 +207,7 @@ export class CvComponent implements OnInit {
         }
     }
 
-    validateEmail(controls) {
+    validateEmail(controls: FormControl) {
         const regExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
         if (!controls.value || regExp.test(controls.value)) {
             return null;
@@ -213,7 +215,7 @@ export class CvComponent implements OnInit {
             return { 'validateEmail': true }
         }
     }
-    validateWebsite(controls) {
+    validateWebsite(controls: FormControl) {
         const regExp = new RegExp(/^w{3}[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/);
         if (!controls.value || regExp.test(controls.value)) {
             return null;
@@ -221,6 +223,4 @@ export class CvComponent implements OnInit {
             return { 'validateWebsite': true }
         }
     }
-
-
 }

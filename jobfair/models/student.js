@@ -4,59 +4,247 @@ const Schema = mongoose.Schema;
 
 const bcrypt = require('bcrypt-nodejs');
 
-const validators = require('./validators');
+const v = require('./validators');
+
+const experienceSchema = new Schema({
+    startDate: {
+        type: Date,
+        required: v.data.expStartDate.required
+    },
+    endDate: Date,
+    position: {
+        type: String,
+        minlength: v.data.position.minlength,
+        maxlength: v.data.position.maxlength
+    },
+    employer: {
+        type: String,
+        minlength: v.data.employer.minlength,
+        maxlength: v.data.employer.maxlength
+    },
+    activities: {
+        type: String,
+        minlength: v.data.activities.minlength,
+        maxlength: v.data.activities.maxlength
+    }
+});
+
+const educationSchema = new Schema({
+    startDate: {
+        type: Date,
+        required: v.data.eduStartDate.required
+    },
+    endDate: Date,
+
+    qualification: {
+        type: String,
+        minlength: v.data.qualification.minlength,
+        maxlength: v.data.qualification.maxlength
+    },
+    institution: {
+        type: String,
+        minlength: v.data.institution.minlength,
+        maxlength: v.data.institution.maxlength
+    },
+    subjects: {
+        type: String,
+        minlength: v.data.subjects.minlength,
+        maxlength: v.data.subjects.maxlength
+    }
+});
+
+const cvSchema = new Schema({
+    name: {
+        type: String,
+        minlength: v.data.name.minlength,
+        maxlength: v.data.name.maxlength
+    },
+    surname: {
+        type: String,
+        minlength: v.data.surname.minlength,
+        maxlength: v.data.surname.maxlength
+    },
+    address: {
+        type: String,
+        minlength: v.data.address.minlength,
+        maxlength: v.data.address.maxlength
+    },
+    telephone: {
+        type: String,
+        minlength: v.data.telephone.minlength,
+        maxlength: v.data.telephone.maxlength,
+        match: v.data.telephone.pattern
+    },
+    email: {
+        type: String,
+        match: v.data.email.pattern
+    },
+    website: {
+        type: String,
+        minlength: v.data.website.minlength,
+        maxlength: v.data.website.maxlength,
+        match: v.data.website.pattern
+    },
+    imAccount: {
+        type: String,
+        minlength: v.data.imAccount.minlength,
+        maxlength: v.data.imAccount.maxlength,
+    },
+    sex: {
+        type: String,
+        enum: {
+            values: ['male', 'female'],
+            message: "Sex must be 'male' or 'female'"
+        }
+    },
+    dateOfBirth: {
+        type: Date,
+        min: v.data.dateOfBirth.min
+    },
+    nationality: {
+        type: String,
+        minlength: v.data.nationality.minlength,
+        maxlength: v.data.nationality.maxlength,
+    },
+    personalStatement: {
+        type: String,
+        minlength: v.data.personalStatement.minlength,
+        maxlength: v.data.personalStatement.maxlength,
+    },
+    experience: {
+        type: [experienceSchema],
+        validate: v.experienceValidators
+    },
+    education: {
+        type: [educationSchema],
+        validate: v.educationValidators
+    },
+    motherTongue: {
+        type: String,
+        minlength: v.data.motherTongue.minlength,
+        maxlength: v.data.motherTongue.maxlength,
+    },
+    languages: [{
+        language: {
+            type: String,
+            required: v.data.language.required,
+            minlength: v.data.language.minlength,
+            maxlength: v.data.language.maxlength,
+        },
+        listenig: {
+            type: String,
+            enum: {
+                values: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'],
+                message: "Listenig must be 'A1', 'A2', 'B1', 'B2', 'C1' or 'C2"
+            }
+        },
+        reading: {
+            type: String,
+            enum: {
+                values: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'],
+                message: "Reading must be 'A1', 'A2', 'B1', 'B2', 'C1' or 'C2"
+            }
+        },
+        writing: {
+            type: String,
+            enum: {
+                values: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'],
+                message: "Writing must be 'A1', 'A2', 'B1', 'B2', 'C1' or 'C2"
+            }
+        },
+        speaking: {
+            type: String,
+            enum: {
+                values: ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'],
+                message: "Speaking must be 'A1', 'A2', 'B1', 'B2', 'C1' or 'C2"
+            }
+        },
+    }],
+    communicationSkills: {
+        type: String,
+        minlength: v.data.skill.minlength,
+        maxlength: v.data.skill.maxlength
+    },
+    organisationslSkills: {
+        type: String,
+        minlength: v.data.skill.minlength,
+        maxlength: v.data.skill.maxlength
+    },
+    jobRelatedSkills: {
+        type: String,
+        minlength: v.data.skill.minlength,
+        maxlength: v.data.skill.maxlength
+    },
+    digitalSkills: {
+        type: String,
+        minlength: v.data.skill.minlength,
+        maxlength: v.data.skill.maxlength
+    },
+    otherSkills: {
+        type: String,
+        minlength: v.data.skill.minlength,
+        maxlength: v.data.skill.maxlength
+    },
+    drivingLicence: Boolean,
+    additionalInformation: {
+        type: String,
+        minlength: v.data.additionalInformation.minlength,
+        maxlength: v.data.additionalInformation.maxlength
+    }
+});
+
 
 const studentSchema = new Schema({
-    username: { type: String, required: true, unique: true },
-    password: { type: String, required: true, validate: validators.passwordValidators },
-    name: { type: String, required: true },
-    surname: { type: String, required: true },
-    telephone: { type: String, required: true, validate: validators.telephoneValidators },
-    email: { type: String, required: true, unique: true, validate: validators.emailValidators },
-    currentYear: { type: Number, required: true, validate: validators.yearValidators },
-    graduated: { type: Boolean, required: true },
-    cv: {
-        name: String,
-        surname: String,
-        address: String,
-        telephone: { type: String, validate: validators.telephoneValidators },
-        email: { type: String, validate: validators.emailValidators },
-        website: { type: String, validate: validators.webSiteValidators },
-        imAccount: String,
-        sex: { type: String, enum: ['male', 'female'] },
-        dateOfBirth: Date,
-        nationality: String,
-        personalStatement: String,
-        experience: [{
-            startDate: Date,
-            endDate: Date,
-            position: String,
-            employer: String,
-            activities: String
-        }],
-        education: [{
-            startDate: Date,
-            endDate: Date,
-            qualification: String,
-            institution: String,
-            subjects: String
-        }],
-        motherTongue: String,
-        languagues: [{
-            language: String,
-            listenig: String,
-            reading: String,
-            writing: String,
-            speaking: String
-        }],
-        communicationSkills: String,
-        organisationslSkills: String,
-        jobRelatedSkills: String,
-        digitalSkills: String,
-        otherSkills: String,
-        drivingLicence: String,
-        additionalInformation: String
-    }
+    username: {
+        type: String,
+        unique: true,
+        required: v.data.username.required,
+        minlength: v.data.username.minlength,
+        maxlength: v.data.username.maxlength
+    },
+    password: {
+        type: String,
+        required: v.data.password.required,
+        minlength: v.data.password.minlength,
+        maxlength: v.data.password.maxlength,
+        match: v.data.password.pattern
+    },
+    name: {
+        type: String,
+        required: v.data.name.required,
+        minlength: v.data.name.minlength,
+        maxlength: v.data.name.maxlength
+    },
+    surname: {
+        type: String,
+        required: v.data.surname.required,
+        minlength: v.data.surname.minlength,
+        maxlength: v.data.surname.maxlength
+    },
+    telephone: {
+        type: String,
+        required: v.data.telephone.required,
+        minlength: v.data.telephone.minlength,
+        maxlength: v.data.telephone.maxlength,
+        match: v.data.telephone.pattern
+    },
+    email: {
+        type: String,
+        unique: true,
+        required: v.data.email.required,
+        match: v.data.email.pattern
+    },
+    currentYear: {
+        type: Number,
+        required: v.data.currentYear.required,
+        min: v.data.currentYear.min,
+        max: v.data.currentYear.max
+    },
+    graduated: {
+        type: Boolean,
+        required: v.data.graduated.required
+    },
+    cv: cvSchema
 });
 
 studentSchema.pre('save', function (next) {

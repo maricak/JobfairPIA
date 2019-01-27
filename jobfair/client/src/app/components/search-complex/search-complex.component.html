@@ -55,13 +55,13 @@
         <td>Specialty</td>
     </thead>
     <tr *ngFor="let c of companies">
-        <td><a href="" routerLink="../company/{{c.name}}">{{c.name}}</a></td>
+        <td><a href="" routerLink="../company/{{c._id}}">{{c.name}}</a></td>
         <td>{{c.city}}</td>
         <td>{{c.address}}</td>
         <td>{{c.pib}}</td>
         <td>{{c.numberOfEmployees}}</td>
         <td>{{c.email}}</td>
-        <td><a href="{{'http://' + c.webSite}}">{{c.webSite}}</a></td>
+        <td><a href="{{'http://' + c.website}}">{{c.website}}</a></td>
         <td>{{c.workField}}</td>
         <td>{{c.specialty}}</td>
     </tr>

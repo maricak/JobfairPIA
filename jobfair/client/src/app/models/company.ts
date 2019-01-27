@@ -1,14 +1,16 @@
-import { Opening } from './opening';
+import { User } from './user';
 
-export interface Company {
-    username: string,
+export interface Company extends User{
+    _id : string
+    // username: string,
+    // password: string,
     name: string,
     city: string,
     address: string,
     pib: string,
     numberOfEmployees: number,
     email: string,
-    webSite: string,
+    website: string,
     workField: string,
     specialty: string,
 }
