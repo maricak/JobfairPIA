@@ -5,49 +5,132 @@ import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@ang
 import { Router } from '@angular/router';
 import { CV } from 'src/app/models/cv';
 
+import * as v from 'src/app/validators';
+
 @Component({
     selector: 'app-cv',
     templateUrl: './cv.component.html'
 })
 export class CvComponent implements OnInit {
 
+    form: FormGroup;
+    vData: { [key: string]: { [type: string]: any[] } };
+
     message: string;
     messageClass: string;
 
     student: Student;
-    form: FormGroup;
-
-    experiences: FormArray;
 
     constructor(private formBuilder: FormBuilder, private studentService: StudentService, private router: Router) {
+        this.vData = v.data;
         this.createForm();
     }
+
     createForm() {
         this.form = this.formBuilder.group({
-            name: [''],
-            surname: [''],
-            address: [''],
-            telephone: ['', this.validateTelephone],
-            email: ['', this.validateEmail],
-            website: ['', this.validateWebsite],
-            imAccount: [''],
-            sex: ['male'],
-            dateOfBirth: [''],
-            nationality: [''],
-            personalStatement: [''],
+            name: ['', Validators.compose([
+                Validators.minLength(this.vData.name.minlength[0]),
+                Validators.maxLength(this.vData.name.maxlength[0])
+            ])],
+            surname: ['', Validators.compose([
+                Validators.minLength(this.vData.surname.minlength[0]),
+                Validators.maxLength(this.vData.surname.maxlength[0])
+            ])],
+            address: ['', Validators.compose([
+                Validators.minLength(this.vData.address.minlength[0]),
+                Validators.maxLength(this.vData.address.maxlength[0])
+            ])],
+            telephone: ['', Validators.compose([
+                Validators.minLength(this.vData.telephone.minlength[0]),
+                Validators.maxLength(this.vData.telephone.maxlength[0]),
+                Validators.pattern(this.vData.telephone.pattern[0])
+            ])],
+            email: ['', Validators.compose([
+                Validators.maxLength(this.vData.email.maxlength[0]),
+                Validators.pattern(this.vData.email.pattern[0])
+            ])],
+            website: ['', Validators.compose([
+                Validators.minLength(this.vData.website.minlength[0]),
+                Validators.maxLength(this.vData.website.maxlength[0]),
+                Validators.pattern(this.vData.website.pattern[0])
+            ])],
+            imAccount: ['', Validators.compose([
+                Validators.minLength(this.vData.imAccount.minlength[0]),
+                Validators.maxLength(this.vData.imAccount.maxlength[0])
+            ])],
+            sex: ['male', Validators.required],
+            dateOfBirth: ['', Validators.compose([
+                // ???????????????
+                Validators.max(this.vData.dateOfBirth.max[0]),
+            ])],
+            nationality: ['', Validators.compose([
+                Validators.minLength(this.vData.nationality.minlength[0]),
+                Validators.maxLength(this.vData.nationality.maxlength[0])
+            ])],
+            personalStatement: ['', Validators.compose([
+                Validators.minLength(this.vData.personalStatement.minlength[0]),
+                Validators.maxLength(this.vData.personalStatement.maxlength[0])
+            ])],
             experience: this.formBuilder.array([]),
             education: this.formBuilder.array([]),
-            motherTongue: [''],
+            motherTongue: ['', Validators.compose([
+                Validators.minLength(this.vData.motherTongue.minlength[0]),
+                Validators.maxLength(this.vData.motherTongue.maxlength[0])
+            ])],
             languages: this.formBuilder.array([]),
-            communicationSkills: [''],
-            organisationslSkills: [''],
-            jobRelatedSkills: [''],
-            digitalSkills: [''],
-            otherSkills: [''],
-            drivingLicence: [''],
-            additionalInformation: ['']
+            communicationSkills: ['', Validators.compose([
+                Validators.minLength(this.vData.skill.minlength[0]),
+                Validators.maxLength(this.vData.skill.maxlength[0])
+            ])],
+            organisationslSkills: ['', Validators.compose([
+                Validators.minLength(this.vData.skill.minlength[0]),
+                Validators.maxLength(this.vData.skill.maxlength[0])
+            ])],
+            jobRelatedSkills: ['', Validators.compose([
+                Validators.minLength(this.vData.skill.minlength[0]),
+                Validators.maxLength(this.vData.skill.maxlength[0])
+            ])],
+            digitalSkills: ['', Validators.compose([
+                Validators.minLength(this.vData.skill.minlength[0]),
+                Validators.maxLength(this.vData.skill.maxlength[0])
+            ])],
+            otherSkills: ['', Validators.compose([
+                Validators.minLength(this.vData.skill.minlength[0]),
+                Validators.maxLength(this.vData.skill.maxlength[0])
+            ])],
+            drivingLicence:[false],
+            additionalInformation: ['', Validators.compose([
+                Validators.minLength(this.vData.additionalInformation.minlength[0]),
+                Validators.maxLength(this.vData.additionalInformation.maxlength[0])
+            ])]
         });
     }
+
+    get name() { return this.form.controls['name']; }
+    get surname() { return this.form.controls['surname']; }
+    get address() { return this.form.controls['address']; }
+    get telephone() { return this.form.controls['telephone']; }
+    get email() { return this.form.controls['email']; }
+    get website() { return this.form.controls['website']; }
+    get imAccount() { return this.form.controls['imAccount']; }
+    get sex() { return this.form.controls['sex']; }
+    get dateOfBirth() { return this.form.controls['dateOfBirth']; }
+    get personalStatement() { return this.form.controls['personalStatement']; }
+    get nationality() { return this.form.controls['nationality']; }
+    // exprinece
+    //education
+    get motherTongue() { return this.form.controls['motherTongue']; }
+    // LANGUAGES
+    get communicationSkills() { return this.form.controls['communicationSkills']; }
+    get organisationslSkills() { return this.form.controls['organisationslSkills']; }
+    get jobRelatedSkills() { return this.form.controls['jobRelatedSkills']; }
+    get digitalSkills() { return this.form.controls['digitalSkills']; }
+    get otherSkills() { return this.form.controls['otherSkills']; }
+    get drivingLicence() { return this.form.controls['drivingLicence']; }
+    get additionalInformation() { return this.form.controls['additionalInformation']; }
+
+
+
 
     ngOnInit() {
         this.studentService.getStudent().subscribe((data: {
@@ -96,7 +179,6 @@ export class CvComponent implements OnInit {
             subjects: [subjects]
         });
     }
-
     onAddEducation() {
         const e = <FormArray>this.form.get('education');
         e.push(this.createEducation(null, null, '', '', ''));
@@ -127,14 +209,14 @@ export class CvComponent implements OnInit {
 
     onCvSubmit() {
         console.log(this.form.controls);
-        const cv : CV= {
+        const cv: CV = {
             name: this.form.get('name').value.trim(),
             surname: this.form.get('surname').value.trim(),
             address: this.form.get('address').value.trim(),
             telephone: this.form.get('telephone').value.trim(),
             email: this.form.get('email').value.trim(),
-            website: this.form.get('website').value,
-            imAccount: this.form.get('imAccount').value,
+            website: this.form.get('website').value.trim(),
+            imAccount: this.form.get('imAccount').value.trim(),
             sex: this.form.get('sex').value,
             dateOfBirth: this.form.get('dateOfBirth').value,
             nationality: this.form.get('nationality').value.trim(),
@@ -183,44 +265,17 @@ export class CvComponent implements OnInit {
                 el.push(this.createExperience(e.startDate, e.endDate, e.position, e.employer, e.activities));
             });
         }
-
         if (this.student.cv && this.student.cv.education.length > 0) {
             this.student.cv.education.forEach(e => {
                 const el = <FormArray>this.form.get('education');
                 el.push(this.createEducation(e.startDate, e.endDate, e.qualification, e.institution, e.subjects));
             });
         }
-
         if (this.student.cv && this.student.cv.languages.length > 0) {
             this.student.cv.languages.forEach(e => {
                 const el = <FormArray>this.form.get('languages');
                 el.push(this.createLanguage(e.language, e.listenig, e.reading, e.writing, e.speaking));
             });
         }
-    }
-    validateTelephone(controls: FormControl) {
-        const regExp = new RegExp(/^[0-9]*$/);
-        if (!controls.value || regExp.test(controls.value)) {
-            return null;
-        } else {
-            return { 'validateTelephone': true }
-        }
-    }
-
-    validateEmail(controls: FormControl) {
-        const regExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-        if (!controls.value || regExp.test(controls.value)) {
-            return null;
-        } else {
-            return { 'validateEmail': true }
-        }
-    }
-    validateWebsite(controls: FormControl) {
-        const regExp = new RegExp(/^w{3}[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/);
-        if (!controls.value || regExp.test(controls.value)) {
-            return null;
-        } else {
-            return { 'validateWebsite': true }
-        }
-    }
+    }   
 }

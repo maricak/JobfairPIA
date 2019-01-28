@@ -7,73 +7,97 @@
     </button>
 </div>
 
-<!-- Registration Form -->
+
 <form [formGroup]="form" class="w-75 mx-auto" action="post">
 
     <h5 class="text-center text-info">
         Personal information
     </h5>
+
     <!-- Name Input -->
     <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" name="name" class="form-control" autocomplete="off" placeholder="*Name" formControlName="name" />
+        <input type="text" name="name" class="form-control" formControlName="name" [ngClass]="{'is-invalid': name.errors, 'is-valid': !name.errors}" />
+        <!-- Validation -->
+        <ul class="form-text text-danger">
+            <span *ngFor="let v of vData.name | keyvalue">
+                <li *ngIf="name.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
+        </ul>
     </div>
+
 
     <!-- Surname Input -->
     <div class="form-group">
         <label for="surname">Surname</label>
-        <input type="text" name="surname" class="form-control" autocomplete="off" placeholder="*Surname"
-            formControlName="surname" />
+        <input type="text" name="surname" class="form-control" formControlName="surname" [ngClass]="{'is-invalid': surname.errors, 'is-valid': !surname.errors}" />
+        <!-- Validation -->
+        <ul class="form-text text-danger">
+            <span *ngFor="let v of vData.surname | keyvalue">
+                <li *ngIf="surname.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
+        </ul>
     </div>
 
     <!-- Address Input -->
     <div class="form-group">
         <label for="address">Address</label>
-        <input type="text" name="address" class="form-control" autocomplete="off" placeholder="*Address"
-            formControlName="address" />
+        <input type="text" name="address" class="form-control" formControlName="address" [ngClass]="{'is-invalid': address.errors, 'is-valid': !address.errors}" />
+        <!-- Validation -->
+        <ul class="form-text text-danger">
+            <span *ngFor="let v of vData.address | keyvalue">
+                <li *ngIf="address.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
+        </ul>
     </div>
 
     <!-- Telephone Input -->
     <div class="form-group">
         <label for="telephone">Telephone</label>
-        <input type="text" name="telephone" class="form-control" autocomplete="off" placeholder="*Telephone"
-            formControlName="telephone" />
+        <input type="text" name="telephone" class="form-control" formControlName="telephone" [ngClass]="{'is-invalid': telephone.errors, 'is-valid': !telephone.errors}" />
         <!-- Validation -->
         <ul class="form-text text-danger">
-            <li *ngIf="form.controls.telephone.errors?.validateTelephone && form.controls.telephone.dirty">This
-                must be a valid telephone</li>
+            <span *ngFor="let v of vData.telephone | keyvalue">
+                <li *ngIf="telephone.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
         </ul>
     </div>
+
 
     <!-- Email Input -->
     <div class="form-group">
         <label for="email">Email</label>
-        <input type="text" name="email" class="form-control" autocomplete="off" placeholder="*Email" formControlName="email" />
+        <input type="text" name="email" class="form-control" formControlName="email" [ngClass]="{'is-invalid': email.errors, 'is-valid': !email.errors}" />
         <!-- Validation -->
         <ul class="form-text text-danger">
-            <li *ngIf="form.controls.email.errors?.validateEmail && form.controls.email.dirty">This must be a valid
-                e-mail</li>
+            <span *ngFor="let v of vData.email | keyvalue">
+                <li *ngIf="email.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
         </ul>
     </div>
 
     <!-- Website Input -->
     <div class="form-group">
-        <label for="website">Personal website</label>
-        <input type="text" name="website" class="form-control" autocomplete="off" placeholder="*Personal web site"
-            formControlName="website" />
+        <label for="website">Web site</label>
+        <input type="text" name="website" class="form-control" formControlName="website" [ngClass]="{'is-invalid': website.errors, 'is-valid': !website.errors}" />
         <!-- Validation -->
         <ul class="form-text text-danger">
-            <li *ngIf="form.controls.website.errors?.validateWebsite && form.controls.website.dirty">This must be a
-                valid
-                web site</li>
+            <span *ngFor="let v of vData.website | keyvalue">
+                <li *ngIf="website.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
         </ul>
     </div>
 
     <!-- im account Input -->
     <div class="form-group">
-        <label for="imAccount">IM account</label>
-        <input type="text" name="imAccount" class="form-control" autocomplete="off" placeholder="*IM account"
-            formControlName="imAccount" />
+        <label for="imAccount">Web site</label>
+        <input type="text" name="imAccount" class="form-control" formControlName="imAccount" [ngClass]="{'is-invalid': imAccount.errors, 'is-valid': !imAccount.errors}" />
+        <!-- Validation -->
+        <ul class="form-text text-danger">
+            <span *ngFor="let v of vData.imAccount | keyvalue">
+                <li *ngIf="imAccount.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
+        </ul>
     </div>
 
     <!-- sex -->
@@ -92,15 +116,25 @@
     <!-- dateOfBirth Input -->
     <div class="form-group">
         <label for="dateOfBirth">Date of birth</label>
-        <input type="date" name="dateOfBirth" class="form-control" autocomplete="off" placeholder="*Date of birth"
-            formControlName="dateOfBirth" />
+        <input type="date" name="dateOfBirth" class="form-control" formControlName="dateOfBirth" [ngClass]="{'is-invalid': dateOfBirth.errors, 'is-valid': !dateOfBirth.errors}" />
+        <!-- Validation -->
+        <ul class="form-text text-danger">
+            <span *ngFor="let v of vData.dateOfBirth | keyvalue">
+                <li *ngIf="dateOfBirth.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
+        </ul>
     </div>
 
     <!-- nationality Input -->
     <div class="form-group">
         <label for="nationality">Nationality</label>
-        <input type="text" name="nationality" class="form-control" autocomplete="off" placeholder="*Nationality"
-            formControlName="nationality" />
+        <input type="text" name="nationality" class="form-control" formControlName="nationality" [ngClass]="{'is-invalid': nationality.errors, 'is-valid': !nationality.errors}" />
+        <!-- Validation -->
+        <ul class="form-text text-danger">
+            <span *ngFor="let v of vData.nationality | keyvalue">
+                <li *ngIf="nationality.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
+        </ul>
     </div>
 
     <h5 class="text-center text-info">Experience</h5>
@@ -217,8 +251,13 @@
     <!-- mother tounge -->
     <div class="form-group">
         <label for="motherTongue">Mother tongue</label>
-        <input type="text" name="motherTongue" class="form-control" autocomplete="off" placeholder="*Mother tongue"
-            formControlName="motherTongue" />
+        <input type="text" name="motherTongue" class="form-control" formControlName="motherTongue" [ngClass]="{'is-invalid': motherTongue.errors, 'is-valid': !motherTongue.errors}" />
+        <!-- Validation -->
+        <ul class="form-text text-danger">
+            <span *ngFor="let v of vData.motherTongue | keyvalue">
+                <li *ngIf="motherTongue.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
+        </ul>
     </div>
 
     <!-- languages -->
@@ -379,50 +418,86 @@
     <!-- communicationSkills -->
     <div class="form-group">
         <label for="communicationSkills">Communication skills</label>
-        <input type="text" name="communicationSkills" class="form-control" autocomplete="off" placeholder="*Communication skills"
-            formControlName="communicationSkills" />
+        <input type="text" name="communicationSkills" class="form-control" formControlName="communicationSkills"
+            [ngClass]="{'is-invalid': communicationSkills.errors, 'is-valid': !communicationSkills.errors}" />
+        <!-- Validation -->
+        <ul class="form-text text-danger">
+            <span *ngFor="let v of vData.skill | keyvalue">
+                <li *ngIf="communicationSkills.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
+        </ul>
     </div>
 
     <!-- organisationslSkills -->
     <div class="form-group">
         <label for="organisationslSkills">Organisational skills</label>
-        <input type="text" name="organisationslSkills" class="form-control" autocomplete="off" placeholder="*Organisational skills"
-            formControlName="organisationslSkills" />
+        <input type="text" name="organisationslSkills" class="form-control" formControlName="organisationslSkills"
+            [ngClass]="{'is-invalid': organisationslSkills.errors, 'is-valid': !organisationslSkills.errors}" />
+        <!-- Validation -->
+        <ul class="form-text text-danger">
+            <span *ngFor="let v of vData.skill | keyvalue">
+                <li *ngIf="organisationslSkills.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
+        </ul>
     </div>
 
     <!-- jobRelatedSkills -->
     <div class="form-group">
         <label for="jobRelatedSkills">Job related skills</label>
-        <input type="text" name="jobRelatedSkills" class="form-control" autocomplete="off" placeholder="*Job related skills"
-            formControlName="jobRelatedSkills" />
+        <input type="text" name="jobRelatedSkills" class="form-control" formControlName="jobRelatedSkills" [ngClass]="{'is-invalid': jobRelatedSkills.errors, 'is-valid': !jobRelatedSkills.errors}" />
+        <!-- Validation -->
+        <ul class="form-text text-danger">
+            <span *ngFor="let v of vData.skill | keyvalue">
+                <li *ngIf="jobRelatedSkills.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
+        </ul>
     </div>
 
     <!-- digitalSkills -->
     <div class="form-group">
         <label for="digitalSkills">Digital skills</label>
-        <input type="text" name="digitalSkills" class="form-control" autocomplete="off" placeholder="*Digital skills"
-            formControlName="digitalSkills" />
+        <input type="text" name="digitalSkills" class="form-control" formControlName="digitalSkills" [ngClass]="{'is-invalid': digitalSkills.errors, 'is-valid': !digitalSkills.errors}" />
+        <!-- Validation -->
+        <ul class="form-text text-danger">
+            <span *ngFor="let v of vData.skill | keyvalue">
+                <li *ngIf="digitalSkills.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
+        </ul>
     </div>
 
     <!-- otherSkills -->
     <div class="form-group">
         <label for="otherSkills">Other skills</label>
-        <input type="text" name="otherSkills" class="form-control" autocomplete="off" placeholder="*Other skills"
-            formControlName="otherSkills" />
+        <input type="text" name="otherSkills" class="form-control" formControlName="otherSkills" [ngClass]="{'is-invalid': otherSkills.errors, 'is-valid': !otherSkills.errors}" />
+        <!-- Validation -->
+        <ul class="form-text text-danger">
+            <span *ngFor="let v of vData.skill | keyvalue">
+                <li *ngIf="otherSkills.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
+        </ul>
     </div>
 
     <!-- drivingLicence -->
-    <div class="form-group">
+    <div class="form-group form-check">
+        <input type="checkbox" name="drivingLicence" class="form-check-input" autocomplete="off" formControlName="drivingLicence" />
         <label for="drivingLicence">Driving licence</label>
-        <input type="text" name="drivingLicence" class="form-control" autocomplete="off" placeholder="*Driving licence"
-            formControlName="drivingLicence" />
+        <ul class="form-text text-danger">
+            <span *ngFor="let v of vData.drivingLicence | keyvalue">
+                <li *ngIf="drivingLicence.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
+        </ul>
     </div>
 
     <!-- additionalInformation -->
     <div class="form-group">
         <label for="additionalInformation">Additional information licence</label>
-        <input type="text" name="additionalInformation" class="form-control" autocomplete="off" placeholder="*Additional information"
-            formControlName="additionalInformation" />
+        <input type="text" name="additionalInformation" class="form-control" formControlName="additionalInformation" [ngClass]="{'is-invalid': additionalInformation.errors, 'is-valid': !additionalInformation.errors}" />
+        <!-- Validation -->
+        <ul class="form-text text-danger">
+            <span *ngFor="let v of vData.additionalInformation | keyvalue">
+                <li *ngIf="additionalInformation.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
+        </ul>
     </div>
 
     <!-- Submit Input -->

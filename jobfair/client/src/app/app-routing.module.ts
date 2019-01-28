@@ -16,6 +16,7 @@ import { NotAuthGuard } from './guards/not-auth.guard';
 import { HomeGuard } from './guards/home.guard';
 import { CompanyGuard } from './guards/company.guard';
 import { OpeningListComponent } from './components/opening-list/opening-list.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
     { path: 'login', component: LoginComponent, pathMatch: 'full', canActivate: [NotAuthGuard] },
@@ -26,7 +27,7 @@ const routes: Routes = [
     { path: 'student', component: StudentComponent, canActivate: [StudentGuard] },
     { path: 'student/cv', component: CvComponent, canActivate: [StudentGuard] },
     { path: 'opening/:id', component: OpeningInfoComponent, pathMatch: 'full', canActivate: [StudentGuard] },
-    { path: 'company/:id', component: CompanyInfoComponent, pathMatch: 'full', canActivate: [StudentGuard, CompanyGuard] },
+    { path: 'company/:id', component: CompanyInfoComponent, pathMatch: 'full', canActivate: [AuthGuard] },
     { path: 'company', component: CompanyComponent, pathMatch: 'full', canActivate: [CompanyGuard] },
     // { path: 'openings', component: OpeningListComponent, pathMatch: 'full', canActivate: [CompanyGuard] },
     { path: '', component: LoginComponent, pathMatch: 'full', canActivate: [HomeGuard] },

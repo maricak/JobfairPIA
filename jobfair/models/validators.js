@@ -14,7 +14,7 @@ module.exports.data = {
         ['required']: [true, 'New password is required'],
         ['minlength']: [8, 'Password min length is 8'],
         ['maxlength']: [12, 'Password max length is 12'],
-        ['pattern']: [new RegExp(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{8,12}$/), 'Passwrod must have at least one uppercase, lowercase, special character, and number']
+        ['pattern']: [new RegExp(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{8,12}$/), 'Password must have at least one uppercase, lowercase, special character, and number']
     },
     ['name']: {
         ['required']: [true, 'Name is required'],
@@ -34,6 +34,7 @@ module.exports.data = {
     },
     ['email']: {
         ['required']: [true, 'Email is required'],
+        ['maxlength']: [40, 'Email max length is 40'],
         ['pattern']: [new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/), 'Must be a valid email']
     },
     ['currentYear']: {
@@ -124,8 +125,8 @@ module.exports.data = {
     },
     ['pib']: {
         ['required']: [true, 'PIB is required'],
-        ['minlength']: [8, 'PIB min length is 8'],
-        ['maxlength']: [8, 'PIB max length is 8'],
+        ['minlength']: [8, 'PIB length is 8'],
+        ['maxlength']: [8, 'PIB length is 8'],
         ['pattern']: [new RegExp(/^[0-9]{8}$/), 'PIB must have 8 digits']
     },
     ['numberOfEmployees']: {
@@ -133,7 +134,7 @@ module.exports.data = {
         ['min']: [1, 'Number of employees must be positive'],
     },
     ['workField']: {
-        ['required']: [true, 'Work filed name is required'],
+        ['required']: [true, 'Work filed is required'],
         ['minlength']: [2, 'Work field min length is 2'],
         ['maxlength']: [50, 'Work field max length is 50']
     },
@@ -150,7 +151,10 @@ module.exports.data = {
     ['deadline']: {
         ['required']: [true, 'Deadline is required'],
     }
-
+    ,
+    ['companyId']: {
+        ['required']: [true, 'Company id is required'],
+    }
 };
 
 //date of birth

@@ -7,12 +7,9 @@ const bcrypt = require('bcrypt-nodejs');
 const v = require('./validators');
 
 const openingSchema = new Schema({
-    companyUsername: {
+    companyId: {
         type: String,
-        unique: true,
-        required: v.data.username.required,
-        minlength: v.data.username.minlength,
-        maxlength: v.data.username.maxlength
+        required: v.data.companyId.required    
     },
     companyName: {
         type: String,

@@ -29,8 +29,9 @@ export class SearchComplexComponent implements OnInit {
         })
     }
 
-    ngOnInit() {
-    }
+    get choice() { return this.form.controls['choice']; }
+    get companyName() { return this.form.controls['companyName']; }
+    get openingName() { return this.form.controls['openingName']; }
 
     onSearchSubmit() {
         this.companies = [];
@@ -73,4 +74,6 @@ export class SearchComplexComponent implements OnInit {
             }
         });
     }
+
+    ngOnInit() { }
 }

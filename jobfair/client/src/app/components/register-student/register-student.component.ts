@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { Student } from 'src/app/models/student';
 
+import * as v from 'src/app/validators';
+
 @Component({
     selector: 'app-register-student',
     templateUrl: './register-student.component.html'
@@ -11,83 +13,65 @@ import { Student } from 'src/app/models/student';
 export class RegisterStudentComponent implements OnInit {
 
     form: FormGroup;
+    vData: { [key: string]: { [type: string]: any[] } };
+
     message: string;
     messageClass: string;
 
     constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
+        this.vData = v.data;
         this.createForm();
     }
     createForm() {
         this.form = this.formBuilder.group({
             username: ['', Validators.compose([
                 Validators.required,
+                Validators.minLength(this.vData.username.minlength[0]),
+                Validators.maxLength(this.vData.username.maxlength[0])
             ])],
             password: ['', Validators.compose([
                 Validators.required,
-                Validators.minLength(8),
-                Validators.maxLength(12),
-                this.validatePassword
+                Validators.minLength(this.vData.password.minlength[0]),
+                Validators.maxLength(this.vData.password.maxlength[0]),
+                Validators.pattern(this.vData.password.pattern[0])
             ])],
-            confirm: ['', Validators.required],
+            confirm: ['', Validators.compose([
+                Validators.required,
+                Validators.minLength(this.vData.password.minlength[0]),
+                Validators.maxLength(this.vData.password.maxlength[0]),
+                Validators.pattern(this.vData.password.pattern[0])
+            ])],
             name: ['', Validators.compose([
-                Validators.required
+                Validators.required,
+                Validators.minLength(this.vData.name.minlength[0]),
+                Validators.maxLength(this.vData.name.maxlength[0])
             ])],
             surname: ['', Validators.compose([
-                Validators.required
+                Validators.required,
+                Validators.minLength(this.vData.surname.minlength[0]),
+                Validators.maxLength(this.vData.surname.maxlength[0])
             ])],
             telephone: ['', Validators.compose([
                 Validators.required,
-                this.validateTelephone
+                Validators.minLength(this.vData.telephone.minlength[0]),
+                Validators.maxLength(this.vData.telephone.maxlength[0]),
+                Validators.pattern(this.vData.telephone.pattern[0])
             ])],
             email: ['', Validators.compose([
                 Validators.required,
-                this.validateEmail
+                Validators.maxLength(this.vData.email.maxlength[0]),
+                Validators.pattern(this.vData.email.pattern[0])
             ])],
             currentYear: ['', Validators.compose([
                 Validators.required,
-                this.validateYear
+                Validators.min(this.vData.currentYear.min[0]),
+                Validators.max(this.vData.currentYear.max[0]),
             ])],
             graduated: [false],
-
-        }, { validator: this.matchingPasswords('password', 'confirm') }); 
-    }
-    validatePassword(controls: FormControl) {
-        const regExp = new RegExp(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{8,12}$/);
-        if (regExp.test(controls.value)) {
-            return null;
-        } else {
-            return { 'validatePassword': true }
-        }
+        }, { validator: this.matchingPasswords('password', 'confirm') });
     }
 
-    validateTelephone(controls: FormControl) {
-        const regExp = new RegExp(/^[0-9]*$/);
-        if (regExp.test(controls.value)) {
-            return null;
-        } else {
-            return { 'validateTelephone': true }
-        }
-    }
-
-    validateEmail(controls: FormControl) {
-        const regExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-        if (regExp.test(controls.value)) {
-            return null;
-        } else {
-            return { 'validateEmail': true }
-        }
-    }
-
-    validateYear(controls: FormControl) {
-        const regExp = new RegExp(/[1-5]*/);
-        if (regExp.test(controls.value)) {
-            return null;
-        } else {
-            return { 'validateYear': true }
-        }
-    }
-
-    matchingPasswords(password : string, confirm : string) {
+    matchingPasswords(password: string, confirm: string) {
         return (group: FormGroup) => {
             if (group.controls[password].value === group.controls[confirm].value) {
                 return null;
@@ -97,17 +81,27 @@ export class RegisterStudentComponent implements OnInit {
         }
     }
 
+    get username() { return this.form.controls['username']; }
+    get password() { return this.form.controls['password']; }
+    get confirm() { return this.form.controls['confirm']; }
+    get name() { return this.form.controls['name']; }
+    get surname() { return this.form.controls['surname']; }
+    get telephone() { return this.form.controls['telephone']; }
+    get email() { return this.form.controls['email']; }
+    get currentYear() { return this.form.controls['currentYear']; }
+    get graduated() { return this.form.controls['graduated']; }
+
     onRegisterSubmit() {
-        const student : Student= {
+        const student: Student = {
             username: this.form.get('username').value.trim(),
             password: this.form.get('password').value.trim(),
             name: this.form.get('name').value.trim(),
             surname: this.form.get('surname').value.trim(),
             telephone: this.form.get('telephone').value.trim(),
             email: this.form.get('email').value.trim(),
-            currentYear: this.form.get('currentYear').value,
-            graduated: this.form.get('graduated').value,
-            cv : null
+            currentYear: this.form.get('currentYear').value.trim(),
+            graduated: this.form.get('graduated').value.trim(),
+            cv: null
         };
         this.authService.registerStudent(student).subscribe((data: { success: boolean, message: string }) => {
             if (!data.success) {
@@ -123,6 +117,5 @@ export class RegisterStudentComponent implements OnInit {
         });
     }
 
-    ngOnInit() {
-    }
+    ngOnInit() { }
 }

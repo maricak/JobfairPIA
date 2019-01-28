@@ -6,18 +6,19 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
+
 <!-- Registration Form -->
 <form [formGroup]="form" (submit)="onRegisterSubmit()" class="w-75 mx-auto" action="post">
 
     <!-- Username Input -->
     <div class="form-group">
         <label for="username">Username</label>
-        <input type="text" name="username" class="form-control" [ngClass]="{'is-invalid': (form.controls.username.errors && form.controls.username.dirty), 'is-valid': !form.controls.username.errors}"
-            autocomplete="off" placeholder="*Username" formControlName="username" />
+        <input type="text" name="username" class="form-control" formControlName="username" [ngClass]="{'is-invalid':username.errors, 'is-valid': !username.errors}" />
         <!-- Validation -->
         <ul class="form-text text-danger">
-            <li *ngIf="form.controls.username.errors?.required && form.controls.username.dirty">This field is
-                required</li>
+            <span *ngFor="let v of vData.username | keyvalue">
+                <li *ngIf="username.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
         </ul>
     </div>
 
@@ -25,66 +26,61 @@
     <!-- Password Input -->
     <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" name="password" class="form-control" [ngClass]="{'is-invalid': (form.controls.password.errors && form.controls.password.dirty), 'is-valid': !form.controls.password.errors}"
-            autocomplete="off" placeholder="*Password" formControlName="password" />
+        <input type="password" name="password" class="form-control" formControlName="password" [ngClass]="{'is-invalid': password.errors, 'is-valid': !password.errors}" />
         <!-- Validation -->
         <ul class="form-text text-danger">
-            <li *ngIf="form.controls.password.errors?.required && form.controls.password.dirty">This field is
-                required</li>
-            <li *ngIf="form.controls.password.errors?.minlength && form.controls.password.dirty || form.controls.password.errors?.maxlength && form.controls.password.dirty ">Minimum
-                characters: 8, Maximum characters: 12</li>
-            <li *ngIf="form.controls.password.errors?.validatePassword && form.controls.password.dirty">Must have
-                at least one uppercase, lowercase, special character, and number</li>
+            <span *ngFor="let v of vData.password | keyvalue">
+                <li *ngIf="password.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
         </ul>
     </div>
 
     <!-- Confirm Password Input -->
     <div class="form-group">
         <label for="confirm">Confirm Password</label>
-        <input type="password" name="confirm" class="form-control" [ngClass]="{'is-invalid': (form.controls.confirm.errors && form.controls.confirm.dirty) || (form.errors?.matchingPasswords && form.controls.confirm.dirty), 'is-valid': !form.controls.confirm.errors && !form.errors?.matchingPasswords}"
-            autocomplete="off" placeholder="*Confirm Password" formControlName="confirm" />
+        <input type="password" name="confirm" class="form-control" formControlName="confirm" [ngClass]="{'is-invalid': confirm.errors || form.errors?.matchingPasswords, 'is-valid': !confirm.errors && !form.errors?.matchingPasswords}" />
         <!-- Validation -->
         <ul class="form-text text-danger">
-            <li *ngIf="form.controls.confirm.errors?.required && form.controls.confirm.dirty">This field is
-                required</li>
-            <li *ngIf="form.errors?.matchingPasswords && form.controls.confirm.dirty">Password do not match</li>
+            <span *ngFor="let v of vData.password | keyvalue">
+                <li *ngIf="confirm.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
+            <li *ngIf="form.errors?.matchingPasswords">Passwords do not match</li>
         </ul>
     </div>
 
     <!-- Name Input -->
     <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" name="name" class="form-control" [ngClass]="{'is-invalid': (form.controls.name.errors && form.controls.name.dirty), 'is-valid': !form.controls.name.errors}"
-            autocomplete="off" placeholder="*Name" formControlName="name" />
+        <input type="text" name="name" class="form-control" formControlName="name" [ngClass]="{'is-invalid': name.errors, 'is-valid': !name.errors}" />
         <!-- Validation -->
         <ul class="form-text text-danger">
-            <li *ngIf="form.controls.name.errors?.required && form.controls.name.dirty">This field is required</li>
+            <span *ngFor="let v of vData.name | keyvalue">
+                <li *ngIf="name.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
         </ul>
     </div>
 
     <!-- Surname Input -->
     <div class="form-group">
         <label for="surname">Surname</label>
-        <input type="text" name="surname" class="form-control" [ngClass]="{'is-invalid': (form.controls.surname.errors && form.controls.surname.dirty), 'is-valid': !form.controls.surname.errors}"
-            autocomplete="off" placeholder="*Surname" formControlName="surname" />
+        <input type="text" name="surname" class="form-control" formControlName="surname" [ngClass]="{'is-invalid': surname.errors, 'is-valid': !surname.errors}" />
         <!-- Validation -->
         <ul class="form-text text-danger">
-            <li *ngIf="form.controls.surname.errors?.required && form.controls.surname.dirty">This field is
-                required</li>
+            <span *ngFor="let v of vData.surname | keyvalue">
+                <li *ngIf="surname.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
         </ul>
     </div>
 
     <!-- Telephone Input -->
     <div class="form-group">
         <label for="telephone">Telephone</label>
-        <input type="text" name="telephone" class="form-control" [ngClass]="{'is-invalid': (form.controls.telephone.errors && form.controls.telephone.dirty), 'is-valid': !form.controls.telephone.errors}"
-            autocomplete="off" placeholder="*Telephone" formControlName="telephone" />
+        <input type="text" name="telephone" class="form-control" formControlName="telephone" [ngClass]="{'is-invalid': telephone.errors, 'is-valid': !telephone.errors}" />
         <!-- Validation -->
         <ul class="form-text text-danger">
-            <li *ngIf="form.controls.telephone.errors?.required && form.controls.telephone.dirty">This field is
-                required</li>
-            <li *ngIf="form.controls.telephone.errors?.validateTelephone && form.controls.telephone.dirty">This
-                must be a valid telephone</li>
+            <span *ngFor="let v of vData.telephone | keyvalue">
+                <li *ngIf="telephone.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
         </ul>
     </div>
 
@@ -92,27 +88,25 @@
     <!-- Email Input -->
     <div class="form-group">
         <label for="email">Email</label>
-        <input type="text" name="email" class="form-control" [ngClass]="{'is-invalid': (form.controls.email.errors && form.controls.email.dirty), 'is-valid': !form.controls.email.errors}"
-            autocomplete="off" placeholder="*Email" formControlName="email" />
+        <input type="text" name="email" class="form-control" formControlName="email" [ngClass]="{'is-invalid': email.errors, 'is-valid': !email.errors}" />
         <!-- Validation -->
         <ul class="form-text text-danger">
-            <li *ngIf="form.controls.email.errors?.required && form.controls.email.dirty">This field is required</li>
-            <li *ngIf="form.controls.email.errors?.validateEmail && form.controls.email.dirty">This must be a valid
-                e-mail</li>
+            <span *ngFor="let v of vData.email | keyvalue">
+                <li *ngIf="email.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
         </ul>
     </div>
 
     <!-- currentYear Input -->
     <div class="form-group">
         <label for="currentYear">Current year</label>
-        <input type="number" min="1" max="5" name="currentYear" class="form-control" [ngClass]="{'is-invalid': (form.controls.currentYear.errors && form.controls.currentYear.dirty), 'is-valid': !form.controls.currentYear.errors}"
-            autocomplete="off" placeholder="*Current year" formControlName="currentYear" />
+        <input type="number" min="1" max="5" name="currentYear" class="form-control" formControlName="currentYear"
+            [ngClass]="{'is-invalid': currentYear.errors, 'is-valid': !currentYear.errors}" />
         <!-- Validation -->
         <ul class="form-text text-danger">
-            <li *ngIf="form.controls.currentYear.errors?.required && form.controls.currentYear.dirty">This field is
-                required</li>
-            <li *ngIf="form.controls.currentYear.errors?.validateYear && form.controls.currentYear.dirty">This must
-                be a number between 1 and 5</li>
+            <span *ngFor="let v of vData.currentYear | keyvalue">
+                <li *ngIf="currentYear.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
         </ul>
     </div>
 
@@ -120,6 +114,11 @@
     <div class="form-group form-check">
         <input type="checkbox" name="graduated" class="form-check-input" autocomplete="off" formControlName="graduated" />
         <label for="graduated">Graduated</label>
+        <ul class="form-text text-danger">
+            <span *ngFor="let v of vData.graduated | keyvalue">
+                <li *ngIf="graduated.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
+        </ul>
     </div>
 
     <!-- Submit Input -->

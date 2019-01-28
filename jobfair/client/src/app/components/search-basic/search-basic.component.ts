@@ -13,8 +13,8 @@ export class SearchBasicComponent implements OnInit {
     form: FormGroup;
     message: string = undefined;
     messageClass: string = undefined;
-    companies: Company[];
 
+    companies: Company[];
 
     constructor(private formBuilder: FormBuilder, private searchService: SearchService, private router: Router) {
         this.createForm();
@@ -26,11 +26,12 @@ export class SearchBasicComponent implements OnInit {
             workField: [''],
         });
     }
-    ngOnInit() {
-    }
+
+    get name() { return this.form.controls['name']; }
+    get city() { return this.form.controls['city']; }
+    get workField() { return this.form.controls['workField']; }
 
     onSeachSubmit() {
-
         this.companies = undefined;
         this.message = undefined;
 
@@ -58,5 +59,5 @@ export class SearchBasicComponent implements OnInit {
             }
         });
     }
-
+    ngOnInit() { }
 }

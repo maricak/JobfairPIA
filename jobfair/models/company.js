@@ -55,6 +55,7 @@ const companySchema = new Schema({
         type: String,
         unique: true,
         required: v.data.email.required,
+        maxlength: v.data.email.maxlength,
         match: v.data.email.pattern
     },
     website: {

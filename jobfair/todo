@@ -21,3 +21,5 @@ dodati trim u schema mongoose
 proveriti formu datuma u mongoose i validaciju ya njih
 
 express catch  parsing error
+
+kad dodlje greska token invalid redirec na pocetnu sranu i isprazniti sesiju

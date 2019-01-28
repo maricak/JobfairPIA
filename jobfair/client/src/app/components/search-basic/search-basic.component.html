@@ -11,20 +11,23 @@
 
     <!-- Name Input -->
     <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" name="name" class="form-control" autocomplete="off" placeholder="*Name" formControlName="name" />
+        <label for="name">Company name</label>
+        <input type="text" name="name" class="form-control" autocomplete="off" formControlName="name" 
+        [ngClass]="{'is-invalid': name.errors, 'is-valid': !name.errors}"/>
     </div>
 
     <!-- City Input -->
     <div class="form-group">
-        <label for="city">City</label>
-        <input type="text" name="city" class="form-control" autocomplete="off" placeholder="*City" formControlName="city" />
+        <label for="city">Company city</label>
+        <input type="text" name="city" class="form-control" autocomplete="off" formControlName="city" 
+        [ngClass]="{'is-invalid': name.errors, 'is-valid': !name.errors}"/>
     </div>
 
     <!-- work filed input -->
     <div class="form-group">
         <label for="workField">Work filed</label>
-        <select class="form-control" formControlName="workField" multiple="multiple">
+        <select class="form-control" formControlName="workField" multiple="multiple"
+        [ngClass]="{'is-invalid': name.errors, 'is-valid': !name.errors}">
             <option value="IT">IT</option>
             <option value="Telecomunications">Telecomunications</option>
             <option value="Civil Engineering">Civil Engineering</option>
@@ -35,14 +38,12 @@
 
     <!-- Submit Input -->
     <input [disabled]="!form.valid" type="submit" class="btn btn-info" value="Search" />
-
-
 </form>
 <!-- Search Form /-->
 
 <br />
 
-<table *ngIf="companies?.length > 0" class="table">
+<table *ngIf="companies?.length > 0" class="table table-striped mb-5">
     <thead>
         <td>Name</td>
         <td>City</td>

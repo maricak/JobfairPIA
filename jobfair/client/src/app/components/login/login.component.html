@@ -6,34 +6,31 @@
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
+
 <!-- Login Form -->
 <form [formGroup]="form" (submit)="onLoginSubmit()" class="w-75 mx-auto" action="post">
 
     <!-- Username Input -->
     <div class="form-group">
         <label for="username">Username</label>
-        <input type="text" name="username" class="form-control" [ngClass]="{'is-invalid': (form.controls.username.errors && form.controls.username.dirty), 'is-valid': !form.controls.username.errors}"
-            autocomplete="off" placeholder="*Username" formControlName="username" />
+        <input type="text" name="username" class="form-control" formControlName="username" [ngClass]="{'is-invalid': username.errors, 'is-valid': !username.errors}" />
         <!-- Validation -->
         <ul class="form-text text-danger">
-            <li *ngIf="form.controls.username.errors?.required && form.controls.username.dirty">This field is
-                required</li>
+            <span *ngFor="let v of vData.username | keyvalue">
+                <li *ngIf="username.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
         </ul>
     </div>
 
     <!-- Password Input -->
     <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" name="password" class="form-control" [ngClass]="{'is-invalid': (form.controls.password.errors && form.controls.password.dirty), 'is-valid': !form.controls.password.errors}"
-            autocomplete="off" placeholder="*Password" formControlName="password" />
+        <input type="password" name="password" class="form-control" formControlName="password" [ngClass]="{'is-invalid': password.errors, 'is-valid': !password.errors}" />
         <!-- Validation -->
         <ul class="form-text text-danger">
-            <li *ngIf="form.controls.password.errors?.required && form.controls.password.dirty">This field is
-                required</li>
-            <li *ngIf="form.controls.password.errors?.minlength && form.controls.password.dirty || form.controls.password.errors?.maxlength && form.controls.password.dirty ">Minimum
-                characters: 8, Maximum characters: 12</li>
-            <li *ngIf="form.controls.password.errors?.validatePassword && form.controls.password.dirty">Must have
-                at least one uppercase, lowercase, special character, and number</li>
+            <span *ngFor="let v of vData.password | keyvalue">
+                <li *ngIf="password.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
         </ul>
     </div>
 

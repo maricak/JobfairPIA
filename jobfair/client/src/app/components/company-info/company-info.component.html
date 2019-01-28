@@ -15,35 +15,35 @@
         <td>{{company?.name}}</td>
     </tr>
     <tr>
-        <td class="w-25 font-weight-bold">City:</td>
+        <td class="font-weight-bold">City:</td>
         <td>{{company?.city}}</td>
     </tr>
     <tr>
-        <td class="w-25 font-weight-bold">Address:</td>
+        <td class="font-weight-bold">Address:</td>
         <td>{{company?.address}}</td>
     </tr>
     <tr>
-        <td class="w-25 font-weight-bold">PIB:</td>
+        <td class="font-weight-bold">PIB:</td>
         <td>{{company?.pib}}</td>
     </tr>
     <tr>
-        <td class="w-25 font-weight-bold">Number of employees:</td>
+        <td class="font-weight-bold">Number of employees:</td>
         <td>{{company?.numberOfEmployees}}</td>
     </tr>
     <tr>
-        <td class="w-25 font-weight-bold">Email:</td>
+        <td class="font-weight-bold">Email:</td>
         <td>{{company?.email}}</td>
     </tr>
     <tr>
-        <td class="w-25 font-weight-bold">Web site:</td>
+        <td class="font-weight-bold">Web site:</td>
         <td><a href="{{'http://' + company?.website}}">{{company?.website}}</a></td>
     </tr>
     <tr>
-        <td class="w-25 font-weight-bold">Work field</td>
+        <td class="font-weight-bold">Work field</td>
         <td>{{company?.workField}}</td>
     </tr>
     <tr>
-        <td class="w-25 font-weight-bold">Specialty</td>
+        <td class="font-weight-bold">Specialty</td>
         <td>{{company?.specialty}}</td>
     </tr>
 </table>
@@ -52,7 +52,7 @@
 <table *ngIf="openings?.length > 0" class="table">
     <thead>
         <td>#</td>
-        <td>Name</td>
+        <td class="w-100">Name</td>
         <td>Deadline</td>
     </thead>
     <ng-container *ngFor="let o of openings; let i = index">

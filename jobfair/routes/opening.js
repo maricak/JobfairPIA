@@ -29,12 +29,10 @@ router.get('/info/:id', (req, res) => {
     let id = req.params.id;
     if (req.decoded.type != "student") {
         res.json({ success: false, message: "This data is only for students" });
-    } else if (id !== req.decoded.id) {
-        res.json({ success: false, message: "Access to others student's data is not allowed" })
     } else {
         Opening.findById(id, (err, opening) => {
             if (err) {
-                res.json({ success: false, message: "Error happend while retrieving opening's data: " + err.message  });
+                res.json({ success: false, message: "Error happend while retrieving opening's data: " + err.message });
             } else if (opening) {
                 res.json({ success: true, message: "Success", opening: opening });
             } else {
@@ -49,9 +47,9 @@ router.post('/create', (req, res) => {
     if (req.decoded.type != "company") {
         res.json({ success: false, message: "This option is only for companies" });
     } else {
-        Company.findOne({ username: req.body.companyUsername }, (err, company) => {
+        Company.findById(req.body.companyId, (err, company) => {
             if (err) {
-                res.json({ success: false, message: "Error happened while searching for a company " + err.message  });
+                res.json({ success: false, message: "Error happened while searching for a company " + err.message });
             } else if (company) {
                 if (req.decoded.id != company._id) {
                     res.json({ success: false, message: "Making openings for other companies is not allowed" });

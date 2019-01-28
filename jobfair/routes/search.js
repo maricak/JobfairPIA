@@ -11,7 +11,7 @@ router.post('/basic', (req, res) => {
     console.log(req.body);
     let searchOptions = {}
     if (req.body.name && req.body.name != "") {
-        searchOptions.name = req.body.name;
+        searchOptions.name = new RegExp(req.body.name);
     }
     if (req.body.city && req.body.city != "") {
         searchOptions.city = req.body.city;
@@ -80,8 +80,8 @@ router.post('/complex', (req, res) => {
                         res.json({ success: false, message: "Error happened whil searching openings" + err.message  });
                     } else {
                         if (req.body.choice == "company") {
-                            let companyUsernames = openings.map((e) => { return e.companyUsername; });
-                            Company.find({ username: { $in: companyUsernames } }, { password: 0 }, (err, companies) => {
+                            let companyIds = openings.map((e) => { return e.companyId; });
+                            Company.find({ _id: { $in: companyIds } }, { password: 0 }, (err, companies) => {
                                 if (err) {
                                     res.json({ success: false, message: "Error happened whil searchig companies" + err.message  });
                                 } else {

@@ -77,6 +77,7 @@ const cvSchema = new Schema({
     },
     email: {
         type: String,
+        maxlength: v.data.email.maxlength,
         match: v.data.email.pattern
     },
     website: {
@@ -99,7 +100,7 @@ const cvSchema = new Schema({
     },
     dateOfBirth: {
         type: Date,
-        min: v.data.dateOfBirth.min
+        max: v.data.dateOfBirth.max
     },
     nationality: {
         type: String,
@@ -232,6 +233,7 @@ const studentSchema = new Schema({
         type: String,
         unique: true,
         required: v.data.email.required,
+        maxlength: v.data.email.maxlength,
         match: v.data.email.pattern
     },
     currentYear: {

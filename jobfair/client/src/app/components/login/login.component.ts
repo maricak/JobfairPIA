@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
-import { stringify } from '@angular/core/src/render3/util';
 import { User } from 'src/app/models/user';
+
+import * as v from 'src/app/validators';
 
 @Component({
     selector: 'app-home',
@@ -11,52 +12,44 @@ import { User } from 'src/app/models/user';
 })
 export class LoginComponent implements OnInit {
 
+    form: FormGroup;
+    vData: { [key: string]: { [type: string]: any[] } };
+
     messageClass: string;
     message: string;
 
-    form: FormGroup;
-
-    constructor(
-        private formBuilder: FormBuilder,
-        private authService: AuthService,
-        private router: Router
-    ) {
+    constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
+        this.vData = v.data;
         this.createForm();
     }
-
-
     createForm() {
         this.form = this.formBuilder.group({
-            username: ['', Validators.required],
+            username: ['', Validators.compose([
+                Validators.required,
+                Validators.minLength(this.vData.username.minlength[0]),
+                Validators.maxLength(this.vData.username.maxlength[0])
+            ])],
             password: ['', Validators.compose([
                 Validators.required,
-                Validators.minLength(8),
-                Validators.maxLength(12),
-                this.validatePassword
+                Validators.minLength(this.vData.password.minlength[0]),
+                Validators.maxLength(this.vData.password.maxlength[0]),
+                Validators.pattern(this.vData.password.pattern[0])
             ])],
             type: ['admin']
         });
     }
 
-    validatePassword(controls: FormControl) {
-        const regExp = new RegExp(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{8,12}$/);
-        if (regExp.test(controls.value)) {
-            return null;
-        } else {
-            return { 'validatePassword': true }
-        }
+    get username() {
+        return this.form.controls['username'];
     }
-
-    ngOnInit() {
-        /* this.authService.getAdminData().subscribe(res => {
-             console.log(res);
-         })*/
+    get password() {
+        return this.form.controls['password'];
     }
 
     onLoginSubmit() {
-        const user : User = {
-            username: this.form.get('username').value,
-            password: this.form.get('password').value
+        const user: User = {
+            username: this.form.get('username').value.trim(),
+            password: this.form.get('password').value.trim()
         };
         const type = this.form.get('type').value;
 
@@ -69,7 +62,7 @@ export class LoginComponent implements OnInit {
         }
     }
 
-    loginAdmin(admin : User) {
+    loginAdmin(admin: User) {
         this.authService.loginAdmin(admin).subscribe((data: { success: boolean, message: string, token: string, id: string }) => {
             if (!data.success) {
                 this.messageClass = 'alert alert-danger';
@@ -84,7 +77,7 @@ export class LoginComponent implements OnInit {
             }
         });
     };
-    loginStudent(student : User) {
+    loginStudent(student: User) {
         this.authService.loginStudent(student).subscribe((data: { success: boolean, message: string, token: string, id: string }) => {
             if (!data.success) {
                 this.messageClass = 'alert alert-danger';
@@ -99,7 +92,7 @@ export class LoginComponent implements OnInit {
             }
         });
     }
-    loginCompany(company : User) {
+    loginCompany(company: User) {
         this.authService.loginCompany(company).subscribe((data: { success: boolean, message: string, token: string, id: string }) => {
             if (!data.success) {
                 this.messageClass = 'alert alert-danger';
@@ -114,4 +107,5 @@ export class LoginComponent implements OnInit {
             }
         });
     }
+    ngOnInit() { }
 }

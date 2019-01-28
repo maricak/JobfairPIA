@@ -1,7 +1,7 @@
 export interface Opening {
-    _id : string,
-    companyUsername: string,
-    companyName: string,
+    _id: string,
+    companyId: string,
+    companyUSername: string,
     type: string,
     name: string,
     text: string,

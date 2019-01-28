@@ -36,7 +36,7 @@ router.get('/info/:id', (req, res) => {
         if (err) {
             res.json({ success: false, message: "Error happend while retrieving company's data: " + err.message  });
         } else if (company) {
-            Opening.find({ companyUsername: company.username }, (err, openings) => {
+            Opening.find({ companyId: company._id }, (err, openings) => {
                 if (err) {
                     res.json({ success: false, message: "Error happend while retrieving openings: " + err.message  });
                 } else if(openings){
@@ -88,7 +88,7 @@ router.get('/openings/:id', (req, res) => {
         if (err) {
             res.json({ success: false, message: "Error happend while retrieving company's data: " + err.message  });
         } else if (company) {
-            Opening.find({ companyUsername: req.params.username }, (openings, err) => {
+            Opening.find({ companyId: company._id }, (openings, err) => {
                 if(err) {
                     res.json({ success: false, message: "Error happend while retrieving company's openings: " + err.message  });
                 } else if(openings) {

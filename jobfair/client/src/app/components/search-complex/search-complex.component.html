@@ -13,7 +13,7 @@
     <!-- work filed input -->
     <div class="form-group">
         <label for="choice">Search type</label>
-        <select class="form-control" formControlName="choice">
+        <select class="form-control" formControlName="choice" [ngClass]="{'is-invalid': choice.errors, 'is-valid': !choice.errors}">
             <option value="company" selected="selected">Companies</option>
             <option value="job">Job openings</option>
             <option value="internship">Internship openings</option>
@@ -24,18 +24,17 @@
     <!-- companyName Input -->
     <div class="form-group">
         <label for="companyName">Company name</label>
-        <input type="text" name="companyName" class="form-control" autocomplete="off" placeholder="*Name"
-            formControlName="companyName" />
+        <input type="text" name="companyName" class="form-control" formControlName="companyName" [ngClass]="{'is-invalid': companyName.errors, 'is-valid': !companyName.errors}" />
     </div>
 
     <!-- openingName Input -->
     <div class="form-group">
         <label for="openingName">Opening name</label>
-        <input type="text" name="openingName" class="form-control" autocomplete="off" placeholder="*Name"
-            formControlName="openingName" />
+        <input type="text" name="openingName" class="form-control" formControlName="openingName" [ngClass]="{'is-invalid': openingName.errors, 'is-valid': !openingName.errors}" />
     </div>
+
     <!-- Submit Input -->
-    <input [disabled]="!form.valid" type="submit" class="btn btn-info" value="Search" />
+    <input [disabled]="!form.valid" type="submit" class="btn btn-info mb-3" value="Search" />
 </form>
 <!-- Search Form /-->
 

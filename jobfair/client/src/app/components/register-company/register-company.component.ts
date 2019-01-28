@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { Company } from 'src/app/models/company';
+
+import * as v from 'src/app/validators';
 @Component({
     selector: 'app-register-company',
     templateUrl: './register-company.component.html'
@@ -10,105 +12,84 @@ import { Company } from 'src/app/models/company';
 export class RegisterCompanyComponent implements OnInit {
 
     form: FormGroup;
+    vData: { [key: string]: { [type: string]: any[] } };
+
     message: string;
     messageClass: string;
 
     constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
+        this.vData = v.data;
         this.createForm();
     }
     createForm() {
         this.form = this.formBuilder.group({
             username: ['', Validators.compose([
                 Validators.required,
+                Validators.minLength(this.vData.username.minlength[0]),
+                Validators.maxLength(this.vData.username.maxlength[0])
             ])],
             password: ['', Validators.compose([
                 Validators.required,
-                Validators.minLength(8),
-                Validators.maxLength(12),
-                this.validatePassword
+                Validators.minLength(this.vData.password.minlength[0]),
+                Validators.maxLength(this.vData.password.maxlength[0]),
+                Validators.pattern(this.vData.password.pattern[0])
             ])],
-            confirm: ['', Validators.required],
+            confirm: ['', Validators.compose([
+                Validators.required,
+                Validators.minLength(this.vData.password.minlength[0]),
+                Validators.maxLength(this.vData.password.maxlength[0]),
+                Validators.pattern(this.vData.password.pattern[0])
+            ])],
             name: ['', Validators.compose([
-                Validators.required
+                Validators.required,
+                Validators.minLength(this.vData.name.minlength[0]),
+                Validators.maxLength(this.vData.name.maxlength[0])
             ])],
             city: ['', Validators.compose([
-                Validators.required
+                Validators.required,
+                Validators.minLength(this.vData.city.minlength[0]),
+                Validators.maxLength(this.vData.city.maxlength[0])
             ])],
             address: ['', Validators.compose([
                 Validators.required,
+                Validators.minLength(this.vData.address.minlength[0]),
+                Validators.maxLength(this.vData.address.maxlength[0])
             ])],
             pib: ['', Validators.compose([
                 Validators.required,
-                this.validatePib
+                Validators.minLength(this.vData.pib.minlength[0]),
+                Validators.maxLength(this.vData.pib.maxlength[0]),
+                Validators.pattern(this.vData.pib.pattern[0])
             ])],
             numberOfEmployees: ['', Validators.compose([
                 Validators.required,
-                this.validateNumber
+                Validators.min(this.vData.numberOfEmployees.min[0]),
             ])],
             email: ['', Validators.compose([
                 Validators.required,
-                this.validateEmail
+                Validators.maxLength(this.vData.email.maxlength[0]),
+                Validators.pattern(this.vData.email.pattern[0])
             ])],
             website: ['', Validators.compose([
                 Validators.required,
-                this.validateWebsite
+                Validators.minLength(this.vData.website.minlength[0]),
+                Validators.maxLength(this.vData.website.maxlength[0]),
+                Validators.pattern(this.vData.website.pattern[0])
             ])],
             workField: ['', Validators.compose([
                 Validators.required,
+                Validators.minLength(this.vData.workField.minlength[0]),
+                Validators.maxLength(this.vData.workField.maxlength[0])
             ])],
             specialty: ['', Validators.compose([
                 Validators.required,
+                Validators.minLength(this.vData.specialty.minlength[0]),
+                Validators.maxLength(this.vData.specialty.maxlength[0])
             ])],
         }, { validator: this.matchingPasswords('password', 'confirm') }); // Add custom validator to form for matching passwords
     }
-    validatePassword(controls: FormControl) {
-        const regExp = new RegExp(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{8,12}$/);
-        if (regExp.test(controls.value)) {
-            return null;
-        } else {
-            return { 'validatePassword': true }
-        }
-    }
 
-    validatePib(controls: FormControl) {
-        const regExp = new RegExp(/^[0-9]{8}$/);
-        if (regExp.test(controls.value)) {
-            return null;
-        } else {
-            return { 'validatePib': true }
-        }
-    }
-
-    validateEmail(controls: FormControl) {
-        const regExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-        if (regExp.test(controls.value)) {
-            return null;
-        } else {
-            return { 'validateEmail': true }
-        }
-    }
-
-    validateNumber(controls: FormControl) {
-        const regExp = new RegExp(/^[0-9]*$/);
-        if (regExp.test(controls.value)) {
-            return null;
-        } else {
-            return { 'validateNumber': true }
-        }
-    }
-
-    validateWebsite(controls: FormControl) {
-        const regExp = new RegExp(/^w{3}[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/);
-        if (regExp.test(controls.value)) {
-            return null;
-        } else {
-            return { 'validateWebsite': true }
-        }
-    }
-
-
-
-    matchingPasswords(password : string, confirm: string) {
+    matchingPasswords(password: string, confirm: string) {
         return (group: FormGroup) => {
             if (group.controls[password].value === group.controls[confirm].value) {
                 return null;
@@ -118,8 +99,22 @@ export class RegisterCompanyComponent implements OnInit {
         }
     }
 
+    get username() { return this.form.controls['username']; }
+    get password() { return this.form.controls['password']; }
+    get confirm() { return this.form.controls['confirm']; }
+    get name() { return this.form.controls['name']; }
+    get city() { return this.form.controls['city']; }
+    get address() { return this.form.controls['address']; }
+    get pib() { return this.form.controls['pib']; }
+    get numberOfEmployees() { return this.form.controls['numberOfEmployees']; }
+    get email() { return this.form.controls['email']; }
+    get website() { return this.form.controls['website']; }
+    get workField() { return this.form.controls['workField']; }
+    get specialty() { return this.form.controls['specialty']; }
+
     onRegisterSubmit() {
-        const company : Company = {
+        const company: Company = {
+            _id: null,
             username: this.form.get('username').value,
             password: this.form.get('password').value,
             name: this.form.get('name').value,
@@ -147,6 +142,5 @@ export class RegisterCompanyComponent implements OnInit {
         });
     }
 
-    ngOnInit() {
-    }
+    ngOnInit() { }
 }
