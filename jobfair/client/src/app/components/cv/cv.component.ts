@@ -3,7 +3,7 @@ import { Student } from 'src/app/models/student';
 import { StudentService } from 'src/app/services/student.service';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CV } from 'src/app/models/cv';
+import { CV, Experience, Education, Language } from 'src/app/models/cv';
 
 import * as v from 'src/app/validators';
 
@@ -20,6 +20,8 @@ export class CvComponent implements OnInit {
     messageClass: string;
 
     student: Student;
+
+    languageLevels: string[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
     constructor(private formBuilder: FormBuilder, private studentService: StudentService, private router: Router) {
         this.vData = v.data;
@@ -98,7 +100,7 @@ export class CvComponent implements OnInit {
                 Validators.minLength(this.vData.skill.minlength[0]),
                 Validators.maxLength(this.vData.skill.maxlength[0])
             ])],
-            drivingLicence:[false],
+            drivingLicence: [false],
             additionalInformation: ['', Validators.compose([
                 Validators.minLength(this.vData.additionalInformation.minlength[0]),
                 Validators.maxLength(this.vData.additionalInformation.maxlength[0])
@@ -117,10 +119,10 @@ export class CvComponent implements OnInit {
     get dateOfBirth() { return this.form.controls['dateOfBirth']; }
     get personalStatement() { return this.form.controls['personalStatement']; }
     get nationality() { return this.form.controls['nationality']; }
-    // exprinece
-    //education
+    get experience() { return this.form.controls['experience']; }
+    get education() { return this.form.controls['education']; }
     get motherTongue() { return this.form.controls['motherTongue']; }
-    // LANGUAGES
+    get languages() { return this.form.controls['languages']; }
     get communicationSkills() { return this.form.controls['communicationSkills']; }
     get organisationslSkills() { return this.form.controls['organisationslSkills']; }
     get jobRelatedSkills() { return this.form.controls['jobRelatedSkills']; }
@@ -148,96 +150,192 @@ export class CvComponent implements OnInit {
                 this.messageClass = 'alert alert-danger';
             }
         });
+
+
+    }
+
+    checkDates(startDate: string, endDate: string) {
+        return (group: FormGroup) => {
+            let start: Date = group.controls[startDate].value;
+            let end: Date = group.controls[endDate].value;
+            if (end && end <= start) {
+                return { 'checkDates': true }
+            } else {
+                return null;
+            }
+        }
     }
 
     createExperience(startDate: Date, endDate: Date, position: string, employer: string, activities: string): FormGroup {
         return this.formBuilder.group({
-            startDate: [startDate, Validators.required],
+            startDate: [startDate, Validators.compose([
+                Validators.required
+            ])],
             endDate: [endDate],
-            position: [position, Validators.required],
-            employer: [employer, Validators.required],
-            activities: [activities]
-        });
+            position: [position, Validators.compose([
+                Validators.required,
+                Validators.minLength(this.vData.position.minlength[0]),
+                Validators.maxLength(this.vData.position.maxlength[0])
+            ])],
+            employer: [employer, Validators.compose([
+                Validators.required,
+                Validators.minLength(this.vData.employer.minlength[0]),
+                Validators.maxLength(this.vData.employer.maxlength[0])
+            ])],
+            activities: [activities, Validators.compose([
+                Validators.minLength(this.vData.activities.minlength[0]),
+                Validators.maxLength(this.vData.activities.maxlength[0])
+            ])]
+        }, { validator: this.checkDates('startDate', 'endDate') });
     }
 
     onAddExperience() {
         const e = <FormArray>this.form.get('experience');
-        e.push(this.createExperience(null, null, '', '', ''));
+        e.push(this.createExperience(undefined, undefined, undefined, undefined, undefined));
     }
     onDeleteExperience(i: number) {
         const e = <FormArray>this.form.get('experience');
         e.removeAt(i);
     }
 
+    getExperience(): Experience[] {
+        let ret: Experience[] = [];
+        (<FormArray>this.experience).controls.forEach(f => {        
+            let e: Experience = {
+                startDate: f.get('startDate').value,
+                endDate: f.get('endDate').value,
+                position: f.get('position').value,
+                employer: f.get('employer').value,
+                activities: f.get('activities').value,
+            }
+            ret.push(e);                 
+        });   
+        return ret;
+    }
+
 
     createEducation(startDate: Date, endDate: Date, qualification: string, institution: string, subjects: string): FormGroup {
         return this.formBuilder.group({
-            startDate: [startDate, Validators.required],
+            startDate: [startDate, Validators.compose([
+                Validators.required
+            ])],
             endDate: [endDate],
-            qualification: [qualification, Validators.required],
-            institution: [institution, Validators.required],
-            subjects: [subjects]
-        });
+            qualification: [qualification, Validators.compose([
+                Validators.required,
+                Validators.minLength(this.vData.qualification.minlength[0]),
+                Validators.maxLength(this.vData.qualification.maxlength[0])
+            ])],
+            institution: [institution, Validators.compose([
+                Validators.required,
+                Validators.minLength(this.vData.institution.minlength[0]),
+                Validators.maxLength(this.vData.institution.maxlength[0])
+            ])],
+            subjects: [subjects, Validators.compose([
+                Validators.minLength(this.vData.subjects.minlength[0]),
+                Validators.maxLength(this.vData.subjects.maxlength[0])
+            ])]
+        }, { validator: this.checkDates('startDate', 'endDate') });
     }
     onAddEducation() {
         const e = <FormArray>this.form.get('education');
-        e.push(this.createEducation(null, null, '', '', ''));
+        e.push(this.createEducation(undefined, undefined, undefined, undefined, undefined));
     }
     onDeleteEducation(i: number) {
         const e = <FormArray>this.form.get('education');
         e.removeAt(i);
     }
+    getEducation(): Education[] {
+        let ret: Education[] = [];
+        (<FormArray>this.education).controls.forEach(f => {        
+            let e: Education = {
+                startDate: f.get('startDate').value,
+                endDate: f.get('endDate').value,           
+                qualification: f.get('qualification').value,
+                institution: f.get('institution').value,
+                subjects: f.get('subjects').value,
+            }
+            ret.push(e);               
+        });  
+        return ret;
+    }
 
     createLanguage(language: string, listenig: string, reading: string, writing: string, speaking: string): FormGroup {
         return this.formBuilder.group({
             language: [language, Validators.required],
-            listenig: [listenig, Validators.required],
-            reading: [reading, Validators.required],
-            writing: [writing, Validators.required],
-            speaking: [speaking, Validators.required]
+            listenig: [listenig ? listenig : 'A1', Validators.required],
+            reading: [reading ? reading : 'A1', Validators.required],
+            writing: [writing ? writing : 'A1', Validators.required],
+            speaking: [speaking ? speaking : 'A1', Validators.required]
         });
     }
 
     onAddLanguage() {
         const e = <FormArray>this.form.get('languages')
-        e.push(this.createLanguage('', '', '', '', ''));
+        e.push(this.createLanguage(undefined, 'A1', 'A1', 'A1', 'A1'));
     }
     onDeleteLanguage(i: number) {
         const e = <FormArray>this.form.get('languages')
         e.removeAt(i);
     }
-
-    onCvSubmit() {
-        console.log(this.form.controls);
-        const cv: CV = {
-            name: this.form.get('name').value.trim(),
-            surname: this.form.get('surname').value.trim(),
-            address: this.form.get('address').value.trim(),
-            telephone: this.form.get('telephone').value.trim(),
-            email: this.form.get('email').value.trim(),
-            website: this.form.get('website').value.trim(),
-            imAccount: this.form.get('imAccount').value.trim(),
-            sex: this.form.get('sex').value,
-            dateOfBirth: this.form.get('dateOfBirth').value,
-            nationality: this.form.get('nationality').value.trim(),
-            personalStatement: this.form.get('personalStatement').value.trim(),
-            experience: this.form.get('experience').value,
-            education: this.form.get('education').value,
-            motherTongue: this.form.get('motherTongue').value.trim(),
-            languages: this.form.get('languages').value,
-            communicationSkills: this.form.get('communicationSkills').value.trim(),
-            organisationslSkills: this.form.get('organisationslSkills').value.trim(),
-            jobRelatedSkills: this.form.get('jobRelatedSkills').value.trim(),
-            digitalSkills: this.form.get('digitalSkills').value.trim(),
-            otherSkills: this.form.get('otherSkills').value.trim(),
-            drivingLicence: this.form.get('drivingLicence').value.trim(),
-            additionalInformation: this.form.get('additionalInformation').value.trim(),
-        };
-        console.log(this.form.value);
+    getLanguages(): Language[] {
+        let ret: Language[] = [];
+        (<FormArray>this.languages).controls.forEach(f => {        
+            let e: Language = {                
+                language: f.get('language').value,
+                listenig: f.get('listenig').value,           
+                reading: f.get('reading').value,
+                speaking: f.get('speaking').value,
+                writing: f.get('writing').value,
+            }
+            ret.push(e);               
+        });  
+        return ret;
     }
 
+    onCvSubmit() {
+        // console.log(this.form.controls);
+        const cv: CV = {
+            name: this.name.value,
+            surname: this.surname.value,
+            address: this.address.value,
+            telephone: this.telephone.value,
+            email: this.email.value,
+            website: this.website.value,
+            imAccount: this.imAccount.value,
+            sex: this.sex.value,
+            dateOfBirth: this.dateOfBirth.value,
+            nationality: this.nationality.value,
+            personalStatement: this.personalStatement.value,
+            experience: this.getExperience(),
+            education: this.getEducation(),
+            motherTongue: this.motherTongue.value,
+            languages: this.form.get('languages').value,
+            communicationSkills: this.communicationSkills.value,
+            organisationslSkills: this.organisationslSkills.value,
+            jobRelatedSkills: this.jobRelatedSkills.value,
+            digitalSkills: this.digitalSkills.value,
+            otherSkills: this.otherSkills.value,
+            drivingLicence: this.drivingLicence.value,
+            additionalInformation: this.additionalInformation.value,
+        };
+        // console.log(this.form.value);
+        console.log(cv);
+
+        this.studentService.updateCv(cv).subscribe((data: { success: boolean, message: string }) => {
+            if (!data.success) {
+                this.messageClass = 'alert alert-danger';
+                this.message = data.message;
+            } else {
+                this.messageClass = 'alert alert-success';
+                this.message = data.message;
+            }
+        });
+    }
+
+
+
     refreshForm() {
-        console.log(this.student.cv);
+        // console.log(this.student.cv);
         this.form.patchValue({
             name: this.student.cv.name,
             surname: this.student.cv.surname,
@@ -246,7 +344,7 @@ export class CvComponent implements OnInit {
             email: this.student.cv.email,
             website: this.student.cv.website,
             imAccount: this.student.cv.imAccount,
-            sex: this.student.cv.sex,
+            sex: this.student.cv.sex ? this.student.cv.sex : 'male',
             dateOfBirth: this.student.cv.dateOfBirth,
             nationality: this.student.cv.nationality,
             personalStatement: this.student.cv.personalStatement,
@@ -261,7 +359,7 @@ export class CvComponent implements OnInit {
         });
         if (this.student.cv && this.student.cv.experience.length > 0) {
             this.student.cv.experience.forEach(e => {
-                const el = <FormArray>this.form.get('experience');
+                const el = <FormArray>this.form.get('experience');               
                 el.push(this.createExperience(e.startDate, e.endDate, e.position, e.employer, e.activities));
             });
         }
@@ -277,5 +375,7 @@ export class CvComponent implements OnInit {
                 el.push(this.createLanguage(e.language, e.listenig, e.reading, e.writing, e.speaking));
             });
         }
-    }   
+
+        console.log(this.form);
+    }
 }

@@ -78,13 +78,15 @@ export var data: { [key: string]: { [type: string]: any[] } } = {
         ['maxlength']: [50, 'Personal statement max length is 50']
     },
     ['expStartDate']: {
-        ['required']: [true, 'Experience start date is required'],
+        ['required']: [true, 'Experience start date is required']
     },
     ['position']: {
+        ['required']: [true, 'Position name is required'],
         ['minlength']: [5, 'Position min length is 5'],
         ['maxlength']: [50, 'Position max length is 50']
     },
     ['employer']: {
+        ['required']: [true, 'Employer name is required'],
         ['minlength']: [5, 'Employer min length is 5'],
         ['maxlength']: [50, 'Employer max length is 50']
     },
@@ -96,10 +98,12 @@ export var data: { [key: string]: { [type: string]: any[] } } = {
         ['required']: [true, 'Education start date is required'],
     },
     ['qualification']: {
+        ['required']: [true, 'Qualification name is required'],
         ['minlength']: [5, 'Qualification min length is 5'],
         ['maxlength']: [200, 'Qualification max length is 200']
     },
     ['institution']: {
+        ['required']: [true, 'Institution name is required'],
         ['minlength']: [5, 'Institution min length is 5'],
         ['maxlength']: [200, 'Institution max length is 200']
     },

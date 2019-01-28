@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/database');
 
 router.use((req, res, next) => {
-    console.log("student PROVERA");
+    //  console.log("student PROVERA");
     let token = req.headers['auth'];
     if (!token) {
         res.json({ success: false, message: "No token provided" });
@@ -50,12 +50,12 @@ router.post('/cvupdate', (req, res) => {
             res.json({ success: false, message: "Error happend while retrieving student's data: " + err.message });
         } else if (student) {
 
-            let cv = req.body.cv;
+            let cv = req.body;
+            console.log("cv");
             console.log(cv);
-            student.cv = cv;
+            student.set({ cv: cv });
             student.$ignore('password');
-            student.save((err, updatedStudent) => {
-                console.log(err);
+            student.save((err, updatedStudent) => {        
                 if (err) {
                     if (err.errors) {
                         for (const key in err.errors) {

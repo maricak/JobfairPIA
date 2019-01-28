@@ -12,8 +12,8 @@ module.exports.data = {
     },
     ['newPassword']: {
         ['required']: [true, 'New password is required'],
-        ['minlength']: [8, 'Password min length is 8'],
-        ['maxlength']: [12, 'Password max length is 12'],
+        ['minlength']: [8, 'New Password min length is 8'],
+        ['maxlength']: [12, 'New Password max length is 12'],
         ['pattern']: [new RegExp(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{8,12}$/), 'Password must have at least one uppercase, lowercase, special character, and number']
     },
     ['name']: {
@@ -77,13 +77,15 @@ module.exports.data = {
         ['maxlength']: [50, 'Personal statement max length is 50']
     },
     ['expStartDate']: {
-        ['required']: [true, 'Experience start date is required'],
+        ['required']: [true, 'Experience start date is required']
     },
     ['position']: {
+        ['required']: [true, 'Position name is required'],
         ['minlength']: [5, 'Position min length is 5'],
         ['maxlength']: [50, 'Position max length is 50']
     },
     ['employer']: {
+        ['required']: [true, 'Employer name is required'],
         ['minlength']: [5, 'Employer min length is 5'],
         ['maxlength']: [50, 'Employer max length is 50']
     },
@@ -95,10 +97,12 @@ module.exports.data = {
         ['required']: [true, 'Education start date is required'],
     },
     ['qualification']: {
+        ['required']: [true, 'Qualification name is required'],
         ['minlength']: [5, 'Qualification min length is 5'],
         ['maxlength']: [200, 'Qualification max length is 200']
     },
     ['institution']: {
+        ['required']: [true, 'Institution name is required'],
         ['minlength']: [5, 'Institution min length is 5'],
         ['maxlength']: [200, 'Institution max length is 200']
     },

@@ -1,3 +1,26 @@
+export interface Experience {
+    startDate: Date,
+    endDate: Date,
+    position: string,
+    employer: string,
+    activities: string
+}
+
+export interface Education {
+    startDate: Date,
+    endDate: Date,
+    qualification: string,
+    institution: string,
+    subjects: string
+}
+
+export interface Language {
+    language: string,
+    listenig: string,
+    reading: string,
+    writing: string,
+    speaking: string
+}
 export interface CV {
     name: string,
     surname: string,
@@ -10,28 +33,10 @@ export interface CV {
     dateOfBirth: Date,
     nationality: string,
     personalStatement: string,
-    experience: {
-        startDate: Date,
-        endDate: Date,
-        position: string,
-        employer: string,
-        activities: string
-    }[],
-    education: {
-        startDate: Date,
-        endDate: Date,
-        qualification: string,
-        institution: string,
-        subjects: string
-    }[],
+    experience: Experience[],
+    education: Education[],
     motherTongue: string,
-    languages: {
-        language: string,
-        listenig: string,
-        reading: string,
-        writing: string,
-        speaking: string
-    }[],
+    languages: Language[],
     communicationSkills: string,
     organisationslSkills: string,
     jobRelatedSkills: string,

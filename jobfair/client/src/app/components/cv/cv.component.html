@@ -90,7 +90,7 @@
 
     <!-- im account Input -->
     <div class="form-group">
-        <label for="imAccount">Web site</label>
+        <label for="imAccount">Im account</label>
         <input type="text" name="imAccount" class="form-control" formControlName="imAccount" [ngClass]="{'is-invalid': imAccount.errors, 'is-valid': !imAccount.errors}" />
         <!-- Validation -->
         <ul class="form-text text-danger">
@@ -140,110 +140,125 @@
     <h5 class="text-center text-info">Experience</h5>
     <!-- experience -->
     <div formArrayName="experience">
-        <div class="form-group border border-info" *ngFor="let e of form.get('experience').controls; let i = index"
-            [formGroupName]="i">
+        <div class="form-group border border-info p-2" *ngFor="let e of experience.controls; let i = index" [formGroupName]="i">
             <h5 class="text-center text-info">Experience {{i+1}}</h5>
             <div name="i">
                 <div class="form-group">
                     <label for="startDate">Start Date</label>
-                    <input type="date" name="startDate" class="form-control" autocomplete="off" placeholder="*Start date"
-                        formControlName="startDate" />
-
+                    <input type="date" name="startDate" class="form-control" formControlName="startDate" [ngClass]="{'is-invalid': e.controls.startDate.errors, 'is-valid': !e.controls.startDate.errors}" />
                     <!-- Validation -->
                     <ul class="form-text text-danger">
-                        <li *ngIf="e.controls.startDate.errors?.required">This
-                            field is required</li>
+                        <span *ngFor="let v of vData.expStartDate | keyvalue">
+                            <li *ngIf="e.controls.startDate.hasError(v.key)"> {{v.value[1]}}</li>
+                        </span>
                     </ul>
                 </div>
                 <div class="form-group">
                     <label for="endDate">End Date</label>
-                    <input type="date" name="endDate" class="form-control" autocomplete="off" placeholder="*End date"
-                        formControlName="endDate" />
+                    <input type="date" name="endDate" class="form-control" formControlName="endDate" [ngClass]="{'is-invalid':  e.controls.endDate.errors || e.errors?.checkDates, 'is-valid': ! e.controls.endDate.errors && !e.errors?.checkDates}" />
+                    <ul class="form-text text-danger">
+                        <span *ngFor="let v of vData.expEndDate | keyvalue">
+                            <li *ngIf="e.controls.endDate.hasError(v.key)"> {{v.value[1]}}</li>
+                        </span>
+                        <li *ngIf="e.errors?.checkDates">Start date cannot be before end date</li>
+                    </ul>
                 </div>
                 <div class="form-group">
                     <label for="position">Position</label>
-                    <input type="text" name="position" class="form-control" autocomplete="off" placeholder="*Position"
-                        formControlName="position" />
-
+                    <input type="text" name="position" class="form-control" formControlName="position" [ngClass]="{'is-invalid': e.controls.position.errors, 'is-valid': !e.controls.position.errors}" />
                     <!-- Validation -->
                     <ul class="form-text text-danger">
-                        <li *ngIf="e.controls.position.errors?.required">This
-                            field is required</li>
+                        <span *ngFor="let v of vData.position | keyvalue">
+                            <li *ngIf="e.controls.position.hasError(v.key)"> {{v.value[1]}}</li>
+                        </span>
                     </ul>
                 </div>
                 <div class="form-group">
                     <label for="employer">Employer</label>
-                    <input type="text" name="employer" class="form-control" autocomplete="off" placeholder="*Employer"
-                        formControlName="employer" />
-
+                    <input type="text" name="employer" class="form-control" formControlName="employer" [ngClass]="{'is-invalid': e.controls.employer.errors, 'is-valid': !e.controls.employer.errors}" />
                     <!-- Validation -->
                     <ul class="form-text text-danger">
-                        <li *ngIf="e.controls.employer.errors?.required">This
-                            field is required</li>
+                        <span *ngFor="let v of vData.employer | keyvalue">
+                            <li *ngIf="e.controls.employer.hasError(v.key)"> {{v.value[1]}}</li>
+                        </span>
                     </ul>
                 </div>
                 <div class="form-group">
                     <label for="activities">Activities</label>
-                    <input type="text" name="activities" class="form-control" autocomplete="off" placeholder="*Activities"
-                        formControlName="activities" />
+                    <input type="text" name="activities" class="form-control" formControlName="activities" [ngClass]="{'is-invalid': e.controls.activities.errors, 'is-valid': !e.controls.activities.errors}" />
+                    <!-- Validation -->
+                    <ul class="form-text text-danger">
+                        <span *ngFor="let v of vData.activities | keyvalue">
+                            <li *ngIf="e.controls.activities.hasError(v.key)"> {{v.value[1]}}</li>
+                        </span>
+                    </ul>
                 </div>
             </div>
-            <button class="btn btn-info" (click)="onDeleteExperience(i)">Delete</button>
+            <button class="btn btn-info btn-sm" (click)="onDeleteExperience(i)">Delete</button>
         </div>
-        <button class="btn btn-info" (click)="onAddExperience()">Add experience</button>
+        <button class="btn btn-info btn-sm" (click)="onAddExperience()">Add experience</button>
     </div>
 
     <h5 class="text-center text-info">Education</h5>
     <!-- education -->
     <div formArrayName="education">
-        <div class="form-group border border-info" *ngFor="let e of form.get('education').controls; let i = index"
-            [formGroupName]="i">
+        <div class="form-group border border-info p-2" *ngFor="let e of education.controls; let i = index" [formGroupName]="i">
             <h5 class="text-center text-info">Education {{i+1}}</h5>
             <div name="i">
                 <div class="form-group">
                     <label for="startDate">Start Date</label>
-                    <input type="date" name="startDate" class="form-control" autocomplete="off" placeholder="*Start date"
-                        formControlName="startDate" />
+                    <input type="date" name="startDate" class="form-control" formControlName="startDate" [ngClass]="{'is-invalid': e.controls.startDate.errors, 'is-valid': !e.controls.startDate.errors}" />
                     <!-- Validation -->
                     <ul class="form-text text-danger">
-                        <li *ngIf="e.controls.startDate.errors?.required">This
-                            field is required</li>
+                        <span *ngFor="let v of vData.eduStartDate | keyvalue">
+                            <li *ngIf="e.controls.startDate.hasError(v.key)"> {{v.value[1]}}</li>
+                        </span>
                     </ul>
                 </div>
                 <div class="form-group">
                     <label for="endDate">End Date</label>
-                    <input type="date" name="endDate" class="form-control" autocomplete="off" placeholder="*End date"
-                        formControlName="endDate" />
+                    <input type="date" name="endDate" class="form-control" formControlName="endDate" [ngClass]="{'is-invalid':  e.controls.endDate.errors || e.errors?.checkDates, 'is-valid': ! e.controls.endDate.errors && !e.errors?.checkDates}" />
+                    <ul class="form-text text-danger">
+                        <span *ngFor="let v of vData.eduEndDate | keyvalue">
+                            <li *ngIf="e.controls.endDate.hasError(v.key)"> {{v.value[1]}}</li>
+                        </span>
+                        <li *ngIf="e.errors?.checkDates">Start date cannot be before end date</li>
+                    </ul>
                 </div>
                 <div class="form-group">
                     <label for="qualification">Qualification</label>
-                    <input type="text" name="qualification" class="form-control" autocomplete="off" placeholder="*Qualification"
-                        formControlName="qualification" />
+                    <input type="text" name="position" class="form-control" formControlName="qualification" [ngClass]="{'is-invalid': e.controls.qualification.errors, 'is-valid': !e.controls.qualification.errors}" />
                     <!-- Validation -->
                     <ul class="form-text text-danger">
-                        <li *ngIf="e.controls.qualification.errors?.required">This
-                            field is required</li>
+                        <span *ngFor="let v of vData.qualification | keyvalue">
+                            <li *ngIf="e.controls.qualification.hasError(v.key)"> {{v.value[1]}}</li>
+                        </span>
                     </ul>
                 </div>
                 <div class="form-group">
                     <label for="institution">Institution</label>
-                    <input type="text" name="institution" class="form-control" autocomplete="off" placeholder="*Institution"
-                        formControlName="institution" />
+                    <input type="text" name="institution" class="form-control" formControlName="institution" [ngClass]="{'is-invalid': e.controls.institution.errors, 'is-valid': !e.controls.institution.errors}" />
                     <!-- Validation -->
                     <ul class="form-text text-danger">
-                        <li *ngIf="e.controls.institution.errors?.required">This
-                            field is required</li>
+                        <span *ngFor="let v of vData.institution | keyvalue">
+                            <li *ngIf="e.controls.institution.hasError(v.key)"> {{v.value[1]}}</li>
+                        </span>
                     </ul>
                 </div>
                 <div class="form-group">
                     <label for="subjects">Subjects</label>
-                    <input type="text" name="subjects" class="form-control" autocomplete="off" placeholder="*Subjects"
-                        formControlName="subjects" />
+                    <input type="text" name="subjects" class="form-control" formControlName="subjects" [ngClass]="{'is-invalid': e.controls.subjects.errors, 'is-valid': !e.controls.subjects.errors}" />
+                    <!-- Validation -->
+                    <ul class="form-text text-danger">
+                        <span *ngFor="let v of vData.subjects | keyvalue">
+                            <li *ngIf="e.controls.subjects.hasError(v.key)"> {{v.value[1]}}</li>
+                        </span>
+                    </ul>
                 </div>
             </div>
-            <button class="btn btn-info" (click)="onDeleteEducation(i)">Delete</button>
+            <button class="btn btn-info btn-sm" (click)="onDeleteEducation(i)">Delete</button>
         </div>
-        <button class="btn btn-info" (click)="onAddEducation()">Add education</button>
+        <button class="btn btn-info btn-sm" (click)="onAddEducation()">Add education</button>
     </div>
 
     <h5 class="text-center text-info">Personal skills</h5>
@@ -262,157 +277,58 @@
 
     <!-- languages -->
     <div formArrayName="languages">
-        <div class="form-group border border-info" *ngFor="let e of form.get('languages').controls; let i = index"
+        <div class="form-group border border-info p-2" *ngFor="let e of languages.controls; let i = index"
             [formGroupName]="i">
             <h5 class="text-center text-info">Language {{i+1}}</h5>
             <div name="i">
                 <div class="form-group">
                     <label for="language">Language</label>
-                    <input type="text" name="language" class="form-control" autocomplete="off" placeholder="*Language"
-                        formControlName="language" />
+                    <input type="text" name="language" class="form-control" formControlName="language" [ngClass]="{'is-invalid': e.controls.language.errors, 'is-valid': !e.controls.language.errors}" />
                     <!-- Validation -->
                     <ul class="form-text text-danger">
-                        <li *ngIf="e.controls.language.errors?.required">This
-                            field is required</li>
+                        <span *ngFor="let v of vData.language | keyvalue">
+                            <li *ngIf="e.controls.language.hasError(v.key)"> {{v.value[1]}}</li>
+                        </span>
                     </ul>
                 </div>
-
-                <!-- listenig -->
-                <div>
-                    <label for="listenig">Listening &nbsp;</label>
-                    <div class="form-check form-check-inline">
-                        <input formControlName="listenig" class="form-check-input" type="radio" value="A1" name="listenig">
-                        <label class="form-check-label" for="A1">A1</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input formControlName="listenig" class="form-check-input" type="radio" value="A2" name="listenig">
-                        <label class="form-check-label" for="A2">A2</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input formControlName="listenig" class="form-check-input" type="radio" value="B1" name="listenig">
-                        <label class="form-check-label" for="B1">B1</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input formControlName="listenig" class="form-check-input" type="radio" value="B2" name="listenig">
-                        <label class="form-check-label" for="B2">B2</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input formControlName="listenig" class="form-check-input" type="radio" value="C1" name="listenig">
-                        <label class="form-check-label" for="C1">C1</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input formControlName="listenig" class="form-check-input" type="radio" value="C2" name="listenig">
-                        <label class="form-check-label" for="C2">C2</label>
-                    </div>
-
-                    <ul class="form-text text-danger">
-                        <li *ngIf="e.controls.listenig.errors?.required">This
-                            field is required</li>
-                    </ul>
-                </div>
-
-                <!-- reading -->
-                <div>
-                    <label for="reading">Reading &nbsp;</label>
-                    <div class="form-check form-check-inline">
-                        <input formControlName="reading" class="form-check-input" type="radio" value="A1" name="reading">
-                        <label class="form-check-label" for="A1">A1</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input formControlName="reading" class="form-check-input" type="radio" value="A2" name="reading">
-                        <label class="form-check-label" for="A2">A2</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input formControlName="reading" class="form-check-input" type="radio" value="B1" name="reading">
-                        <label class="form-check-label" for="B1">B1</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input formControlName="reading" class="form-check-input" type="radio" value="B2" name="reading">
-                        <label class="form-check-label" for="B2">B2</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input formControlName="reading" class="form-check-input" type="radio" value="C1" name="reading">
-                        <label class="form-check-label" for="C1">C1</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input formControlName="reading" class="form-check-input" type="radio" value="C2" name="reading">
-                        <label class="form-check-label" for="C2">C2</label>
-                    </div>
-                    <ul class="form-text text-danger">
-                        <li *ngIf="e.controls.reading.errors?.required">This
-                            field is required</li>
-                    </ul>
-                </div>
-
-                <!-- writing -->
-                <div>
-                    <label for="writing">Writing &nbsp;</label>
-                    <div class="form-check form-check-inline">
-                        <input formControlName="writing" class="form-check-input" type="radio" value="A1" name="writing">
-                        <label class="form-check-label" for="A1">A1</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input formControlName="writing" class="form-check-input" type="radio" value="A2" name="writing">
-                        <label class="form-check-label" for="A2">A2</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input formControlName="writing" class="form-check-input" type="radio" value="B1" name="writing">
-                        <label class="form-check-label" for="B1">B1</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input formControlName="writing" class="form-check-input" type="radio" value="B2" name="writing">
-                        <label class="form-check-label" for="B2">B2</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input formControlName="writing" class="form-check-input" type="radio" value="C1" name="writing">
-                        <label class="form-check-label" for="C1">C1</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input formControlName="writing" class="form-check-input" type="radio" value="C2" name="writing">
-                        <label class="form-check-label" for="C2">C2</label>
-                    </div>
-                    <ul class="form-text text-danger">
-                        <li *ngIf="e.controls.writing.errors?.required">This
-                            field is required</li>
-                    </ul>
-                </div>
-
-                <!-- speaking -->
-                <div>
-                    <label for="speaking">Speaking &nbsp;</label>
-                    <div class="form-check form-check-inline">
-                        <input formControlName="speaking" class="form-check-input" type="radio" value="A1" name="speaking">
-                        <label class="form-check-label" for="A1">A1</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input formControlName="speaking" class="form-check-input" type="radio" value="A2" name="speaking">
-                        <label class="form-check-label" for="A2">A2</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input formControlName="speaking" class="form-check-input" type="radio" value="B1" name="speaking">
-                        <label class="form-check-label" for="B1">B1</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input formControlName="speaking" class="form-check-input" type="radio" value="B2" name="speaking">
-                        <label class="form-check-label" for="B2">B2</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input formControlName="speaking" class="form-check-input" type="radio" value="C1" name="speaking">
-                        <label class="form-check-label" for="C1">C1</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input formControlName="speaking" class="form-check-input" type="radio" value="C2" name="speaking">
-                        <label class="form-check-label" for="C2">C2</label>
-                    </div>
-                    <ul class="form-text text-danger">
-                        <li *ngIf="e.controls.speaking.errors?.required">This
-                            field is required</li>
-                    </ul>
-                </div>
+                <table>
+                    <tr>
+                        <!-- listening -->
+                        <td> <label for="listenig">Listening &nbsp;</label> </td>
+                        <td *ngFor="let l of languageLevels" class="form-check form-check-inline">
+                            <input formControlName="listenig" class="form-check-input" type="radio" value="{{l}}" name="listenig">
+                            <label class="form-check-label" for="l">{{l}}</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <!-- reading -->
+                        <td> <label for="reading">Reading &nbsp;</label></td>
+                        <td *ngFor="let l of languageLevels" class="form-check form-check-inline">
+                            <input formControlName="reading" class="form-check-input" type="radio" value="{{l}}" name="reading">
+                            <label class="form-check-label" for="l">{{l}}</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <!-- writing -->
+                        <td><label for="writing">Writing &nbsp;</label></td>
+                        <td *ngFor="let l of languageLevels" class="form-check form-check-inline">
+                            <input formControlName="writing" class="form-check-input" type="radio" value="{{l}}" name="writing">
+                            <label class="form-check-label" for="l">{{l}}</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <!-- speaking -->
+                        <td> <label for="speaking">Speaking &nbsp;</label> </td>
+                        <td *ngFor="let l of languageLevels" class="form-check form-check-inline">
+                            <input formControlName="speaking" class="form-check-input" type="radio" value="{{l}}" name="speaking">
+                            <label class="form-check-label" for="l">{{l}}</label>
+                        </td>
+                    </tr>
+                </table>
             </div>
-            <button class="btn btn-info" (click)="onDeleteLanguage(i)">Delete</button>
+            <button class="btn btn-info btn-sm" (click)="onDeleteLanguage(i)">Delete</button>
         </div>
-        <button class="btn btn-info" (click)="onAddLanguage()">Add language</button>
+        <button class="btn btn-info btn-sm" (click)="onAddLanguage()">Add language</button>
     </div>
 
     <!-- communicationSkills -->
@@ -491,7 +407,8 @@
     <!-- additionalInformation -->
     <div class="form-group">
         <label for="additionalInformation">Additional information licence</label>
-        <input type="text" name="additionalInformation" class="form-control" formControlName="additionalInformation" [ngClass]="{'is-invalid': additionalInformation.errors, 'is-valid': !additionalInformation.errors}" />
+        <input type="text" name="additionalInformation" class="form-control" formControlName="additionalInformation"
+            [ngClass]="{'is-invalid': additionalInformation.errors, 'is-valid': !additionalInformation.errors}" />
         <!-- Validation -->
         <ul class="form-text text-danger">
             <span *ngFor="let v of vData.additionalInformation | keyvalue">

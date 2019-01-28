@@ -14,11 +14,13 @@ const experienceSchema = new Schema({
     endDate: Date,
     position: {
         type: String,
+        required: v.data.position.required,
         minlength: v.data.position.minlength,
         maxlength: v.data.position.maxlength
     },
     employer: {
         type: String,
+        required: v.data.employer.required,
         minlength: v.data.employer.minlength,
         maxlength: v.data.employer.maxlength
     },
@@ -38,11 +40,13 @@ const educationSchema = new Schema({
 
     qualification: {
         type: String,
+        required : v.data.qualification.required,
         minlength: v.data.qualification.minlength,
         maxlength: v.data.qualification.maxlength
     },
     institution: {
         type: String,
+        required : v.data.institution.required,
         minlength: v.data.institution.minlength,
         maxlength: v.data.institution.maxlength
     },
