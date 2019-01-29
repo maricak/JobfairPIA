@@ -20,7 +20,7 @@ router.post('/student', (req, res) => {
             } else if (student) {
                 if (student.comparePassword(req.body.password)) {
                     const token = jwt.sign({ id: student._id, type: "student" }, config.secret, { expiresIn: '24h' }); // Create a token for client
-                    res.json({ success: true, message: 'Success!', token: token, id: student._id }); // Return success and token to frontend
+                    res.json({ success: true, message: 'Success!', token: token, user: student }); // Return success and token to frontend
                 } else {
                     res.json({ success: false, message: "Wrong password", toke: null, username: null })
                 }
@@ -43,7 +43,7 @@ router.post('/company', (req, res) => {
             } else if (company) {
                 if (company.comparePassword(req.body.password)) {
                     const token = jwt.sign({ id: company._id, type: "company" }, config.secret, { expiresIn: '24h' }); // Create a token for client
-                    res.json({ success: true, message: 'Success!', token: token, id: company._id }); // Return success and token to frontend
+                    res.json({ success: true, message: 'Success!', token: token, user: company }); // Return success and token to frontend
                 } else {
                     res.json({ success: false, message: "Wrong password", toke: null, username: null })
                 }
@@ -66,7 +66,7 @@ router.post('/admin', (req, res) => {
             } else if (admin) {
                 if (admin.comparePassword(req.body.password)) {
                     const token = jwt.sign({ id: admin._id, type: "admin" }, config.secret, { expiresIn: '24h' }); // Create a token for client
-                    res.json({ success: true, message: 'Success!', token: token, id: admin._id }); // Return success and token to frontend
+                    res.json({ success: true, message: 'Success!', token: token, user:admin }); // Return success and token to frontend
                 } else {
                     res.json({ success: false, message: "Wrong password", toke: null, username: null })
                 }

@@ -39,9 +39,9 @@ export class SearchComplexComponent implements OnInit {
         this.message = undefined;
 
         const body = {
-            companyName: this.form.get('companyName').value.trim(),
-            openingName: this.form.get('openingName').value.trim(),
-            choice: this.form.get('choice').value.trim()
+            companyName: this.companyName.value.trim(),
+            openingName: this.openingName.value.trim(),
+            choice: this.choice.value.trim()
         };
         this.searchService.searchComplex(body).subscribe((data: {
             success: boolean, message: string, companies: Company[], openings: Opening[]

@@ -155,8 +155,15 @@ export var data: { [key: string]: { [type: string]: any[] } } = {
     },
     ['deadline']: {
         ['required']: [true, 'Deadline is required'],
+    },
+    ['cv']: {
+        ['required']: [true, 'CV id is required'],
+    },
+    ['coverLetter']: {
+        ['required']: [true, 'Cover letter is required'],
+        ['minlength']: [5, 'Cover letter min length is 5'],
+        ['maxlength']: [1000, 'Cover letter max length is 1000']
     }
-
 };
 
 //date of birth
@@ -180,6 +187,6 @@ let checkDates = function (expEdus) {
 export var experienceValidators = [
     { validator: checkDates, message: "Experience start date must be before experience end date" }
 ]
-export var  educationValidators = [
+export var educationValidators = [
     { validator: checkDates, message: "Education start date must be before education end date" }
 ]

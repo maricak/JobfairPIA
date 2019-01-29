@@ -4,6 +4,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { Student } from '../models/student';
 import { Company } from '../models/company';
 import { User, ChangePasswordUser } from '../models/user';
+import { Admin } from '../models/admin';
+import { userInfo } from 'os';
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +14,7 @@ export class AuthService {
 
     uri: string = "http://localhost:8080";
     token: string;
-    id: string;
+    user: Admin | Company | Student;
     type: string;
 
 
@@ -20,13 +22,22 @@ export class AuthService {
 
     loadData() {
         this.token = localStorage.getItem('token');
-        this.id = localStorage.getItem('id');
+        this.user = JSON.parse(localStorage.getItem('user'));
         this.type = localStorage.getItem('type');
+    }
+    storeData(token: string, user: Company | Student | Admin, type: string) {
+        localStorage.setItem('token', token);
+        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('type', type);
+
+        this.token = token;
+        this.user = user;
+        this.type = type;
     }
 
     logout() {
         this.token = null;
-        this.id = null;
+        this.user = null;
         localStorage.clear();
     }
 
@@ -64,16 +75,6 @@ export class AuthService {
         return this.http.get(`${this.uri}/profile`, { headers: { 'Content-type': 'application/json', 'auth': this.token } });
     }
 
-    storeUserData(token: string, id: string, type: string) {
-        localStorage.setItem('token', token);
-        localStorage.setItem('id', id);
-        localStorage.setItem('type', type);
-
-        this.token = token;
-        this.id = id;
-        this.type = type;
-    }
-
     loggedIn() {
         this.loadData();
         const helper = new JwtHelperService();
@@ -85,15 +86,43 @@ export class AuthService {
         }
     }
 
-    isAdmin() {
-        return this.loggedIn() && this.type == "admin";
+    isAdmin() { return this.loggedIn() && this.type == "admin"; }
+    isStudent() { return this.loggedIn() && this.type == "student"; }
+    isCompany() { return this.loggedIn() && this.type == "company"; }
+
+    getAdmin(): Admin {
+        if (this.isAdmin()) {
+            return <Admin>this.user;
+        }
+        return null;
+    }
+    getStudent(): Student {
+        if (this.isStudent()) {
+            return <Student>this.user;
+        }
+        return null;
+    }
+    getCompany(): Company {
+        if (this.isCompany()) {
+            return <Company>this.user;
+        }
+        return null;
     }
 
-    isStudent() {
-        return this.loggedIn() && this.type == "student";
+    setStudent(student: Student) {
+        this.loadData();
+        this.storeData(this.token, student, "student");
     }
 
-    isCompany() {
-        return this.loggedIn() && this.type == "company";
+    getId(): string {
+        this.loadData();
+        if (this.user) {
+            return this.user._id;
+        }
+        return null;
+    }
+    getToken(): string {
+        this.loadData();
+        return this.token;
     }
 }

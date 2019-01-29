@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentService } from 'src/app/services/student.service';
 import { Student } from 'src/app/models/student';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
     selector: 'app-student',
@@ -13,26 +14,17 @@ export class StudentComponent implements OnInit {
 
     student: Student;
 
-    constructor(private studentService: StudentService) { }
+    constructor(private authService: AuthService) { }
 
     ngOnInit() {
         this.getStudent();
     }
 
     getStudent() {
-        this.studentService.getStudent().subscribe((data: {
-            success: boolean,
-            message: string,
-            student: Student
-        }) => {
-            if (data.success) {
-                this.student = data.student;
-            } else {
-                console.log(data);
-                this.message = data.message;
-                this.messageClass = 'alert alert-danger';
-            }
-        });
+        this.student = this.authService.getStudent();
+        if (!this.student) {
+            this.message = 'You have to be logged in';
+            this.messageClass = 'alert alert-danger';
+        }
     }
-
 }

@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { CV, Experience, Education, Language } from 'src/app/models/cv';
 
 import * as v from 'src/app/validators';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
     selector: 'app-cv',
@@ -23,7 +24,7 @@ export class CvComponent implements OnInit {
 
     languageLevels: string[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
-    constructor(private formBuilder: FormBuilder, private studentService: StudentService, private router: Router) {
+    constructor(private formBuilder: FormBuilder, private authService: AuthService, private studentService: StudentService, private router: Router) {
         this.vData = v.data;
         this.createForm();
     }
@@ -84,7 +85,7 @@ export class CvComponent implements OnInit {
                 Validators.minLength(this.vData.skill.minlength[0]),
                 Validators.maxLength(this.vData.skill.maxlength[0])
             ])],
-            organisationslSkills: ['', Validators.compose([
+            organisationalSkills: ['', Validators.compose([
                 Validators.minLength(this.vData.skill.minlength[0]),
                 Validators.maxLength(this.vData.skill.maxlength[0])
             ])],
@@ -124,7 +125,7 @@ export class CvComponent implements OnInit {
     get motherTongue() { return this.form.controls['motherTongue']; }
     get languages() { return this.form.controls['languages']; }
     get communicationSkills() { return this.form.controls['communicationSkills']; }
-    get organisationslSkills() { return this.form.controls['organisationslSkills']; }
+    get organisationalSkills() { return this.form.controls['organisationalSkills']; }
     get jobRelatedSkills() { return this.form.controls['jobRelatedSkills']; }
     get digitalSkills() { return this.form.controls['digitalSkills']; }
     get otherSkills() { return this.form.controls['otherSkills']; }
@@ -132,26 +133,14 @@ export class CvComponent implements OnInit {
     get additionalInformation() { return this.form.controls['additionalInformation']; }
 
 
-
-
     ngOnInit() {
-        this.studentService.getStudent().subscribe((data: {
-            success: boolean,
-            message: string,
-            student: Student
-        }) => {
-            if (data.success) {
-                this.student = data.student;
-                console.log("student data: ");
-                console.log(this.student)
-                this.refreshForm();
-            } else {
-                this.message = data.message;
-                this.messageClass = 'alert alert-danger';
-            }
-        });
-
-
+        this.student = this.authService.getStudent();
+        if (this.student) {
+            this.refreshForm();
+        } else {
+            this.message = 'You must bew logged in';
+            this.messageClass = 'alert alert-danger';
+        }
     }
 
     checkDates(startDate: string, endDate: string) {
@@ -188,7 +177,6 @@ export class CvComponent implements OnInit {
             ])]
         }, { validator: this.checkDates('startDate', 'endDate') });
     }
-
     onAddExperience() {
         const e = <FormArray>this.form.get('experience');
         e.push(this.createExperience(undefined, undefined, undefined, undefined, undefined));
@@ -197,10 +185,9 @@ export class CvComponent implements OnInit {
         const e = <FormArray>this.form.get('experience');
         e.removeAt(i);
     }
-
     getExperience(): Experience[] {
         let ret: Experience[] = [];
-        (<FormArray>this.experience).controls.forEach(f => {        
+        (<FormArray>this.experience).controls.forEach(f => {
             let e: Experience = {
                 startDate: f.get('startDate').value,
                 endDate: f.get('endDate').value,
@@ -208,8 +195,8 @@ export class CvComponent implements OnInit {
                 employer: f.get('employer').value,
                 activities: f.get('activities').value,
             }
-            ret.push(e);                 
-        });   
+            ret.push(e);
+        });
         return ret;
     }
 
@@ -246,16 +233,16 @@ export class CvComponent implements OnInit {
     }
     getEducation(): Education[] {
         let ret: Education[] = [];
-        (<FormArray>this.education).controls.forEach(f => {        
+        (<FormArray>this.education).controls.forEach(f => {
             let e: Education = {
                 startDate: f.get('startDate').value,
-                endDate: f.get('endDate').value,           
+                endDate: f.get('endDate').value,
                 qualification: f.get('qualification').value,
                 institution: f.get('institution').value,
                 subjects: f.get('subjects').value,
             }
-            ret.push(e);               
-        });  
+            ret.push(e);
+        });
         return ret;
     }
 
@@ -268,7 +255,6 @@ export class CvComponent implements OnInit {
             speaking: [speaking ? speaking : 'A1', Validators.required]
         });
     }
-
     onAddLanguage() {
         const e = <FormArray>this.form.get('languages')
         e.push(this.createLanguage(undefined, 'A1', 'A1', 'A1', 'A1'));
@@ -279,16 +265,16 @@ export class CvComponent implements OnInit {
     }
     getLanguages(): Language[] {
         let ret: Language[] = [];
-        (<FormArray>this.languages).controls.forEach(f => {        
-            let e: Language = {                
+        (<FormArray>this.languages).controls.forEach(f => {
+            let e: Language = {
                 language: f.get('language').value,
-                listenig: f.get('listenig').value,           
+                listenig: f.get('listenig').value,
                 reading: f.get('reading').value,
                 speaking: f.get('speaking').value,
                 writing: f.get('writing').value,
             }
-            ret.push(e);               
-        });  
+            ret.push(e);
+        });
         return ret;
     }
 
@@ -311,7 +297,7 @@ export class CvComponent implements OnInit {
             motherTongue: this.motherTongue.value,
             languages: this.form.get('languages').value,
             communicationSkills: this.communicationSkills.value,
-            organisationslSkills: this.organisationslSkills.value,
+            organisationalSkills: this.organisationalSkills.value,
             jobRelatedSkills: this.jobRelatedSkills.value,
             digitalSkills: this.digitalSkills.value,
             otherSkills: this.otherSkills.value,
@@ -321,11 +307,12 @@ export class CvComponent implements OnInit {
         // console.log(this.form.value);
         console.log(cv);
 
-        this.studentService.updateCv(cv).subscribe((data: { success: boolean, message: string }) => {
+        this.studentService.updateCv(cv).subscribe((data: { success: boolean, message: string, student: Student}) => {
             if (!data.success) {
                 this.messageClass = 'alert alert-danger';
                 this.message = data.message;
             } else {
+                this.authService.setStudent(data.student);
                 this.messageClass = 'alert alert-success';
                 this.message = data.message;
             }
@@ -350,7 +337,7 @@ export class CvComponent implements OnInit {
             personalStatement: this.student.cv.personalStatement,
             motherTongue: this.student.cv.motherTongue,
             communicationSkills: this.student.cv.communicationSkills,
-            organisationslSkills: this.student.cv.organisationslSkills,
+            organisationalSkills: this.student.cv.organisationalSkills,
             jobRelatedSkills: this.student.cv.jobRelatedSkills,
             digitalSkills: this.student.cv.digitalSkills,
             otherSkills: this.student.cv.otherSkills,
@@ -359,7 +346,7 @@ export class CvComponent implements OnInit {
         });
         if (this.student.cv && this.student.cv.experience.length > 0) {
             this.student.cv.experience.forEach(e => {
-                const el = <FormArray>this.form.get('experience');               
+                const el = <FormArray>this.form.get('experience');
                 el.push(this.createExperience(e.startDate, e.endDate, e.position, e.employer, e.activities));
             });
         }
@@ -375,7 +362,6 @@ export class CvComponent implements OnInit {
                 el.push(this.createLanguage(e.language, e.listenig, e.reading, e.writing, e.speaking));
             });
         }
-
         console.log(this.form);
     }
 }

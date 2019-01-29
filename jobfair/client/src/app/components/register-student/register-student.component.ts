@@ -93,14 +93,15 @@ export class RegisterStudentComponent implements OnInit {
 
     onRegisterSubmit() {
         const student: Student = {
-            username: this.form.get('username').value.trim(),
-            password: this.form.get('password').value.trim(),
-            name: this.form.get('name').value.trim(),
-            surname: this.form.get('surname').value.trim(),
-            telephone: this.form.get('telephone').value.trim(),
-            email: this.form.get('email').value.trim(),
-            currentYear: this.form.get('currentYear').value.trim(),
-            graduated: this.form.get('graduated').value.trim(),
+            _id: null,
+            username: this.username.value.trim(),
+            password: this.password.value.trim(),
+            name: this.name.value.trim(),
+            surname: this.surname.value.trim(),
+            telephone: this.telephone.value.trim(),
+            email: this.email.value.trim(),
+            currentYear: this.currentYear.value,
+            graduated: this.graduated.value,
             cv: null
         };
         this.authService.registerStudent(student).subscribe((data: { success: boolean, message: string }) => {
@@ -112,7 +113,7 @@ export class RegisterStudentComponent implements OnInit {
                 this.messageClass = 'alert alert-success';
                 setTimeout(() => {
                     this.router.navigate(['/login']);
-                }, 2000);
+                }, 500);
             }
         });
     }

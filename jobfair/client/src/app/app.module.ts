@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'; 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -18,6 +18,7 @@ import { CompanyInfoComponent } from './components/company-info/company-info.com
 import { OpeningInfoComponent } from './components/opening-info/opening-info.component';
 import { CompanyComponent } from './components/company/company.component';
 import { OpeningListComponent } from './components/opening-list/opening-list.component';
+import { OpeningCreateComponent } from './components/opening-create/opening-create.component';
 // import { ErrorMessageDirective } from './directives/error-message.directive';
 
 @NgModule({
@@ -36,13 +37,15 @@ import { OpeningListComponent } from './components/opening-list/opening-list.com
         OpeningInfoComponent,
         CompanyComponent,
         OpeningListComponent,
+        OpeningCreateComponent,
         // ErrorMessageDirective
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         ReactiveFormsModule, 
-        HttpClientModule
+        HttpClientModule,
+        FormsModule
     ],
     providers: [],
     bootstrap: [AppComponent]

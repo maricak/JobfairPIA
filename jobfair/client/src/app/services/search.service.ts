@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from './auth.service';
 
 @Injectable({
     providedIn: 'root'
@@ -11,8 +12,7 @@ export class SearchService {
     token: string
     id: string
 
-
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private authService: AuthService) { }
 
     searchBasic(data) {
         return this.http.post(`${this.uri}/search/basic`, data);
@@ -26,7 +26,7 @@ export class SearchService {
     }
 
     loadData() {
-        this.token = localStorage.getItem('token');
-        this.id = localStorage.getItem('id');
+        this.token = this.authService.getToken();
+        this.id = this.authService.getId();
     }
 }

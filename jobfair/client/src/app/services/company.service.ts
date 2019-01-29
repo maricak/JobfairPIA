@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from './auth.service';
 
 @Injectable({
     providedIn: 'root'
@@ -11,13 +12,13 @@ export class CompanyService {
     token: string
     id: string
     
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private authService : AuthService) { }
 
-    getCompany() {
+    /*getCompany() {
         this.loadData();
         return this.http.get(`${this.uri}/company/account/${this.id}`,
             { headers: { 'Content-type': 'application/json', 'auth': this.token } });
-    }
+    }*/
 
     getCompanyInfo(id: string) {
         this.loadData();
@@ -26,13 +27,13 @@ export class CompanyService {
     }
 
     getCompanyOpenings() {
-        this.loadData();
+        this.loadData();        
         return this.http.get(`${this.uri}/company/openings/${this.id}`,
             { headers: { 'Content-type': 'application/json', 'auth': this.token } });
     }
 
     loadData() {
-        this.token = localStorage.getItem('token');
-        this.id = localStorage.getItem('id');
+        this.token = this.authService.getToken();
+        this.id = this.authService.getId();
     }
 }

@@ -29,7 +29,7 @@ export class StudentService {
     }
 
     loadData() {
-        this.token = localStorage.getItem('token');
-        this.id = localStorage.getItem('id');
+        this.token = this.authService.getToken();
+        this.id = this.authService.getId();
     }
 }

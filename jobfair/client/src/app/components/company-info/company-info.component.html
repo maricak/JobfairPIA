@@ -48,21 +48,23 @@
     </tr>
 </table>
 
-<h5 class="text-center text-info" *ngIf="openings?.length > 0">Openings</h5>
+<h5 class="text-center text-info my-3" *ngIf="openings?.length > 0">Openings</h5>
 <table *ngIf="openings?.length > 0" class="table">
     <thead>
         <td>#</td>
         <td class="w-100">Name</td>
-        <td>Deadline</td>
+        <!-- <td>Deadline</td> -->
     </thead>
-    <ng-container *ngFor="let o of openings; let i = index">
-        <tr>
-            <td>{{i+1}}</td>
-            <td><a href="" routerLink="../../opening/{{o._id}}">{{o.name}}</a></td>
-            <td>{{o.deadline}}</td>
-        </tr>
-        <tr>
+    <tbody>
+        <ng-container *ngFor="let o of openings; let i = index">
+            <tr>
+                <td>{{i+1}}</td>
+                <td><a href="" routerLink="../../opening/{{o._id}}">{{o.name}}</a></td>
+                <!-- <td>{{o.deadline}}</td> -->
+            </tr>
+            <!-- <tr>
             <td colspan="3" class="text-center">{{o.text}}</td>
-        </tr>
-    </ng-container>
+        </tr> -->
+        </ng-container>
+    </tbody>
 </table>

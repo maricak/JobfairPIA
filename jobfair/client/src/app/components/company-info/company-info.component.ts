@@ -18,14 +18,14 @@ export class CompanyInfoComponent implements OnInit {
     company: Company;
     openings: Opening[]
 
-    constructor(private route: ActivatedRoute, private service: CompanyService, private location: Location) { }
+    constructor(private route: ActivatedRoute, private companyService: CompanyService, private location: Location) { }
 
     ngOnInit() {
         this.getCompany();
     }
     getCompany() {
         this.companyId = this.route.snapshot.paramMap.get('id');
-        this.service.getCompanyInfo(this.companyId).subscribe((data: {
+        this.companyService.getCompanyInfo(this.companyId).subscribe((data: {
             success: boolean,
             message : string,
             company: Company,

@@ -36,9 +36,9 @@ export class SearchBasicComponent implements OnInit {
         this.message = undefined;
 
         const company = {
-            name: this.form.get('name').value.trim(),
-            city: this.form.get('city').value.trim(),
-            workFields: this.form.get('workField').value,
+            name: this.name.value.trim(),
+            city: this.city.value.trim(),
+            workFields: this.workField.value,
         };
         this.searchService.searchBasic(company).subscribe((data: {
             success: boolean, message: string, companies: Company[]

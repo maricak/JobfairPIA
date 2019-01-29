@@ -77,10 +77,9 @@ export class ChangePasswordComponent implements OnInit {
                 this.message = data.message;
                 setTimeout(() => {
                     this.router.navigate(['/']);
-                }, 2000);
+                }, 500);
             }
         });
-
     }
 
     changePasswordStudent(student: ChangePasswordUser) {
@@ -93,7 +92,7 @@ export class ChangePasswordComponent implements OnInit {
                 this.message = data.message;
                 setTimeout(() => {
                     this.router.navigate(['/']);
-                }, 2000);
+                }, 500);
             }
         });
     }
@@ -108,7 +107,7 @@ export class ChangePasswordComponent implements OnInit {
                 this.message = data.message;
                 setTimeout(() => {
                     this.router.navigate(['/']);
-                }, 2000);
+                }, 500);
             }
         });
     }

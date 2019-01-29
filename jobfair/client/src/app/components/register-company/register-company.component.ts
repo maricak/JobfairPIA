@@ -115,17 +115,17 @@ export class RegisterCompanyComponent implements OnInit {
     onRegisterSubmit() {
         const company: Company = {
             _id: null,
-            username: this.form.get('username').value,
-            password: this.form.get('password').value,
-            name: this.form.get('name').value,
-            city: this.form.get('city').value,
-            address: this.form.get('address').value,
-            numberOfEmployees: this.form.get('numberOfEmployees').value,
-            pib: this.form.get('pib').value,
-            email: this.form.get('email').value,
-            website: this.form.get('website').value,
-            workField: this.form.get('workField').value,
-            specialty: this.form.get('specialty').value
+            username: this.username.value.trim(),
+            password: this.password.value.trim(),
+            name: this.name.value.trim(),
+            city: this.city.value.trim(),
+            address: this.address.value.trim(),
+            numberOfEmployees: this.numberOfEmployees.value,
+            pib: this.pib.value.trim(),
+            email: this.email.value.trim(),
+            website: this.website.value.trim(),
+            workField: this.workField.value.trim(),
+            specialty: this.specialty.value.trim()
         };
 
         this.authService.registerCompany(company).subscribe((data: { success: boolean, message: string }) => {
@@ -137,7 +137,7 @@ export class RegisterCompanyComponent implements OnInit {
                 this.messageClass = 'alert alert-success';
                 setTimeout(() => {
                     this.router.navigate(['/login']);
-                }, 2000);
+                }, 500);
             }
         });
     }

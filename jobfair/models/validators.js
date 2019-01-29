@@ -149,15 +149,25 @@ module.exports.data = {
     },
     ['text']: {
         ['required']: [true, 'Opening description name is required'],
-        ['minlength']: [5, 'Opening description  min length is 5'],
-        ['maxlength']: [200, 'Opening description  max length is 200']
+        ['minlength']: [5, 'Opening description min length is 5'],
+        ['maxlength']: [200, 'Opening description  mx length is 200']
     },
     ['deadline']: {
         ['required']: [true, 'Deadline is required'],
-    }
-    ,
+    },
     ['companyId']: {
         ['required']: [true, 'Company id is required'],
+    },
+    ['studentId']: {
+        ['required']: [true, 'Student id is required'],
+    },
+    ['cv']: {
+        ['required']: [true, 'CV id is required'],
+    },
+    ['coverLetter']: {
+        ['required']: [true, 'Cover letter is required'],
+        ['minlength']: [5, 'Cover letter min length is 5'],
+        ['maxlength']: [1000, 'Cover letter max length is 1000']
     }
 };
 

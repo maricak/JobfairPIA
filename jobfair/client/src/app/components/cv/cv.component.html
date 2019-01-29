@@ -344,15 +344,15 @@
         </ul>
     </div>
 
-    <!-- organisationslSkills -->
+    <!-- organisationalSkills -->
     <div class="form-group">
-        <label for="organisationslSkills">Organisational skills</label>
-        <input type="text" name="organisationslSkills" class="form-control" formControlName="organisationslSkills"
-            [ngClass]="{'is-invalid': organisationslSkills.errors, 'is-valid': !organisationslSkills.errors}" />
+        <label for="organisationalSkills">Organisational skills</label>
+        <input type="text" name="organisationalSkills" class="form-control" formControlName="organisationalSkills"
+            [ngClass]="{'is-invalid': organisationalSkills.errors, 'is-valid': !organisationalSkills.errors}" />
         <!-- Validation -->
         <ul class="form-text text-danger">
             <span *ngFor="let v of vData.skill | keyvalue">
-                <li *ngIf="organisationslSkills.hasError(v.key)"> {{v.value[1]}}</li>
+                <li *ngIf="organisationalSkills.hasError(v.key)"> {{v.value[1]}}</li>
             </span>
         </ul>
     </div>

@@ -2,14 +2,39 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 const Schema = mongoose.Schema;
 
-const bcrypt = require('bcrypt-nodejs');
-
+const cvSchema = require('./cv');
 const v = require('./validators');
+
+const applicationSchema = new Schema({
+    studentId: {
+        type: String,
+        required: v.data.studentId.required
+    },
+    cv: {
+        type: cvSchema,
+        //required: v.data.cv.required, 
+        //default: {}
+    },
+    coverLetter: {
+        type: String,
+       // required: v.data.coverLetter.require,
+        minlength: v.data.coverLetter.minlength,
+        maxlength: v.data.coverLetter.maxlength
+    },
+    coverLetterIsFile: {
+        type: Boolean,
+        default: false
+    },
+    accepted: {
+        type: Boolean,
+        default: false
+    }
+})
 
 const openingSchema = new Schema({
     companyId: {
         type: String,
-        required: v.data.companyId.required    
+        required: v.data.companyId.required
     },
     companyName: {
         type: String,
@@ -41,6 +66,10 @@ const openingSchema = new Schema({
         required: v.data.deadline.required
     },
     //fajlovi
+    applications: {
+        type : [applicationSchema],
+        default: []
+    }
 });
 
 module.exports = mongoose.model('opening', openingSchema);

@@ -32,15 +32,146 @@
     </tr>
 </table>
 
-<h5 class="text-center text-info">Apply</h5>
-
-
-<form [formGroup]="form" (submit)="onSubmitApply()">
+<form [formGroup]="form" (submit)="onSubmitApply()" *ngIf="canApply">
+    <h5 class="text-center text-info">Apply</h5>
     <div>
-        <label class="d-inline-block pt-2">Cover letter:</label>
+        <label class="d-inline-block pt-2">Write your cover letter or upload a document:</label>
         <button class="btn btn-info float-right" [disabled]="form.controls.coverLetter.value!==''">Upload cover letter</button>
         <br />
     </div>
-    <textarea rows="10" class="w-100" formControlName="coverLetter" placeholder="Write your cover letter or upload a document"></textarea>
-    <button class="btn btn-info">Apply</button>
+    <textarea rows="10" class="w-100" class="form-control" formControlName="coverLetter" [ngClass]="{'is-invalid': coverLetter.errors, 'is-valid': !coverLetter.errors}"></textarea>
+    <ul class="form-text text-danger">
+        <span *ngFor="let v of vData.coverLetter | keyvalue">
+            <li *ngIf="coverLetter.hasError(v.key)"> {{v.value[1]}}</li>
+        </span>
+    </ul>
+    <div>
+        <small class="float-right">Your CV will be sent with the cover letter</small>
+        <button class="btn btn-info">Apply</button>
+    </div>
+    <br />
 </form>
+
+<!-- student -->
+<h5 class="text-center text-info my-3" *ngIf="canSeeResults">Results</h5>
+<table *ngIf="opening?.applications.length > 0 && canSeeResults" class="table">
+    <thead>
+        <td>#</td>
+        <td>Name</td>
+        <td>Surname</td>
+        <td>Accepted</td>
+    </thead>
+    <tbody>
+        <tr *ngFor="let a of opening.applications; let i = index">
+            <td>{{i+1}}</td>
+            <td>{{a.cv?.name}}</td>
+            <td>{{a.cv?.surname}}</td>
+            <td>{{a.accepted ? 'YES' : 'NO'}}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<!-- company -->
+<div id="accordion" *ngIf="authService.isCompany()" class="mb-5">
+    <button class="btn btn-info mb-1" *ngIf="hasDeadlinePassed()" (click)="onSave()">Save</button>
+    <div *ngFor="let app of opening?.applications; let i = index">
+        <h5 class="bg-info mb-0 pl-2" id="headingOne">
+            <input *ngIf="hasDeadlinePassed()" type="checkbox" [(ngModel)]="app.accepted" />
+            <button class="btn text-white" data-toggle="collapse" attr.data-target="#app{{app._id}}" aria-expanded="true"
+                attr.aria-controls="app{{app._id}}">
+                {{i+1}} {{app.cv?.name}} {{app.cv?.surname}}
+            </button>
+        </h5>
+        <div id="app{{app._id}}" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+            <table class="table table-sm table-bordered mb-0">
+                <tr *ngIf="app.cv?.name">
+                    <td>Name:</td>
+                    <td class="w-75">{{app.cv?.name}}</td>
+                </tr>
+                <tr *ngIf="app.cv?.surname">
+                    <td>Surname:</td>
+                    <td class="w-75">{{app.cv?.surname}}</td>
+                </tr>
+                <tr *ngIf="app.cv?.address">
+                    <td>Address:</td>
+                    <td class="w-75">{{app.cv?.address}}</td>
+                </tr>
+                <tr *ngIf="app.cv?.telephone">
+                    <td>Telephone:</td>
+                    <td class="w-75">{{app.cv?.telephone}}</td>
+                </tr>
+                <tr *ngIf="app.cv?.email">
+                    <td>Email:</td>
+                    <td class="w-75">{{app.cv?.email}}</td>
+                </tr>
+                <tr *ngIf="app.cv?.website">
+                    <td>Web site:</td>
+                    <td class="w-75">{{app.cv?.website}}</td>
+                </tr>
+                <tr *ngIf="app.cv?.imAccount">
+                    <td>IM Account:</td>
+                    <td class="w-75">{{app.cv?.imAccount}}</td>
+                </tr>
+                <tr *ngIf="app.cv?.sex">
+                    <td>Sex:</td>
+                    <td class="w-75">{{app.cv?.sex}}</td>
+                </tr>
+                <tr *ngIf="app.cv?.dateOfBirth">
+                    <td>Date of birth:</td>
+                    <td class="w-75">{{app.cv?.dateOfBirth}}</td>
+                </tr>
+                <tr *ngIf="app.cv?.nationality">
+                    <td>Nationality:</td>
+                    <td class="w-75">{{app.cv?.nationality}}</td>
+                </tr>
+                <tr *ngIf="app.cv?.personalStatement">
+                    <td>Personal statement:</td>
+                    <td class="w-75">{{app.cv?.personalStatement}}</td>
+                </tr>
+                <!-- <ng-container *ngIf="app.cv?.experience" >
+                    <tr *ngFor="let e of app.cv?.experience; let i = index">
+                        <td>Experience {{i}}</td>
+                        <td>{{app.cv?.personalStatement}}</td>
+                    </tr>
+                </ng-container> -->
+                <tr *ngIf="app.cv?.motherTongue">
+                    <td>Mother tongue:</td>
+                    <td class="w-75">{{app.cv?.motherTongue}}</td>
+                </tr>
+                <tr *ngIf="app.cv?.communicationSkills">
+                    <td>Communication skills:</td>
+                    <td class="w-75">{{app.cv?.communicationSkills}}</td>
+                </tr>
+                <tr *ngIf="app.cv?.organisationalSkills">
+                    <td>Organisational skills:</td>
+                    <td class="w-75">{{app.cv?.organisationalSkills}}</td>
+                </tr>
+                <tr *ngIf="app.cv?.jobRelatedSkills">
+                    <td>Job-related skills:</td>
+                    <td class="w-75">{{app.cv?.jobRelatedSkills}}</td>
+                </tr>
+                <tr *ngIf="app.cv?.digitalSkills">
+                    <td>Digital skills:</td>
+                    <td class="w-75">{{app.cv?.digitalSkills}}</td>
+                </tr>
+                <tr *ngIf="app.cv?.otherSkills">
+                    <td>Other skills:</td>
+                    <td class="w-75">{{app.cv?.otherSkills}}</td>
+                </tr>
+                <tr *ngIf="app.cv?.drivingLicence">
+                    <td>Driving licence:</td>
+                    <td class="w-75">{{app.cv?.drivingLicence ? 'YES' : 'NO'}}</td>
+                </tr>
+                <tr *ngIf="app.cv?.additionalInformation">
+                    <td>Additional Information:</td>
+                    <td class="w-75">{{app.cv?.additionalInformation}}</td>
+                </tr>
+                <tr *ngIf="app.coverLetter">
+                    <td>Cover letter:</td>
+                    <td class="w-75">{{app.coverLetter}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

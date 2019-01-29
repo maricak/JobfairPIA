@@ -6,6 +6,7 @@ const Admin = require('../models/admin');
 const Company = require('../models/company');
 
 router.post('/student', (req, res) => {
+    console.log(req.body);
     found = false;
     Admin.find({ $or: [{ username: req.body.username }, { email: req.body.email }] }, (err, admin) => {
         if (err) { console.log(err); }

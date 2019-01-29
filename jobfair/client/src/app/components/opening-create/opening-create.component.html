@@ -1,0 +1,60 @@
+
+<h1 class="page-header text-center">Create opening</h1>
+
+
+<div [ngClass]="messageClass" *ngIf="message" class="w-75 mx-auto  alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<form [formGroup]="form" (submit)="onOpeningSubmit()">
+    <!-- Name Input -->
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" name="name" class="form-control" formControlName="name" [ngClass]="{'is-invalid': name.errors, 'is-valid': !name.errors}" />
+        <!-- Validation -->
+        <ul class="form-text text-danger">
+            <span *ngFor="let v of vData.name | keyvalue">
+                <li *ngIf="name.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
+        </ul>
+    </div>
+
+    <div>
+        <label>Opening type</label> &nbsp;&nbsp;&nbsp;
+        <div class="form-check form-check-inline">
+            <input formControlName="type" class="form-check-input" type="radio" value="job" name="type">
+            <label class="form-check-label" for="admin">Job</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input formControlName="type" class="form-check-input" type="radio" value="internship" name="type">
+            <label class="form-check-label" for="student">Internship</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="text">Description</label>
+        <input type="text" name="text" class="form-control" formControlName="text" [ngClass]="{'is-invalid': text.errors, 'is-valid': !text.errors}" />
+        <!-- Validation -->
+        <ul class="form-text text-danger">
+            <span *ngFor="let v of vData.text | keyvalue">
+                <li *ngIf="text.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
+        </ul>
+    </div>
+
+    <div class="form-group">
+        <label for="deadline">Deadline</label>
+        <input type="date" name="deadline" class="form-control" formControlName="deadline" [ngClass]="{'is-invalid': deadline.errors, 'is-valid': !deadline.errors}" />
+        <ul class="form-text text-danger">
+            <span *ngFor="let v of vData.deadline | keyvalue">
+                <li *ngIf="deadline.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
+        </ul>
+    </div>
+
+    <button [disabled]="!form.valid" type="submit" class="btn btn-info mb-5">Create opening</button>
+
+</form>

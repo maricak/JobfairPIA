@@ -63,12 +63,12 @@ router.post('/cvupdate', (req, res) => {
                             break;
                         }
                     } else {
-                        res.json({ success: false, message: 'Could not save cv info. Error: ' + err.message });
+                        res.json({ success: false, message: 'Could not save cv info. Error: ' + err.message, student:null });
                     }
                 } else if (updatedStudent) {
-                    res.json({ success: true, message: 'Success!' });
+                    res.json({ success: true, message: 'Success!', student : updatedStudent });
                 } else {
-                    res.json({ success: false, message: "Could not save cv info" });
+                    res.json({ success: false, message: "Could not save cv info", student:null });
                 }
             })
         } else {

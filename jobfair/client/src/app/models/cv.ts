@@ -38,7 +38,7 @@ export interface CV {
     motherTongue: string,
     languages: Language[],
     communicationSkills: string,
-    organisationslSkills: string,
+    organisationalSkills: string,
     jobRelatedSkills: string,
     digitalSkills: string,
     otherSkills: string,

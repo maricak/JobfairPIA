@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Opening } from '../models/opening';
+import { Opening, Application } from '../models/opening';
+import { AuthService } from './auth.service';
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +13,7 @@ export class OpeningService {
     token: string
     id: string
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private authService: AuthService) { }
 
     getOpening(id: string) {
         this.loadData();
@@ -20,15 +21,30 @@ export class OpeningService {
             { headers: { 'Content-type': 'application/json', 'auth': this.token } });
     }
 
-    loadData() {
-        this.token = localStorage.getItem('token');
-        this.id = localStorage.getItem('id');
-    }
-
     createOpening(opening: Opening) {
         console.log(opening);
         this.loadData();
         return this.http.post(`${this.uri}/opening/create/`, opening,
             { headers: { 'Content-type': 'application/json', 'auth': this.token } });
+    }
+
+    apply(openingId: string, application: Application) {
+        console.log(openingId);
+        console.log(application);
+        this.loadData();
+        return this.http.post(`${this.uri}/opening/apply/`, { openingId: openingId, application: application },
+            { headers: { 'Content-type': 'application/json', 'auth': this.token } });
+    }
+
+    update(opening: Opening) {
+        console.log(opening);    
+        this.loadData();
+        return this.http.post(`${this.uri}/opening/update/`, opening,
+            { headers: { 'Content-type': 'application/json', 'auth': this.token } });
+    }
+
+    loadData() {
+        this.token = this.authService.getToken();
+        this.id = this.authService.getId();
     }
 }
