@@ -1,0 +1,7 @@
+<div class="form-group mt-3">
+    <label for="file">Upload data about packages from file</label>
+    <br />
+    <input type="file" accept=".json" (change)=fileChanged($event) />
+</div>
+
+<button [disabled]="!uploaded" type="submit" (click)="onNextClick()" class="btn btn-info">Next</button>

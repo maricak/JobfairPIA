@@ -295,7 +295,7 @@ export class CvComponent implements OnInit {
             experience: this.getExperience(),
             education: this.getEducation(),
             motherTongue: this.motherTongue.value,
-            languages: this.form.get('languages').value,
+            languages: this.getLanguages(),
             communicationSkills: this.communicationSkills.value,
             organisationalSkills: this.organisationalSkills.value,
             jobRelatedSkills: this.jobRelatedSkills.value,

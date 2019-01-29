@@ -1,0 +1,38 @@
+<h5 class="page-header text-center text-info">Update deadlines</h5>
+
+<div [ngClass]="messageClass" *ngIf="message" class="w-75 mx-auto  alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<form [formGroup]="form" (submit)="onDeadlinesUpdateSubmit()" class="w-75 mx-auto">
+
+    <div class="form-row">
+        <!-- applyDeadline -->
+        <div class="form-group col-md-6">
+            <label for="applyDeadline">Company apply deadline</label>
+            <input type="date" name="applyDeadline" class="form-control" formControlName="applyDeadline" [ngClass]="{'is-invalid': applyDeadline.errors, 'is-valid': !applyDeadline.errors}" />
+            <ul class="form-text text-danger">
+                <span *ngFor="let v of vData.applyDeadline | keyvalue">
+                    <li *ngIf="applyDeadline.hasError(v.key)"> {{v.value[1]}}</li>
+                </span>
+            </ul>
+        </div>
+
+        <!-- cvDeadline -->
+        <div class="form-group col-md-6">
+            <label for="cvDeadline">Cv update deadline</label>
+            <input type="date" name="cvDeadline" class="form-control" formControlName="cvDeadline" [ngClass]="{'is-invalid': cvDeadline.errors, 'is-valid': !cvDeadline.errors}" />
+            <ul class="form-text text-danger">
+                <span *ngFor="let v of vData.cvDeadline | keyvalue">
+                    <li *ngIf="cvDeadline.hasError(v.key)"> {{v.value[1]}}</li>
+                </span>
+            </ul>
+        </div>
+    </div>
+    <!-- submit -->
+    <input [disabled]="!form.valid" type="submit" class="btn btn-info" value="Update" />
+
+</form>

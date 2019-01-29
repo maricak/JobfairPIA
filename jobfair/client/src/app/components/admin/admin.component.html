@@ -1,0 +1,15 @@
+<h1 class="page-header text-center">Welcome {{admin?.name}}</h1>
+
+<div [ngClass]="messageClass" *ngIf="message" class="w-75 mx-auto  alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<br/>
+<h3 class="text-center" *ngIf="fairActive">Active fair is {{fair?.name}}</h3>
+<h3 class="text-center" *ngIf="!fairActive">No active fair</h3>
+<br/>
+<app-fair-update-deadlines *ngIf="fairActive" [(fair)]="fair"></app-fair-update-deadlines>
+<app-fair-create *ngIf="!fairActive" (fairCreated)="onFairCreated($event)"></app-fair-create>

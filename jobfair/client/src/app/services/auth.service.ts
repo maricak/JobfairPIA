@@ -5,7 +5,6 @@ import { Student } from '../models/student';
 import { Company } from '../models/company';
 import { User, ChangePasswordUser } from '../models/user';
 import { Admin } from '../models/admin';
-import { userInfo } from 'os';
 
 @Injectable({
     providedIn: 'root'

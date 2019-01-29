@@ -9,10 +9,11 @@ const cors = require('cors');
 const loginRouter = require('./routes/login');
 const registerRouter = require('./routes/register');
 const searchRouter = require('./routes/search');
+const changePasswordRouter = require('./routes/changePassword');
 const studentRouter = require('./routes/student');
 const companyRouter = require('./routes/company');
 const openingRouter = require('./routes/opening');
-const changePasswordRouter = require('./routes/changePassword');
+const fairRouter = require('./routes/fair');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.uri, { useNewUrlParser: true }, (err) => {
@@ -35,6 +36,7 @@ app.use('/changePassword', changePasswordRouter);
 app.use('/student', studentRouter);
 app.use('/company', companyRouter);
 app.use('/opening', openingRouter);
+app.use('/fair', fairRouter);
 
 
 app.get('/profile', (req, res) => {

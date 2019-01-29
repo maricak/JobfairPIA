@@ -31,7 +31,7 @@ router.post('/basic', (req, res) => {
 });
 
 router.use((req, res, next) => {
-    console.log("student PROVERA");
+    //console.log("student PROVERA");
     let token = req.headers['auth'];
     if (!token) {
         res.json({ success: false, message: "No token provided" });

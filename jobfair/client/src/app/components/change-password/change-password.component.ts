@@ -53,9 +53,9 @@ export class ChangePasswordComponent implements OnInit {
 
     onChangePasswordSubmit() {
         const user: ChangePasswordUser = {
-            username: this.form.get('username').value.trim(),
-            password: this.form.get('password').value.trim(),
-            newPassword: this.form.get('newPassword').value.trim()
+            username: this.username.value.trim(),
+            password: this.password.value.trim(),
+            newPassword: this.newPassword.value.trim()
         };
         const type = this.form.get('type').value;
         if (type === "admin") {

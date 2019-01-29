@@ -150,7 +150,7 @@ module.exports.data = {
     ['text']: {
         ['required']: [true, 'Opening description name is required'],
         ['minlength']: [5, 'Opening description min length is 5'],
-        ['maxlength']: [200, 'Opening description  mx length is 200']
+        ['maxlength']: [200, 'Opening description max length is 200']
     },
     ['deadline']: {
         ['required']: [true, 'Deadline is required'],
@@ -168,6 +168,70 @@ module.exports.data = {
         ['required']: [true, 'Cover letter is required'],
         ['minlength']: [5, 'Cover letter min length is 5'],
         ['maxlength']: [1000, 'Cover letter max length is 1000']
+    },
+    ['fairStartDate']: {
+        ['required']: [true, 'Fair start date is required'],
+    },
+    ['fairEndDate']: {
+        ['required']: [true, 'Fair enr date is required'],
+    },
+    ['place']: {
+        ['required']: [true, 'Place is required'],
+        ['minlength']: [5, 'Place min length is 5'],
+        ['maxlength']: [200, 'Place max length is 200']
+    },
+    ['about']: {
+        ['required']: [true, 'Fair description is required is required'],
+        ['minlength']: [5, 'Fair description min length is 5'],
+        ['maxlength']: [1000, 'Fair description max length is 1000']
+    },
+    ['locations']: {
+        ['required']: [true, 'Locations are required'],
+    },
+    ['location']: {
+        ['required']: [true, 'Location is required'],
+        ['minlength']: [5, 'Location min length is 5'],
+        ['maxlength']: [150, 'Location max length is 150']
+    },
+    ['title']: {
+        ['required']: [true, 'Package title is required'],
+        ['minlength']: [2, 'Package title min length is 2'],
+        ['maxlength']: [50, 'Package title max length is 50']
+    },
+    ['content']: {
+        ['minlength']: [2, 'Content title min length is 2'],
+        ['maxlength']: [100, 'Content title max length is 100']
+    },
+    ['videoPromotion']: {
+        ['min']: [0, 'Video promotion cannot be negative'],
+    },
+    ['noLessons']: {
+        ['min']: [0, 'Number of lessons cannot be negative'],
+    },
+    ['noWorkshops']: {
+        ['min']: [0, 'Number of workshops cannot be negative'],
+    },
+    ['noPresentations']: {
+        ['min']: [0, 'Number of presentations  cannot be negative'],
+    },
+    ['price']: {
+        ['required']: [true, 'Price is required'],
+        ['min']: [0, 'Price cannot be negative'],
+    },
+    ['maxCompanies']: {
+        ['min']: [-1, 'Max companies cannot be less than -1'],
+    },
+    ['additional']: {
+        ['required']: [true, 'Additional packages are required']
+    },
+    ['packages']: {
+        ['required']: [true, 'Packages are required']
+    },
+    ['applyDeadline']: {
+        ['required']: [true, 'Apply deadline is required']
+    },
+    ['cvDeadline']: {
+        ['required']: [true, 'CV deadline is required']   
     }
 };
 

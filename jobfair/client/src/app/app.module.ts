@@ -2,8 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'; 
-
 import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { LoginComponent } from './components/login/login.component';
@@ -19,6 +19,13 @@ import { OpeningInfoComponent } from './components/opening-info/opening-info.com
 import { CompanyComponent } from './components/company/company.component';
 import { OpeningListComponent } from './components/opening-list/opening-list.component';
 import { OpeningCreateComponent } from './components/opening-create/opening-create.component';
+import { AdminComponent } from './components/admin/admin.component';
+import { FairUpdateDeadlinesComponent } from './components/fair-update-deadlines/fair-update-deadlines.component';
+import { FairCreateComponent } from './components/fair-create/fair-create.component';
+import { FairCreateStep1Component } from './components/fair-create-step1/fair-create-step1.component';
+import { FairCreateStep2Component } from './components/fair-create-step2/fair-create-step2.component';
+import { FairCreateStep3Component } from './components/fair-create-step3/fair-create-step3.component';
+import { FairCreateStep4Component } from './components/fair-create-step4/fair-create-step4.component';
 // import { ErrorMessageDirective } from './directives/error-message.directive';
 
 @NgModule({
@@ -38,6 +45,13 @@ import { OpeningCreateComponent } from './components/opening-create/opening-crea
         CompanyComponent,
         OpeningListComponent,
         OpeningCreateComponent,
+        AdminComponent,
+        FairUpdateDeadlinesComponent,
+        FairCreateComponent,
+        FairCreateStep1Component,
+        FairCreateStep2Component,
+        FairCreateStep3Component,
+        FairCreateStep4Component,
         // ErrorMessageDirective
     ],
     imports: [

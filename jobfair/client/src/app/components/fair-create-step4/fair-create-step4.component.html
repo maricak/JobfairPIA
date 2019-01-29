@@ -1,0 +1,83 @@
+<table class="table table-sm table-striped">
+    <tr>
+        <td class="w-25 font-weight-bold">Name:</td>
+        <td>{{fair.name}}</td>
+    </tr>
+    <tr>
+        <td class="w-25 font-weight-bold">Start date:</td>
+        <td>{{fair.startDate}}</td>
+    </tr>
+    <tr>
+        <td class="w-25 font-weight-bold">End Date:</td>
+        <td>{{fair.endDate}}</td>
+    </tr>
+    <tr>
+        <td class="w-25 font-weight-bold">Place:</td>
+        <td>{{fair.place}}</td>
+    </tr>
+    <tr>
+        <td class="w-25 font-weight-bold">About:</td>
+        <td>{{fair.about}}</td>
+    </tr>
+    <tr>
+        <td class="w-25 font-weight-bold">Locations:</td>
+        <td> {{fair.locations}} </td>
+    </tr>
+    <tr *ngFor="let p of fair.packages; let i = index">
+        <td class="w-25 font-weight-bold">Package {{i+1}}</td>
+        <td class="p-0">
+            <table class="w-100">
+                <tr>
+                    <td class="w-25">Title:</td>
+                    <td> {{p.title}} </td>
+                </tr>
+                <tr>
+                    <td class="w-25">Content:</td>
+                    <td> {{p.content}} </td>
+                </tr>
+                <tr>
+                    <td class="w-25">Video promotions:</td>
+                    <td> {{p.videoPromotion}} </td>
+                </tr>
+                <tr>
+                    <td class="w-25">No of lessons:</td>
+                    <td> {{p.noLessons}} </td>
+                </tr>
+                <tr>
+                    <td class="w-25">No of workshops:</td>
+                    <td> {{p.noWorkshops}} </td>
+                </tr>
+                <tr>
+                    <td class="w-25">No of presentations:</td>
+                    <td> {{p.noPresentations}} </td>
+                </tr>
+                <tr>
+                    <td class="w-25">Price:</td>
+                    <td> {{p.price}} </td>
+                </tr>
+                <tr>
+                    <td class="w-25">Max companies:</td>
+                    <td> {{p.maxCompanies}} </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr *ngFor="let a of fair.additional; let i = index">
+        <td class="w-25 font-weight-bold">Additional {{i+1}}</td>
+        <td class="p-0">
+            <table class="w-100">
+                <tr>
+                    <td class="w-25">Title:</td>
+                    <td> {{a.title}} </td>
+                </tr>
+                <tr>
+                    <td class="w-25">Price:</td>
+                    <td> {{a.price}} </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+</table>
+
+<button (click)="onConfirmClick()" class="btn btn-info" value="Next" >Confirm</button>
