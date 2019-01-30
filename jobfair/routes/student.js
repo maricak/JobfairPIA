@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 
 var Student = require('../models/student');
-
+var Fair = require('../models/fair');
 
 const jwt = require('jsonwebtoken');
 const config = require('../config/database');
@@ -45,36 +45,51 @@ router.get('/account/:id', (req, res) => {
 
 router.post('/cvupdate', (req, res) => {
     let id = req.decoded.id;
-    Student.findById(id, (err, student) => {
+    Fair.findOne({ finished: false }, (err, fair) => {
         if (err) {
-            res.json({ success: false, message: "Error happend while retrieving student's data: " + err.message });
-        } else if (student) {
+            res.json({ success: false, message: "Error happened while checking cv update deadline" + err.message });
+        } else if (fair) {
+            let today = new Date();
+            let cvdl = new Date(fair.cvDeadline);
+            if (cvdl < today) {
+                res.json({ success: false, message: "Updating cv is not allowed at the moment" });
+            } else {
+                Student.findById(id, (err, student) => {
+                    if (err) {
+                        res.json({ success: false, message: "Error happend while retrieving student's data: " + err.message });
+                    } else if (student) {
 
-            let cv = req.body;
-            console.log("cv");
-            console.log(cv);
-            student.set({ cv: cv });
-            student.$ignore('password');
-            student.save((err, updatedStudent) => {        
-                if (err) {
-                    if (err.errors) {
-                        for (const key in err.errors) {
-                            res.json({ success: false, message: err.errors[key].message });
-                            break;
-                        }
+                        let cv = req.body;
+                        console.log("cv");
+                        console.log(cv);
+                        student.set({ cv: cv });
+                        student.$ignore('password');
+                        student.save((err, updatedStudent) => {
+                            if (err) {
+                                if (err.errors) {
+                                    for (const key in err.errors) {
+                                        res.json({ success: false, message: err.errors[key].message });
+                                        break;
+                                    }
+                                } else {
+                                    res.json({ success: false, message: 'Could not save cv info. Error: ' + err.message, student: null });
+                                }
+                            } else if (updatedStudent) {
+                                res.json({ success: true, message: 'Success!', student: updatedStudent });
+                            } else {
+                                res.json({ success: false, message: "Could not save cv info", student: null });
+                            }
+                        })
                     } else {
-                        res.json({ success: false, message: 'Could not save cv info. Error: ' + err.message, student:null });
+                        res.json({ success: false, message: "No student in the database" });
                     }
-                } else if (updatedStudent) {
-                    res.json({ success: true, message: 'Success!', student : updatedStudent });
-                } else {
-                    res.json({ success: false, message: "Could not save cv info", student:null });
-                }
-            })
+                });
+            }
         } else {
-            res.json({ success: false, message: "No student in the database" });
+            res.json({ success: false, message: "Updating cv is not allowed. There is no opened fair" });
         }
-    });
+    })
+
 })
 
 module.exports = router;

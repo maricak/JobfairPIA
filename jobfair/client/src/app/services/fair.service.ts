@@ -31,6 +31,12 @@ export class FairService {
             { headers: { 'Content-type': 'application/json', 'auth': this.token } });
     }
 
+    apply(packages: string[]) {
+        this.loadData();
+        return this.http.post(`${this.uri}/fair/apply`, packages,
+            { headers: { 'Content-type': 'application/json', 'auth': this.token } });
+    }
+
     loadData() {
         this.token = this.authService.getToken();
         this.id = this.authService.getId();

@@ -8,7 +8,7 @@
 </div>
 
 
-<form [formGroup]="form" class="w-75 mx-auto">
+<form [formGroup]="form" class="w-75 mx-auto" *ngIf="canUpdateCV">
     <h5 class="text-center text-info">
         Personal information
     </h5>
@@ -139,7 +139,8 @@
     <h5 class="text-center text-info">Experience</h5>
     <!-- experience -->
     <div formArrayName="experience">
-        <div class="form-group border border-info p-2" *ngFor="let e of experience.controls; let i = index" [formGroupName]="i">
+        <div class="form-group border border-info p-2" *ngFor="let e of experience.controls; let i = index"
+            [formGroupName]="i">
             <h5 class="text-center text-info">Experience {{i+1}}</h5>
             <div name="i">
                 <div class="form-group">
@@ -201,7 +202,8 @@
     <h5 class="text-center text-info">Education</h5>
     <!-- education -->
     <div formArrayName="education">
-        <div class="form-group border border-info p-2" *ngFor="let e of education.controls; let i = index" [formGroupName]="i">
+        <div class="form-group border border-info p-2" *ngFor="let e of education.controls; let i = index"
+            [formGroupName]="i">
             <h5 class="text-center text-info">Education {{i+1}}</h5>
             <div name="i">
                 <div class="form-group">

@@ -72,7 +72,13 @@ export class FairCreateStep3Component implements OnInit {
         if (fileData.Packages) {
             let packages = fileData.Packages;
             packages.forEach(p => {
+                console.log(p.MaxCompanies === '-');
+                if (p.MaxCompanies === '-') {
+                    p.MaxCompanies = -1;
+                    console.log(p.MaxCompanies);
+                }
                 let newPackage: Package = {
+                    _id: undefined,
                     title: p.Title,
                     content: p.Content,
                     videoPromotion: p.VideoPromotion,
@@ -80,7 +86,8 @@ export class FairCreateStep3Component implements OnInit {
                     noWorkshops: p.NoWorkchops,
                     noPresentations: p.NoPresentation,
                     price: p.Price,
-                    maxCompanies: p.MaxCompanies == "-" ? -1 : p.maxCompanies
+                    maxCompanies: p.MaxCompanies,
+                    companiesLeft: p.MaxCompanies
                 }
                 this.fair.packages.push(newPackage);
             });
@@ -89,6 +96,7 @@ export class FairCreateStep3Component implements OnInit {
             let additional = fileData.Additional;
             additional.forEach(a => {
                 let newAddition: Additional = {
+                    _id: undefined,
                     title: a.Title,
                     price: a.Price,
                 }
@@ -99,6 +107,7 @@ export class FairCreateStep3Component implements OnInit {
 
     onNextClick() {
         console.log(this.fair);
+        this.message.emit(undefined);
         this.step++;
     }
 

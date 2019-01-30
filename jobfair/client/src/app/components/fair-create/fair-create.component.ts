@@ -20,18 +20,19 @@ export class FairCreateComponent implements OnInit {
     constructor(private fairService: FairService) {
         //this.fairActive = true;
         this.fair = {
-            _id: null,
+            _id: undefined,
             finished: false,
-            applyDeadline: null,
-            cvDeadline: null,
-            name: null,
-            startDate: null,
-            endDate: null,
-            place: null,
-            about: null,
+            applyDeadline: undefined,
+            cvDeadline: undefined,
+            name: undefined,
+            startDate: undefined,
+            endDate: undefined,
+            place: undefined,
+            about: undefined,
             locations: [],
             packages: [],
-            additional: []
+            additional: [], 
+            applications: []
         }
     }
 
@@ -53,6 +54,9 @@ export class FairCreateComponent implements OnInit {
             if (data.success) {
                 this.message = data.message;
                 this.messageClass = 'alert alert-success';
+                console.log("updated fair");
+                console.log(data.fair);
+                
                 this.fairCreated.emit(data.fair);
             } else {
                 this.message = data.message;

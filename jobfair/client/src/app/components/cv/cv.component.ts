@@ -7,6 +7,8 @@ import { CV, Experience, Education, Language } from 'src/app/models/cv';
 
 import * as v from 'src/app/validators';
 import { AuthService } from 'src/app/services/auth.service';
+import { FairService } from 'src/app/services/fair.service';
+import { Fair } from 'src/app/models/fair';
 
 @Component({
     selector: 'app-cv',
@@ -22,9 +24,11 @@ export class CvComponent implements OnInit {
 
     student: Student;
 
+    canUpdateCV: boolean = false;
+
     languageLevels: string[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 
-    constructor(private formBuilder: FormBuilder, private authService: AuthService, private studentService: StudentService, private router: Router) {
+    constructor(private formBuilder: FormBuilder, private authService: AuthService, private studentService: StudentService, private fairService: FairService, private router: Router) {
         this.vData = v.data;
         this.createForm();
     }
@@ -141,7 +145,36 @@ export class CvComponent implements OnInit {
             this.message = 'You must bew logged in';
             this.messageClass = 'alert alert-danger';
         }
+
+        this.checkCanUpdateCV();
     }
+
+    checkCanUpdateCV() {
+        this.fairService.getCurrentFair().subscribe((data: { success: boolean, message: string, fair: Fair }) => {
+            console.log(data);
+            if (data.success) {
+                if (data.fair) {
+                    let today = new Date();
+                    let cvdl = new Date(data.fair.cvDeadline);
+                    if (cvdl > today) {
+                        this.canUpdateCV = true;
+                    } else {
+                        this.canUpdateCV = false;
+                    }
+                } else {
+                    this.canUpdateCV = false;
+                }
+            } else {
+                this.canUpdateCV = false;
+            }
+            console.log(`can update ${this.canUpdateCV}`);
+            if(!this.canUpdateCV) {
+                this.message = 'Updating CV is not allowed at the moment';
+                this.messageClass = 'alert alert-danger'
+            }
+        });
+    }
+
 
     checkDates(startDate: string, endDate: string) {
         return (group: FormGroup) => {
@@ -307,7 +340,7 @@ export class CvComponent implements OnInit {
         // console.log(this.form.value);
         console.log(cv);
 
-        this.studentService.updateCv(cv).subscribe((data: { success: boolean, message: string, student: Student}) => {
+        this.studentService.updateCv(cv).subscribe((data: { success: boolean, message: string, student: Student }) => {
             if (!data.success) {
                 this.messageClass = 'alert alert-danger';
                 this.message = data.message;

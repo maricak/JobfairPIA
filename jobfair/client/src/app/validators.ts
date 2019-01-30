@@ -17,6 +17,9 @@ export var data: { [key: string]: { [type: string]: any[] } } = {
         ['maxlength']: [12, 'New Password max length is 12'],
         ['pattern']: [new RegExp(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{8,12}$/), 'Password must have at least one uppercase, lowercase, special character, and number']
     },
+    ['image']: {
+        ['required']: [true, 'Profile image is required']
+    },
     ['name']: {
         ['required']: [true, 'Name is required'],
         ['minlength']: [1, 'Name min length is 1'],

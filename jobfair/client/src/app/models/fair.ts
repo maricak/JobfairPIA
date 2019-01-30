@@ -10,9 +10,17 @@ export interface Fair {
     about: string,
     locations: string[],
     packages: Package[],
-    additional: Additional[]
+    additional: Additional[],
+    applications: Application[]
+}
+
+interface Application {
+    companyId: string,
+    packages: string[], // ids
+    approved: boolean
 }
 export interface Package {
+    _id: string,
     title: string,
     content: string[],
     videoPromotion: number,
@@ -20,10 +28,12 @@ export interface Package {
     noWorkshops: number,
     noPresentations: number,
     price: number,
-    maxCompanies: number
+    maxCompanies: number,
+    companiesLeft: number
 }
 
 export interface Additional {
-    title : string, 
-    price : number
+    _id: string,
+    title: string,
+    price: number
 }

@@ -114,7 +114,7 @@ export class RegisterCompanyComponent implements OnInit {
 
     onRegisterSubmit() {
         const company: Company = {
-            _id: null,
+            _id: undefined,
             username: this.username.value.trim(),
             password: this.password.value.trim(),
             name: this.name.value.trim(),

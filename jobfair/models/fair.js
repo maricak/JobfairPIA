@@ -45,8 +45,25 @@ const packageSchema = new Schema({
     maxCompanies: {
         type: Number,
         min: v.data.maxCompanies.min
+    }, 
+    companiesLeft : {
+        type : Number
     }
 });
+
+const applicationSchema = new Schema({
+    companyId : {
+        type : String, 
+        required : v.data.companyId.required
+    }, 
+    packages: { //ids
+        type : [String]
+    }, 
+    approved : {
+        type : Boolean, 
+        default : false
+    }
+})
 
 const fairSchema = new Schema({
     finished: {
@@ -104,6 +121,9 @@ const fairSchema = new Schema({
     additional: {
         type: [packageSchema],
         required: v.data.additional.required
+    }, 
+    applications: {
+        type : [applicationSchema]
     }
 });
 

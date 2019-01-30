@@ -16,6 +16,9 @@ module.exports.data = {
         ['maxlength']: [12, 'New Password max length is 12'],
         ['pattern']: [new RegExp(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{8,12}$/), 'Password must have at least one uppercase, lowercase, special character, and number']
     },
+    ['image']: {
+        ['required']: [true, 'Profile image is required']
+    },
     ['name']: {
         ['required']: [true, 'Name is required'],
         ['minlength']: [1, 'Name min length is 1'],
@@ -231,7 +234,7 @@ module.exports.data = {
         ['required']: [true, 'Apply deadline is required']
     },
     ['cvDeadline']: {
-        ['required']: [true, 'CV deadline is required']   
+        ['required']: [true, 'CV deadline is required']
     }
 };
 

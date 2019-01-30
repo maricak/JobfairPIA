@@ -27,9 +27,6 @@ router.use((req, res, next) => {
 
 router.get('/info/:id', (req, res) => {
     let id = req.params.id;
-    // if (req.decoded.type != "student") {
-    //     res.json({ success: false, message: "This data is only for students" });
-    // } else {
     Opening.findById(id, (err, opening) => {
         if (err) {
             res.json({ success: false, message: "Error happend while retrieving opening's data: " + err.message });
@@ -38,8 +35,7 @@ router.get('/info/:id', (req, res) => {
         } else {
             res.json({ success: false, message: "No opening in the database" });
         }
-    })
-    //}
+    });
 })
 
 router.post('/create', (req, res) => {
@@ -76,10 +72,9 @@ router.post('/create', (req, res) => {
                     });
                 }
             } else {
-                res.json({ success: false, message: "No company " + req.body.username + " in the database" });
+                res.json({ success: false, message: "No company in the database" });
             }
-        })
-
+        });
     }
 });
 

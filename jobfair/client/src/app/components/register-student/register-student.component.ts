@@ -93,7 +93,7 @@ export class RegisterStudentComponent implements OnInit {
 
     onRegisterSubmit() {
         const student: Student = {
-            _id: null,
+            _id: undefined,
             username: this.username.value.trim(),
             password: this.password.value.trim(),
             name: this.name.value.trim(),

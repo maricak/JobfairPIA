@@ -62,7 +62,7 @@ export class FairUpdateDeadlinesComponent implements OnInit {
     get cvDeadline() { return this.form.controls['cvDeadline']; }
 
     onDeadlinesUpdateSubmit() {
-        console.log(this.form.controls);
+        console.log(this.fair);
 
         this.fairService.updateDeadlines(this.fair._id, this.applyDeadline.value, this.cvDeadline.value)
             .subscribe((data: { success: boolean, message: string, fair: Fair }) => {

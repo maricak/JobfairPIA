@@ -65,7 +65,7 @@ export class OpeningCreateComponent implements OnInit {
         this.message = "";
 
         const opening: Opening = {
-            _id: null,
+            _id: undefined,
             type: this.form.get('type').value.trim(),
             name: this.form.get('name').value.trim(),
             text: this.form.get('text').value.trim(),
