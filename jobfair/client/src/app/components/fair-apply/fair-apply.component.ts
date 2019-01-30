@@ -46,33 +46,32 @@ export class FairApplyComponent implements OnInit {
             if (data.success) {
                 if (data.fair) {
                     this.fair = data.fair;
-                    let app = this.fair.applications.find((app) => { return app.companyId == this.company._id });
-                    if (app) {
-                        if (app.approved) {
-                            this.canApply = false;
-                            this.message = 'Your application has been approved';
-                            this.messageClass = 'alert alert-success';
-                        } else {
-                            if (app.reason && app.reason !== '') {
-                                this.canApply = true;
-                                this.message = `Your application has been denied : ${app.reason}`;
-                                this.messageClass = 'alert alert-danger';
-                            } else {
+                    let today = new Date();
+                    let appdl = new Date(data.fair.applyDeadline);
+                    if (appdl > today) {
+                        this.canApply = true;
+                        let app = this.fair.applications.find((app) => { return app.companyId == this.company._id });
+                        if (app) {
+                            if (app.approved) {
                                 this.canApply = false;
-                                this.message = 'Your application has to be approved';
+                                this.message = 'Your application has been approved';
                                 this.messageClass = 'alert alert-success';
+                            } else {
+                                if (app.reason && app.reason !== '') {
+                                    this.canApply = true;
+                                    this.message = `Your application has been denied : ${app.reason}`;
+                                    this.messageClass = 'alert alert-danger';
+                                } else {
+                                    this.canApply = false;
+                                    this.message = 'Your application has to be approved';
+                                    this.messageClass = 'alert alert-success';
+                                }
                             }
                         }
                     } else {
-                        let today = new Date();
-                        let appdl = new Date(data.fair.applyDeadline);
-                        if (appdl > today) {
-                            this.canApply = true;
-                        } else {
-                            this.canApply = false;
-                            this.message = 'Applying to the fair is not allowed at the moment';
-                            this.messageClass = 'alert alert-danger'
-                        }
+                        this.canApply = false;
+                        this.message = 'Applying to the fair is not allowed at the moment';
+                        this.messageClass = 'alert alert-danger'
                     }
                 } else {
                     this.canApply = false;

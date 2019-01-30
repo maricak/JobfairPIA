@@ -1,7 +1,7 @@
 -promeni regex za password i poruku za password koji ne odgovara na serveru i frontendu
 -website regex, moraju poceti sa www
 -dodati slike
--dodati ogranicenja za menjanje cv koje admin zadaje - misli se na proveru datuma
+
 
 
 -dodati fajlove u konkurs
@@ -18,6 +18,7 @@ trim();
 
 date time SVUDA!!!!
 
+- proveriti kako radiaprove sa vise od jede aplikacije
 
 dodati trim u schema mongoose
 proveriti formu datuma u mongoose i validaciju ya njih

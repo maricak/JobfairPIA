@@ -262,4 +262,88 @@ router.get('/forApproval/:id', (req, res) => {
         })
     }
 });
+
+
+router.get('/finish/:id', (req, res) => {
+    let id = req.params.id;
+    if (req.decoded.type != "admin") {
+        res.json({ success: false, message: "This option is only for admins" });
+    } else {
+        Fair.findById(id, (err, fair) => {
+            if (err) {
+                res.json({ success: false, message: "Error happened while searching for the fair " + err.message });
+            } else if (fair) {
+                if (fair.finished) {
+                    res.json({ success: false, message: "The fair is already finished" });
+                } else {
+                    fair.finished = true;
+                    fair.save((err, newFair) => {
+                        if (err) {
+                            res.json({ success: false, message: "Error happened while saving fair " + err.message });
+                        } else if (newFair) {
+                            res.json({ success: true, message: "Success", fair: newFair });
+                        } else {
+                            res.json({ success: false, message: "Could not update the fair" });
+                        }
+                    });
+                }
+            } else {
+                res.json({ success: false, message: "No fair in the database" });
+            }
+        })
+    }
+});
+
+
+router.post('/updateMaxCompanies', (req, res) => {
+    if (req.decoded.type != "admin") {
+        res.json({ success: false, message: "This option is only for admins" });
+    } else if (!req.body._id || req.body._id == "") {
+        res.json({ success: false, message: "You must provide fair id" });
+    } else if (!req.body.packages || req.body.packages == "") {
+        res.json({ success: false, message: "You must provide packages" });
+    } else {
+        let id = req.body._id;
+        Fair.findById(id, (err, fair) => {
+            if (err) {
+                res.json({ success: false, message: "Error happened while searching for the fair " + err.message });
+            } else if (fair) {
+                if (fair.finished) {
+                    res.json({ success: false, message: "The fair is finished" });
+                } else {
+                    let message = "";
+                    let packages = req.body.packages;
+
+                    packages.forEach(p => {
+                        let index = fair.packages.findIndex(pcg => pcg._id == p._id);
+                        console.log(`index ${index}`);
+                        if (index == -1) {
+                            message += ` No package ${p.title} `;
+                        } else if (fair.packages[index].maxCompanies == -1) {
+                            if (p.maxCompanies != -1) {
+                                message += `The package ${p.title} had value -1. Cannot change`;
+                            }
+                        } else if (((fair.packages[index].maxCompanies - fair.packages[index].companiesLeft) > p.maxCompanies) && p.maxCompanies != -1) {
+                            message += `The package ${p.title} was already approved. Cannot decrement now`;
+                        } else {
+                            fair.packages[index].maxCompanies = p.maxCompanies;
+                            fair.packages[index].companiesLeft = p.companiesLeft;
+                        }
+                    });
+                    fair.save((err, newFair) => {
+                        if (err) {
+                            res.json({ success: false, message: "Error happened while saving fair " + err.message });
+                        } else if (newFair) {
+                            res.json({ success: true, message: "Success: " + message, fair: newFair });
+                        } else {
+                            res.json({ success: false, message: "Could not update the fair" });
+                        }
+                    });
+                }
+            } else {
+                res.json({ success: false, message: "No fair in the database" });
+            }
+        })
+    }
+});
 module.exports = router;

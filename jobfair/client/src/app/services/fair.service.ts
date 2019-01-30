@@ -49,6 +49,18 @@ export class FairService {
             { headers: { 'Content-type': 'application/json', 'auth': this.token } });
     }
 
+    finishFair(fairId: string) {
+        this.loadData();
+        return this.http.get(`${this.uri}/fair/finish/${fairId}`,
+            { headers: { 'Content-type': 'application/json', 'auth': this.token } });
+    }
+
+    updateMaxCompanies(fair: Fair) {
+        this.loadData();
+        return this.http.post(`${this.uri}/fair/updateMaxCompanies`, fair,
+            { headers: { 'Content-type': 'application/json', 'auth': this.token } });
+    }
+
     loadData() {
         this.token = this.authService.getToken();
         this.id = this.authService.getId();

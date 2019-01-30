@@ -1,0 +1,28 @@
+<div [ngClass]="messageClass" *ngIf="message" class="w-75 mx-auto  alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<table class="table table-sm">
+    <thead>
+        <tr class="font-weight-bold">
+            <td>Title</td>
+            <td>Max companies</td>
+            <td>Dec</td>
+            <td>Inc</td>
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let p of fair.packages; let i = index">
+            <tr *ngIf="minValues[i] != -1">
+                <td>{{p.title}}</td>
+                <td>{{p.maxCompanies}}</td>
+                <td><button class="btn btn-info btn-sm" (click)="dec(i)">-</button></td>
+                <td><button class="btn btn-info btn-sm" (click)="inc(i)">+</button></td>
+            </tr>
+        </ng-container>
+    </tbody>
+</table>
+<button class="btn btn-info" (click)="onUpdateMaxCompaniesClick()" >Confirm</button>

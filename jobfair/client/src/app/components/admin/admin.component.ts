@@ -17,6 +17,7 @@ export class AdminComponent implements OnInit {
 
     fair: Fair;
     fairActive: boolean = false;
+    fairOver: boolean = false;
 
     constructor(private authService: AuthService, private fairService: FairService) { }
     ngOnInit() {
@@ -39,6 +40,9 @@ export class AdminComponent implements OnInit {
                 this.fair = data.fair;
                 if (this.fair) {
                     this.fairActive = true;
+                    this.checkFairOver();
+                } else {
+                    this.fairActive = false;
                 }
             } else {
                 this.fairActive = false;
@@ -48,8 +52,32 @@ export class AdminComponent implements OnInit {
         });
     }
 
-    onFairCreated(event) {
+    checkFairOver() {
+        let today = new Date();
+        let endDate = new Date(this.fair.endDate);
+        console.log(`today ${today} endDate ${endDate}`);
+        
+        if (endDate < today) {
+            this.fairOver = true;
+        }
+    }
+    onFairCreated(event: Fair) {
         this.fair = event;
         this.fairActive = true;
+    }
+
+    onFinishFairClick() {
+        this.fairService.finishFair(this.fair._id).subscribe((data: { success: boolean, message: string, fair: Fair }) => {
+            if (data.success) {
+                this.fair = data.fair;
+                this.message = "Fair is finished";
+                this.messageClass = 'alert alert-success';
+                this.fairActive = false;
+                this.fairOver = false;
+            } else {
+                this.message = data.message;
+                this.messageClass = 'alert alert-danger';
+            }
+        })
     }
 }
