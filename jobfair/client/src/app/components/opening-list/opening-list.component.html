@@ -17,7 +17,7 @@
         <tr *ngFor="let o of openings; let i = index">
             <td>{{i+1}}</td>
             <td><a href="" routerLink="../opening/{{o._id}}">{{o.name}}</a></td>
-            <td>{{o.deadline}}</td>
+            <td>{{o.deadline | date:'d.M.y H:mm'}}</td>
         </tr>
     </tbody>
 </table>

@@ -149,8 +149,8 @@ export class FairCreateStep1Component implements OnInit {
             fair = fileData.Fairs[0];
             this.form.patchValue({
                 name: fair.Fair,
-                startDate: fair.StartDate,
-                endDate: fair.EndDate,
+                startDate: fair.StartDate + " " + fair.StartTime,
+                endDate: fair.EndDate + " " + fair.EndTime,
                 place: fair.Place,
                 about: fair.About
             });

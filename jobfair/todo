@@ -24,6 +24,7 @@ dodati trim u schema mongoose
 proveriti formu datuma u mongoose i validaciju ya njih
 this.opening.deadline = new Date(data.opening.deadline);
 
+time pipe  | date:'d.M.y H:mm'
 
 express catch  parsing error
 
