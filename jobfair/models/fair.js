@@ -62,6 +62,12 @@ const applicationSchema = new Schema({
     approved : {
         type : Boolean, 
         default : false
+    }, 
+    reason: {
+        type : String,
+        default : '', 
+        minlength : v.data.reason.minlength, 
+        maxlength: v.data.reason.maxlen
     }
 })
 

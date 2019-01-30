@@ -26,6 +26,7 @@ import { FairCreateStep1Component } from './components/fair-create-step1/fair-cr
 import { FairCreateStep2Component } from './components/fair-create-step2/fair-create-step2.component';
 import { FairCreateStep3Component } from './components/fair-create-step3/fair-create-step3.component';
 import { FairCreateStep4Component } from './components/fair-create-step4/fair-create-step4.component';
+import { FairApproveComponent } from './components/fair-approve/fair-approve.component';
 // import { ErrorMessageDirective } from './directives/error-message.directive';
 
 @NgModule({
@@ -52,6 +53,7 @@ import { FairCreateStep4Component } from './components/fair-create-step4/fair-cr
         FairCreateStep2Component,
         FairCreateStep3Component,
         FairCreateStep4Component,
+        FairApproveComponent,
         // ErrorMessageDirective
     ],
     imports: [

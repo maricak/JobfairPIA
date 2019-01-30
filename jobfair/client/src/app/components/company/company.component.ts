@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { OpeningService } from 'src/app/services/opening.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Company } from 'src/app/models/company';
 import { FairService } from 'src/app/services/fair.service';
 import { Fair, Package, Additional } from 'src/app/models/fair';
-import { FormGroup, FormBuilder, Validators, FormControl, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
     selector: 'app-company',
@@ -55,8 +54,13 @@ export class CompanyComponent implements OnInit {
                             this.message = 'Your application has been approved';
                             this.messageClass = 'alert alert-success'
                         } else {
-                            this.message = 'Your application has to be approved';
-                            this.messageClass = 'alert alert-danger'
+                            if (app.reason && app.reason !== '') {
+                                this.message = `Your application has been denied : ${app.reason}`;
+                                this.messageClass = 'alert alert-danger'
+                            } else {
+                                this.message = 'Your application has to be approved';
+                                this.messageClass = 'alert alert-danger'
+                            }
                         }
                     } else {
                         let today = new Date();
@@ -79,7 +83,7 @@ export class CompanyComponent implements OnInit {
                 this.messageClass = 'alert alert-danger'
                 this.canApply = false;
             }
-            console.log(`can apply ${this.canApply}`);           
+            console.log(`can apply ${this.canApply}`);
         });
     }
 
@@ -105,11 +109,13 @@ export class CompanyComponent implements OnInit {
             this.chosenItems.push(p)
             this.sum += p.price;
         }
-        this.additionals.value.forEach(aId => {
-            let a: Additional = this.getAdditionals().find(a => { return a._id === aId });
-            this.chosenItems.push(a);
-            this.sum += a.price;
-        });
+        if (this.additionals.value) {
+            this.additionals.value.forEach(aId => {
+                let a: Additional = this.getAdditionals().find(a => { return a._id === aId });
+                this.chosenItems.push(a);
+                this.sum += a.price;
+            });
+        }
     }
 
     onApplicationSubmit() {

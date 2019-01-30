@@ -17,7 +17,8 @@ export interface Fair {
 interface Application {
     companyId: string,
     packages: string[], // ids
-    approved: boolean
+    approved: boolean,
+    reason: string
 }
 export interface Package {
     _id: string,

@@ -236,6 +236,10 @@ export var data: { [key: string]: { [type: string]: any[] } } = {
     },
     ['cvDeadline']: {
         ['required']: [true, 'CV deadline is required']
+    },
+    ['reason']: {
+        ['minlength']: [2, 'Reason min length is 2'],
+        ['maxlength']: [100, 'Reason max length is 100']
     }
 };
 

@@ -37,6 +37,14 @@ export class FairService {
             { headers: { 'Content-type': 'application/json', 'auth': this.token } });
     }
 
+    getCompaniesToApprove(fairId: string) {
+        this.loadData();
+        console.log(`${this.uri}/fair/forApproval/${fairId}`);
+        
+        return this.http.get(`${this.uri}/fair/forApproval/${fairId}`,
+            { headers: { 'Content-type': 'application/json', 'auth': this.token } });
+    }
+
     loadData() {
         this.token = this.authService.getToken();
         this.id = this.authService.getId();

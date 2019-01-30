@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 
 const Fair = require('../models/fair');
+const Company = require('../models/company');
 
 const jwt = require('jsonwebtoken');
 const config = require('../config/database');
@@ -174,6 +175,73 @@ router.post('/apply', (req, res) => {
         });
     }
 });
+
+router.get('/forApproval/:id', (req, res) => {
+    let id = req.params.id;
+    if (req.decoded.type != "admin") {
+        res.json({ success: false, message: "This option is only for admins" });
+    } else {
+        Fair.findById(id, (err, fair) => {
+            if (err) {
+                res.json({ success: false, message: "Error happened while searching for the fair " + err.message });
+            } else if (fair) {
+                if (fair.finished) {
+                    res.json({ success: false, message: "The fair is over" });
+                } else {
+                    if (fair.applications) {
+                        let ret = fair.applications.map((a) => {
+                            let c;
+                            Company.findById(a.companyId, (err, company) => {
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    c = company;
+                                }
+                            });
+                            return {
+                                companyId: a.companyId,
+                                companyName: c.name, 
+                                packages : a.packages
+                            }
+                        })
+                    } else {
+                        res.json({ success: true, message: "Success!", companies: [] });
+                    }
+                }
+            } else {
+                res.json({ success: false, message: "No fair in the database" });
+
+            }
+        })
+    }
+
+    // if (req.decoded.type != "admin") {
+    //     res.json({ success: false, message: "This option is only for admins" });
+    // } else {
+    //     let fair = new Fair(req.body);
+    //     // console.log(fair);
+    //     fair.save((err, newFair) => {
+    //         if (err) {
+    //             if (err.errors) {
+    //                 for (const key in err.errors) {
+    //                     res.json({ success: false, message: err.errors[key].message });
+    //                     break;
+    //                 }
+    //             } else {
+    //                 res.json({ success: false, message: 'Could not save the fair. Error: ' + err.message });
+    //             }
+    //         }
+    //         else if (newFair) {
+    //             console.log(newFair);
+
+    //             res.json({ success: true, message: 'Fair created', fair: newFair }); // Return success
+    //         } else {
+    //             res.json({ success: false, message: 'Could not save the fair. Error: ' + err.message });
+    //         }
+    //     });
+    // }
+});
+
 
 
 module.exports = router;
