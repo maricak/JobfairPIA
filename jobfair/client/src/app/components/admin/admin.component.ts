@@ -51,6 +51,5 @@ export class AdminComponent implements OnInit {
     onFairCreated(event) {
         this.fair = event;
         this.fairActive = true;
-        // this.fairActive = true;
     }
 }

@@ -77,6 +77,73 @@ router.post('/updateDeadlines', (req, res) => {
     }
 });
 
+router.post('/approveCompanies', (req, res) => {
+    console.log(req.body);
+
+    if (req.decoded.type != "admin") {
+        res.json({ success: false, message: "This data is only for admins" });
+    } else if (!req.body.fairId || req.body._id == "") {
+        res.json({ success: false, message: "You must provide fair id" });
+    } else if (!req.body.applications) {
+        res.json({ success: false, message: "You must provide applications" });
+    } else {
+        Fair.findById(req.body.fairId, (err, fair) => {
+            if (err) {
+                res.json({ success: false, message: "Error happened whil searchig for fair" + err.message });
+            } else if (fair) {
+                if (fair.finished) {
+                    res.json({ success: false, message: "The fair is closed" });
+                } else {
+                    let finalMessage = "";
+                    req.body.applications.forEach(a => {
+                        let index = fair.applications.findIndex(app => app._id == a._id)
+                        let localMessage = "";
+                        if (a.approved) {
+                            a.packages.forEach(package => {
+                                let packageIndex = fair.packages.findIndex(p => p._id == package._id);
+                                console.log(`packgage index ${packageIndex}`);
+
+                                if (packageIndex != -1 && fair.packages[packageIndex].maxCompanies != -1) {
+                                    if (fair.packages[packageIndex].companiesLeft > 0) {
+                                        fair.packages[packageIndex].companiesLeft--;
+                                    } else {
+                                        localMessage += ` No available packages of type ${package.title} for company ${a.companyName} `;
+                                        localMessage += "test";
+                                    }
+                                }
+                            });
+                        }
+                        if (localMessage == "") {
+                            fair.applications[index].approved = a.approved;
+                            fair.applications[index].reason = a.reason;
+                        } else {
+                            finalMessage += localMessage;
+                        }
+                    });
+                    // fair.applyDeadline = req.body.applyDeadline;
+                    // fair.cvDeadline = req.body.cvDeadline;
+                    fair.save((err, updatedFair) => {
+                        if (err) {
+                            if (err.errors) {
+                                for (const key in err.errors) {
+                                    res.json({ success: false, message: err.errors[key].message });
+                                    break;
+                                }
+                            } else {
+                                res.json({ success: false, message: 'Could not update the fair. Error: ' + err.message });
+                            }
+                        } else {
+                            res.json({ success: true, message: `Applications updated ${finalMessage}`, fair: updatedFair }); // Return success
+                        }
+                    });
+                }
+            } else {
+                res.json({ success: false, message: "No fair in the database" });
+            }
+        })
+    }
+});
+
 router.post('/create', (req, res) => {
     console.log(req.body);
     if (req.decoded.type != "admin") {
@@ -97,7 +164,6 @@ router.post('/create', (req, res) => {
             }
             else if (newFair) {
                 console.log(newFair);
-
                 res.json({ success: true, message: 'Fair created', fair: newFair }); // Return success
             } else {
                 res.json({ success: false, message: 'Could not save the fair. Error: ' + err.message });
@@ -112,65 +178,60 @@ router.post('/apply', (req, res) => {
     if (req.decoded.type != "company") {
         res.json({ success: false, message: "This data is only for companies" });
     } else {
-        Fair.findOne({ finished: false }, (err, fair) => {
+        Company.findById(req.decoded.id, (err, company) => {
             if (err) {
-                res.json({ success: false, message: "Error happened while searching for fair" + err.message });
-            } else if (fair) {
-                let today = new Date();
-                let appdl = new Date(fair.applyDeadline);
-                if (appdl < today) {
-                    res.json({ success: false, message: "Applying not allowed at the moment" });
-                } else {
-                    let noPackage = false;
-                    if (req.body.packages) {
-                        let p = req.body.packages;
-                        p.forEach(id => {
-                            let found = false;
-                            if (!found) {
-                                this.fair.packages.findById(id, (err, package) => {
-                                    if (err) {
-                                    } else if (package) {
-                                        found = true;
-                                    }
-                                });
-                            }
-                            if (!found) {
-                                this.fair.additional.findById(id, (err, additional) => {
-                                    if (err) {
-                                    } else if (additional) {
-                                        found = true;
-                                    }
-                                });
-                            }
-                            if (!found && !noPackage) {
-                                noPackage = true;
-                            }
-                        });
-                    }
-                    if (noPackage) {
-                        res.json({ success: false, message: "The fair does not contain one of package ids" });
-                    } else {
-                        Fair.findOneAndUpdate({ _id: fair._id }, {
-                            $push: {
-                                applications: {
-                                    companyId: req.decoded.id,
-                                    packages: req.body,
-                                    approved: false
+                res.json({ success: false, message: "Error happened while searching for company" + err.message });
+            } else if (company) {
+                Fair.findOne({ finished: false }, (err, fair) => {
+                    if (err) {
+                        res.json({ success: false, message: "Error happened while searching for fair" + err.message });
+                    } else if (fair) {
+                        let today = new Date();
+                        let appdl = new Date(fair.applyDeadline);
+                        if (appdl < today) {
+                            res.json({ success: false, message: "Applying not allowed at the moment" });
+                        } else {
+                            if (req.body) {
+                                let numberFound = 0;
+                                let packageIds = req.body; // ids   
+                                let chosenPackages = (fair.packages.filter(p =>
+                                    packageIds.findIndex(id => (id == p._id)) !== -1
+                                ));
+                                numberFound += chosenPackages.length;
+                                let chosenAdditions = (fair.additional.filter(a =>
+                                    packageIds.findIndex(id => (id == a._id)) !== -1
+                                ));
+                                numberFound += chosenAdditions.length
+                                if (packageIds.length != numberFound) {
+                                    res.json({ success: false, message: "The fair does not contain one of package ids" });
+                                } else {
+                                    Fair.findOneAndUpdate({ _id: fair._id }, {
+                                        $push: {
+                                            applications: {
+                                                companyId: company._id,
+                                                companyName: company.name,
+                                                packages: chosenPackages.concat(chosenAdditions),
+                                                approved: false
+                                            }
+                                        }
+                                    }, (err, newFair) => {
+                                        if (err) {
+                                            res.json({ success: false, message: "Eror happened while saving application " + err.message });
+                                        } else if (newFair) {
+                                            res.json({ success: true, message: "Success! The application needs approval", fair: newFair });
+                                        } else {
+                                            res.json({ success: false, message: "Eror happened while saving application" });
+                                        }
+                                    })
                                 }
                             }
-                        }, (err, newFair) => {
-                            if (err) {
-                                res.json({ success: false, message: "Eror happened while saving application " + err.message });
-                            } else if (newFair) {
-                                res.json({ success: true, message: "Success! The application needs approval", fair: newFair });
-                            } else {
-                                res.json({ success: false, message: "Eror happened while saving application" });
-                            }
-                        })
+                        }
+                    } else {
+                        res.json({ success: false, message: "No fair in the database that is active" });
                     }
-                }
+                });
             } else {
-                res.json({ success: false, message: "No fair in the database that is active" });
+                res.json({ success: false, message: "No company in the database" });
             }
         });
     }
@@ -189,59 +250,16 @@ router.get('/forApproval/:id', (req, res) => {
                     res.json({ success: false, message: "The fair is over" });
                 } else {
                     if (fair.applications) {
-                        let ret = fair.applications.map((a) => {
-                            let c;
-                            Company.findById(a.companyId, (err, company) => {
-                                if (err) {
-                                    console.log(err);
-                                } else {
-                                    c = company;
-                                }
-                            });
-                            return {
-                                companyId: a.companyId,
-                                companyName: c.name, 
-                                packages : a.packages
-                            }
-                        })
+                        let newApplications = fair.applications.filter((a) => a.approved == false && a.reason == '');
+                        res.json({ success: true, message: "Success", applications: newApplications });
                     } else {
-                        res.json({ success: true, message: "Success!", companies: [] });
+                        res.json({ success: true, message: "There are no applications for this fair!", applications: [] });
                     }
                 }
             } else {
                 res.json({ success: false, message: "No fair in the database" });
-
             }
         })
     }
-
-    // if (req.decoded.type != "admin") {
-    //     res.json({ success: false, message: "This option is only for admins" });
-    // } else {
-    //     let fair = new Fair(req.body);
-    //     // console.log(fair);
-    //     fair.save((err, newFair) => {
-    //         if (err) {
-    //             if (err.errors) {
-    //                 for (const key in err.errors) {
-    //                     res.json({ success: false, message: err.errors[key].message });
-    //                     break;
-    //                 }
-    //             } else {
-    //                 res.json({ success: false, message: 'Could not save the fair. Error: ' + err.message });
-    //             }
-    //         }
-    //         else if (newFair) {
-    //             console.log(newFair);
-
-    //             res.json({ success: true, message: 'Fair created', fair: newFair }); // Return success
-    //         } else {
-    //             res.json({ success: false, message: 'Could not save the fair. Error: ' + err.message });
-    //         }
-    //     });
-    // }
 });
-
-
-
 module.exports = router;

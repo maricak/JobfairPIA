@@ -45,28 +45,33 @@ const packageSchema = new Schema({
     maxCompanies: {
         type: Number,
         min: v.data.maxCompanies.min
-    }, 
-    companiesLeft : {
-        type : Number
+    },
+    companiesLeft: {
+        type: Number
     }
 });
 
 const applicationSchema = new Schema({
-    companyId : {
-        type : String, 
-        required : v.data.companyId.required
-    }, 
+    companyId: {
+        type: String,
+        required: v.data.companyId.required
+    },
+    companyName: {
+        type: String,
+        required: v.data.name.required,
+        minlength: v.data.name.minlength,
+        maxlength: v.data.name.maxlength
+    },
     packages: { //ids
-        type : [String]
-    }, 
-    approved : {
-        type : Boolean, 
-        default : false
-    }, 
+        type: [packageSchema]
+    },
+    approved: {
+        type: Boolean,
+        default: false
+    },
     reason: {
-        type : String,
-        default : '', 
-        minlength : v.data.reason.minlength, 
+        type: String,
+        default: '',
         maxlength: v.data.reason.maxlen
     }
 })
@@ -78,7 +83,7 @@ const fairSchema = new Schema({
     },
     applyDeadline: {
         type: Date,
-        required: v.data.name.required    
+        required: v.data.name.required
     },
     cvDeadline: {
         type: Date,
@@ -113,7 +118,7 @@ const fairSchema = new Schema({
     },
     locations: {
         type: [{
-            type : String, 
+            type: String,
             required: v.data.location.required,
             minlength: v.data.location.minlength,
             maxlength: v.data.location.maxlength
@@ -127,9 +132,9 @@ const fairSchema = new Schema({
     additional: {
         type: [packageSchema],
         required: v.data.additional.required
-    }, 
+    },
     applications: {
-        type : [applicationSchema]
+        type: [applicationSchema]
     }
 });
 

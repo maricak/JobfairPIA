@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { FormArray, FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import * as v from '../../validators';
 import { Fair, Package, Additional } from 'src/app/models/fair';
 
@@ -114,5 +114,4 @@ export class FairCreateStep3Component implements OnInit {
     ngOnInit() {
         this.message.emit(undefined);
     }
-
 }

@@ -13,6 +13,7 @@ import { OpeningInfoComponent } from './components/opening-info/opening-info.com
 import { CompanyComponent } from './components/company/company.component';
 import { OpeningCreateComponent } from './components/opening-create/opening-create.component';
 import { AdminComponent } from './components/admin/admin.component';
+import { FairApplyComponent } from './components/fair-apply/fair-apply.component';
 
 import { StudentGuard } from './guards/student.guard';
 import { NotAuthGuard } from './guards/not-auth.guard';
@@ -32,6 +33,7 @@ const routes: Routes = [
     { path: 'opening/:id', component: OpeningInfoComponent, pathMatch: 'full', canActivate: [AuthGuard] },
     { path: 'company/:id', component: CompanyInfoComponent, pathMatch: 'full', canActivate: [AuthGuard] },
     { path: 'company', component: CompanyComponent, pathMatch: 'full', canActivate: [CompanyGuard] },
+    { path: 'company/apply/fair', component : FairApplyComponent, pathMatch: 'full', canActivate : [CompanyGuard]},
     { path: 'company/create/opening', component: OpeningCreateComponent, pathMatch: 'full', canActivate: [CompanyGuard] },
     { path: 'admin', component: AdminComponent, pathMatch: 'full', canActivate: [AdminGuard] },
     { path: '', component: LoginComponent, pathMatch: 'full', canActivate: [HomeGuard] },

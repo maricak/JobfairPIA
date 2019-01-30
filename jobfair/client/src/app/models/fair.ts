@@ -14,12 +14,15 @@ export interface Fair {
     applications: Application[]
 }
 
-interface Application {
+export interface Application {
+    _id: string,
     companyId: string,
-    packages: string[], // ids
+    companyName : string,
+    packages: (Package | Additional)[],
     approved: boolean,
     reason: string
 }
+
 export interface Package {
     _id: string,
     title: string,

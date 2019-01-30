@@ -1,3 +1,5 @@
+<h5 class="page-header text-center">Openings</h5>
+
 <div [ngClass]="messageClass" *ngIf="message" class="w-75 mx-auto mt-3 alert-dismissible fade show" role="alert">
     {{message}}
     <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
@@ -5,8 +7,7 @@
     </button>
 </div>
 
-<h5 class="text-center text-info" *ngIf="openings?.length > 0">Openings</h5>
-<table *ngIf="openings?.length > 0" class="table">
+<table class="table">
     <thead>
         <td>#</td>
         <td>Name</td>

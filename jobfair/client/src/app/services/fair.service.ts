@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from './auth.service';
-import { Fair } from '../models/fair';
+import { Fair, Application } from '../models/fair';
 
 @Injectable({
     providedIn: 'root'
@@ -39,9 +39,13 @@ export class FairService {
 
     getCompaniesToApprove(fairId: string) {
         this.loadData();
-        console.log(`${this.uri}/fair/forApproval/${fairId}`);
-        
         return this.http.get(`${this.uri}/fair/forApproval/${fairId}`,
+            { headers: { 'Content-type': 'application/json', 'auth': this.token } });
+    }
+
+    approveCompanies(applications: Application[], fairId: string) {
+        this.loadData();
+        return this.http.post(`${this.uri}/fair/approveCompanies`, { applications: applications, fairId: fairId },
             { headers: { 'Content-type': 'application/json', 'auth': this.token } });
     }
 

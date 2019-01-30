@@ -8,7 +8,6 @@
 </div>
 
 <form [formGroup]="form" (submit)="onDeadlinesUpdateSubmit()" class="w-75 mx-auto">
-
     <div class="form-row">
         <!-- applyDeadline -->
         <div class="form-group col-md-6">
@@ -31,8 +30,9 @@
                 </span>
             </ul>
         </div>
+        <!-- submit -->
+        <input [disabled]="!form.valid" type="submit" class="btn btn-info" value="Update" />
     </div>
-    <!-- submit -->
-    <input [disabled]="!form.valid" type="submit" class="btn btn-info" value="Update" />
-
 </form>
+
+<br/>

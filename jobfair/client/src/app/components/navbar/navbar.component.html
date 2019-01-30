@@ -19,8 +19,11 @@
                 <a class="nav-link" routerLink="/student/cv">CV</a>
             </li>
             <li *ngIf="service.isCompany()" class="nav-item" routerLinkActive="active">
+                <a class="nav-link" routerLink="company/apply/fair">Apply</a>
+            </li>
+            <li *ngIf="service.isCompany()" class="nav-item" routerLinkActive="active">
                 <a class="nav-link" routerLink="company/create/opening">Create opening</a>
-            </li>            
+            </li>
             <li class="nav-item" routerLinkActive="active">
                 <a class="nav-link" routerLink="/changePassword">Change password</a>
             </li>

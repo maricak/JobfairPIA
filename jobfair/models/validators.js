@@ -237,7 +237,7 @@ module.exports.data = {
         ['required']: [true, 'CV deadline is required']
     }, 
     ['reason']: {
-        ['minlength']: [2, 'Reason min length is 2'],
+        ['minlength']: [1, 'Reason min length is 1'],
         ['maxlength']: [100, 'Reason max length is 100']
     }
 };

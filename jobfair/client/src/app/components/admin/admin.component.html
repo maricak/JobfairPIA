@@ -11,9 +11,9 @@
 <h3 class="text-center" *ngIf="fairActive">Active fair is {{fair?.name}}</h3>
 <h3 class="text-center" *ngIf="!fairActive">No active fair</h3>
 <br/>
+
 <app-fair-update-deadlines *ngIf="fairActive" [(fair)]="fair"></app-fair-update-deadlines>
 
 <app-fair-approve *ngIf="fairActive" [(fair)]="fair"></app-fair-approve>
-
 
 <app-fair-create *ngIf="!fairActive" (fairCreated)="onFairCreated($event)"></app-fair-create>
