@@ -235,11 +235,17 @@ module.exports.data = {
     },
     ['cvDeadline']: {
         ['required']: [true, 'CV deadline is required']
-    }, 
+    },
     ['reason']: {
         ['minlength']: [1, 'Reason min length is 1'],
         ['maxlength']: [100, 'Reason max length is 100']
-    }
+    },
+    ['perStartDate']: {
+        ['required']: [true, 'Period start date is required']
+    },
+    ['perEndDate']: {
+        ['required']: [true, 'Period end date is required']
+    },
 };
 
 //date of birth
@@ -251,12 +257,58 @@ module.exports.data = {
 //     { validator: validDateOfBirth, message: 'Date of birth must be in the past' }
 // ]
 
-let checkDates = function (expEdus) {
-    expEdus.forEach(e => {
-        if (e.endDate && e.endData < e.startDate) {
+let checkDates = function (expEduPers) {
+    expEduPers.forEach(e => {
+        if (e.endDate && e.endDate < e.startDate) {
             return false;
         }
     });
+    return true;
+}
+let checkOverlaps = function (periods) {
+    let err = false;
+    periods.forEach(period => {
+        let overalps = periods.filter(p => {
+            if (p.location == period.location) {
+                let s1 = p.startDate;
+                let e1 = p.endDate;
+                let s2 = period.startDate;
+                let e2 = period.endDate;
+
+                if (s1 > s2 && s1 < e2) {
+                    return true;
+                }
+                if (e1 > s2 && e1 < e2) {
+                    return true;
+                }
+                if (s2 > s1 && s2 < e1) {
+                    return true;
+                }
+                if (e2 > s1 && e2 < e1) {
+                    return true;
+                }
+            }
+            return false;
+        })
+        if (overalps.lenght > 0) {
+            err = true;
+        }
+    });
+    return err;
+}
+
+let checkDatesInsideFair = function(periods) {
+    let start = this.startDate;
+    let end = this.endDate;
+    for (let i = 0; i < periods.length; i++) {
+        const period = periods[i];
+        if(period.startDate < start || period.startDate > end) {
+            return false;
+        }
+        if(period.endDate < start || period.endDate > end) {
+            return false;
+        }
+    }
     return true;
 }
 // experiences
@@ -265,6 +317,11 @@ module.exports.experienceValidators = [
 ]
 module.exports.educationValidators = [
     { validator: checkDates, message: "Education start date must be before education end date" }
+]
+module.exports.periodValidator = [
+    { validator: checkDates, message: "Period start date must be before period end date" },
+   // { validator: checkOverlaps, message: "There are periods in one location that overlap" },
+    { validator: checkDatesInsideFair, message: "Cannot create period with time outside of fair startDate and endDate" }
 ]
 
 

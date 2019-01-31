@@ -346,4 +346,39 @@ router.post('/updateMaxCompanies', (req, res) => {
         })
     }
 });
+
+
+router.post('/setPeriods', (req, res) => {
+    if (req.decoded.type != "admin") {
+        res.json({ success: false, message: "This option is only for admins" });
+    } else if (!req.body.fairId || req.body.fairId == "") {
+        res.json({ success: false, message: "You must provide fair id" });
+    } else if (!req.body.periods) {
+        res.json({ success: false, message: "You must provide new periods" });
+    } else {
+        let id = req.body.fairId;
+        Fair.findById(id, (err, fair) => {
+            if (err) {
+                res.json({ success: false, message: "Error happened while searching for the fair " + err.message });
+            } else if (fair) {
+                if (fair.finished) {
+                    res.json({ success: false, message: "The fair is finished" });
+                } else {
+                    fair.set({ periods: req.body.periods })
+                    fair.save((err, newFair) => {
+                        if (err) {
+                            res.json({ success: false, message: "Error happened while saving fair " + err.message });
+                        } else if (newFair) {
+                            res.json({ success: true, message: "Success!", fair: newFair });
+                        } else {
+                            res.json({ success: false, message: "Could not update the fair" });
+                        }
+                    });
+                }
+            } else {
+                res.json({ success: false, message: "No fair in the database" });
+            }
+        })
+    }
+});
 module.exports = router;

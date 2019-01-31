@@ -76,6 +76,38 @@ const applicationSchema = new Schema({
     }
 })
 
+const periodSchema = new Schema({
+    startDate: {
+        type: Date,
+        required: v.data.perStartDate.required
+    },
+    endDate: {
+        type: Date,
+        required: v.data.perEndDate.required
+    },
+    location: {
+        type: String,
+        required: v.data.location.required,
+        minlength: v.data.location.minlength,
+        maxlength: v.data.location.maxlength
+    },
+    type: {
+        type: String,
+        enum: {
+            values: ['lesson', 'workshop', 'presentation'],
+            message: "Period type must be 'lesson', 'workshop' or 'presentation"
+        }
+    }, 
+    companyId: {
+        type: String
+    }, 
+    companyName : {
+        type : String, 
+        minlength : v.data.name.minlength,
+        maxlength : v.data.name.maxlength
+    }
+});
+
 const fairSchema = new Schema({
     finished: {
         type: Boolean,
@@ -135,8 +167,14 @@ const fairSchema = new Schema({
     },
     applications: {
         type: [applicationSchema]
+    },
+    periods: {
+        type: [periodSchema], 
+        validate: v.periodValidator
     }
 });
+
+
 
 // adminSchema.pre('save', function (next) {
 //     if (!this.isModified('password'))

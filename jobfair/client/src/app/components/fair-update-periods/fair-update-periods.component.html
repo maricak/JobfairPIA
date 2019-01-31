@@ -1,9 +1,19 @@
+<h5 class="text-center text-info">Update periods</h5>
+
+<div [ngClass]="messageClass" *ngIf="message" class="w-75 mx-auto  alert-dismissible fade show" role="alert">
+    {{message}}
+    <button type="button" class="close h-100" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
 <table class="table table-sm">
     <thead>
         <tr class="font-weight-bold">
             <td>From</td>
             <td>Until</td>
             <td>Where</td>
+            <td>Company</td>
             <td>Type</td>
         </tr>
     </thead>
@@ -17,6 +27,13 @@
                 </select>
             </td>
             <td>
+                <select class="form-control-sm" [(ngModel)]="p.companyId">
+                    <option *ngFor="let c of getApprovedCompanies()" value="{{c.id}}">
+                        {{c.name}}
+                    </option>
+                </select>
+            </td>
+            <td>
                 <select class="form-control-sm" [(ngModel)]="p.type">
                     <option value="lesson">Lesson</option>
                     <option value="workshop">Workshop</option>
@@ -27,4 +44,4 @@
     </tbody>
 </table>
 
-<button class="btn btn-info" (click)="onNextClick()">Next</button>
+<button class="btn btn-info" (click)="onUpdatePeriodsClick()">Next</button>

@@ -240,7 +240,13 @@ export var data: { [key: string]: { [type: string]: any[] } } = {
     ['reason']: {
         ['minlength']: [2, 'Reason min length is 2'],
         ['maxlength']: [100, 'Reason max length is 100']
-    }
+    },
+    ['perStartDate']: {
+        ['required']: [true, 'Period start date is required']
+    },
+    ['perEndDate']: {
+        ['required']: [true, 'Period end date is required']
+    },
 };
 
 //date of birth
@@ -254,7 +260,7 @@ export var data: { [key: string]: { [type: string]: any[] } } = {
 
 let checkDates = function (expEdus) {
     expEdus.forEach(e => {
-        if (e.endDate && e.endData < e.startDate) {
+        if (e.endDate && e.endDate < e.startDate) {
             return false;
         }
     });

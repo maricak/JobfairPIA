@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from './auth.service';
-import { Fair, Application } from '../models/fair';
+import { Fair, Application, Period } from '../models/fair';
 
 @Injectable({
     providedIn: 'root'
@@ -58,6 +58,12 @@ export class FairService {
     updateMaxCompanies(fair: Fair) {
         this.loadData();
         return this.http.post(`${this.uri}/fair/updateMaxCompanies`, fair,
+            { headers: { 'Content-type': 'application/json', 'auth': this.token } });
+    }
+
+    setPeriods(periods: Period[], fairId: string) {
+        this.loadData();
+        return this.http.post(`${this.uri}/fair/setPeriods`, { periods: periods, fairId: fairId },
             { headers: { 'Content-type': 'application/json', 'auth': this.token } });
     }
 

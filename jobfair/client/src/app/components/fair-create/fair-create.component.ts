@@ -32,7 +32,8 @@ export class FairCreateComponent implements OnInit {
             locations: [],
             packages: [],
             additional: [], 
-            applications: []
+            applications: [], 
+            periods: []
         }
     }
 
@@ -51,6 +52,8 @@ export class FairCreateComponent implements OnInit {
         this.fair.cvDeadline = new Date();
 
         this.fairService.createFair(this.fair).subscribe((data: { success: boolean, message: string, fair: Fair }) => {
+            console.log(data);
+            
             if (data.success) {
                 this.message = data.message;
                 this.messageClass = 'alert alert-success';

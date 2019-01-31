@@ -11,13 +11,23 @@ export interface Fair {
     locations: string[],
     packages: Package[],
     additional: Additional[],
-    applications: Application[]
+    applications: Application[],
+    periods: Period[]
 }
 
+export interface Period {
+    _id: string,
+    startDate: Date,
+    endDate: Date,
+    location: string,
+    type: string,
+    companyId: string
+    companyName: string,
+}
 export interface Application {
     _id: string,
     companyId: string,
-    companyName : string,
+    companyName: string,
     packages: (Package | Additional)[],
     approved: boolean,
     reason: string

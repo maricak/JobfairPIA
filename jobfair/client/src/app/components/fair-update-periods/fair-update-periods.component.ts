@@ -3,15 +3,16 @@ import { Fair, Period } from 'src/app/models/fair';
 import { FairService } from 'src/app/services/fair.service';
 
 @Component({
-    selector: 'app-fair-create-step2',
-    templateUrl: './fair-create-step2.component.html',
+    selector: 'app-fair-update-periods',
+    templateUrl: './fair-update-periods.component.html'
 })
-export class FairCreateStep2Component implements OnInit {
+export class FairUpdatePeriodsComponent implements OnInit {
+
+    message: string;
+    messageClass: string;
 
     periods: Period[] = [];
 
-    @Output() message = new EventEmitter<string>();
-    @Output() messageClass = new EventEmitter<string>();
 
     fair_: Fair;
     @Output() fairChange = new EventEmitter();
@@ -24,33 +25,33 @@ export class FairCreateStep2Component implements OnInit {
         this.fairChange.emit(this.fair_);
     }
 
-    step_: number;
-    @Output() stepChange = new EventEmitter();
-    @Input()
-    get step() {
-        return this.step_;
-    }
-    set step(val: number) {
-        this.step_ = val;
-        this.stepChange.emit(this.step_);
-    }
-
     constructor(private fairService: FairService) { }
 
-
     ngOnInit() {
-        this.message.emit(undefined);
         this.setupPeriods();
     }
 
-
-    onNextClick() {
+    onUpdatePeriodsClick() {
         let changedPeriods: Period[] = this.periods.filter(p => p.location && p.location != "");
-        console.log(changedPeriods);
-        this.fair.periods = changedPeriods;
-        this.step++;
-    }
+        changedPeriods.forEach(p => {
+            if (p.companyId) {
+                p.companyName = this.getApprovedCompanies().find(c => c.id == p.companyId).name;
+            }
+        }) 
 
+        this.fairService.setPeriods(changedPeriods, this.fair._id).subscribe((data: { success: boolean, message: string, fair: Fair }) => {
+            console.log(data);
+            
+            if (data.success) {
+                this.message = data.message;
+                this.messageClass = 'alert alert-success';
+                this.fair = data.fair;
+            } else {
+                this.message = data.message;
+                this.messageClass = 'alert alert-danger';
+            }
+        })
+    }
 
     setupPeriods() {
         let startDate = new Date(this.fair.startDate);
@@ -85,7 +86,26 @@ export class FairCreateStep2Component implements OnInit {
                 e.setTime(s.getTime() + 60 * 60 * 1000); //+60m
             }
         }
-        // console.log(this.periods);        
+        this.fair.periods.forEach(fairPeriod => {
+            let start = new Date(fairPeriod.startDate);
+            let end = new Date(fairPeriod.endDate);
+            let index = this.periods.findIndex(period => {
+                let pStart = new Date(period.startDate);
+                let pEnd = new Date(period.endDate);
+                return (pStart.getTime() == start.getTime()) && (pEnd.getTime() == end.getTime());
+            });
+            if (index != -1) {
+                this.periods[index] = fairPeriod;
+            }
+        });
     }
 
+    getApprovedCompanies(): { name: string, id: string }[] {
+        return this.fair.applications.filter(a => a.approved).map(a => {
+            return {
+                id: a.companyId,
+                name: a.companyName
+            }
+        });
+    }
 }

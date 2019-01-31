@@ -41,6 +41,6 @@ export class FairCreateStep4Component implements OnInit {
     }
 
     ngOnInit() {
-        //this.message.emit(undefined);
+        this.message.emit(undefined);
     }
 }
