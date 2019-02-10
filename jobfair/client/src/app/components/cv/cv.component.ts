@@ -124,10 +124,10 @@ export class CvComponent implements OnInit {
     get dateOfBirth() { return this.form.controls['dateOfBirth']; }
     get personalStatement() { return this.form.controls['personalStatement']; }
     get nationality() { return this.form.controls['nationality']; }
-    get experience() { return this.form.controls['experience']; }
-    get education() { return this.form.controls['education']; }
+    get experience() { return  <FormArray>this.form.controls['experience']; }
+    get education() { return  <FormArray>this.form.controls['education']; }
     get motherTongue() { return this.form.controls['motherTongue']; }
-    get languages() { return this.form.controls['languages']; }
+    get languages() { return  <FormArray>this.form.controls['languages']; }
     get communicationSkills() { return this.form.controls['communicationSkills']; }
     get organisationalSkills() { return this.form.controls['organisationalSkills']; }
     get jobRelatedSkills() { return this.form.controls['jobRelatedSkills']; }

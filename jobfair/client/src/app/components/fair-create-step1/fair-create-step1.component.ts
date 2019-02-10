@@ -74,7 +74,7 @@ export class FairCreateStep1Component implements OnInit {
     get endDate() { return this.form.controls['endDate']; }
     get place() { return this.form.controls['place']; }
     get about() { return this.form.controls['about']; }
-    get locations() { return this.form.controls['locations']; }
+    get locations() { return <FormArray>this.form.controls['locations']; }
 
     createLocation(location: string) {
         return this.formBuilder.group({

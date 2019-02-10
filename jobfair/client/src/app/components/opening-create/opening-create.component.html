@@ -1,4 +1,3 @@
-
 <h1 class="page-header text-center">Create opening</h1>
 
 
@@ -13,7 +12,8 @@
     <!-- Name Input -->
     <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" name="name" class="form-control" formControlName="name" [ngClass]="{'is-invalid': name.errors, 'is-valid': !name.errors}" />
+        <input type="text" name="name" class="form-control" formControlName="name"
+            [ngClass]="{'is-invalid': name.errors, 'is-valid': !name.errors}" />
         <!-- Validation -->
         <ul class="form-text text-danger">
             <span *ngFor="let v of vData.name | keyvalue">
@@ -36,7 +36,8 @@
 
     <div class="form-group">
         <label for="text">Description</label>
-        <input type="text" name="text" class="form-control" formControlName="text" [ngClass]="{'is-invalid': text.errors, 'is-valid': !text.errors}" />
+        <input type="text" name="text" class="form-control" formControlName="text"
+            [ngClass]="{'is-invalid': text.errors, 'is-valid': !text.errors}" />
         <!-- Validation -->
         <ul class="form-text text-danger">
             <span *ngFor="let v of vData.text | keyvalue">
@@ -47,7 +48,8 @@
 
     <div class="form-group">
         <label for="deadline">Deadline</label>
-        <input type="date" name="deadline" class="form-control" formControlName="deadline" [ngClass]="{'is-invalid': deadline.errors, 'is-valid': !deadline.errors}" />
+        <input type="date" name="deadline" class="form-control" formControlName="deadline"
+            [ngClass]="{'is-invalid': deadline.errors, 'is-valid': !deadline.errors}" />
         <ul class="form-text text-danger">
             <span *ngFor="let v of vData.deadline | keyvalue">
                 <li *ngIf="deadline.hasError(v.key)"> {{v.value[1]}}</li>
@@ -55,6 +57,15 @@
         </ul>
     </div>
 
+    <!-- files -->
+    <div class="form-group">
+        <label>Upload files:</label>
+        <input type="file" multiple class="btn btn-info float-right" (change)="onFileChange($event)"
+            [disabled]="coverLetter?.value">
+    </div>
+
+    <br />
     <button [disabled]="!form.valid" type="submit" class="btn btn-info mb-5">Create opening</button>
+    <br />
 
 </form>

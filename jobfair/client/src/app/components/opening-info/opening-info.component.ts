@@ -3,10 +3,9 @@ import { Opening } from 'src/app/models/opening';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { OpeningService } from 'src/app/services/opening.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 import * as v from 'src/app/validators';
-import { Application } from 'src/app/models/opening';
 import { AuthService } from 'src/app/services/auth.service';
 import { Student } from 'src/app/models/student';
 import { Company } from 'src/app/models/company';
@@ -32,7 +31,7 @@ export class OpeningInfoComponent implements OnInit {
     canApply: boolean = false;
     canSeeResults: boolean = false;
 
-    constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, private authService: AuthService, private openingService: OpeningService, private location: Location) {
+    constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, public authService: AuthService, private openingService: OpeningService, private location: Location) {
         this.vData = v.data;
         this.createForm();
     }
@@ -43,10 +42,20 @@ export class OpeningInfoComponent implements OnInit {
                 //Validators.required,
                 Validators.minLength(this.vData.coverLetter.minlength[0]),
                 Validators.maxLength(this.vData.coverLetter.maxlength[0])
-            ])]
+            ])],
+            file: [undefined]
         })
     }
+
     get coverLetter() { return this.form.controls['coverLetter']; }
+    get file() { return this.form.controls['file']; }
+
+    onFileChange(event) {
+        if (event.target.files.length > 0) {
+            let file = event.target.files[0];
+            this.form.get('file').setValue(file);
+        }
+    }
 
     ngOnInit() {
         this.getOpening();
@@ -94,8 +103,6 @@ export class OpeningInfoComponent implements OnInit {
     }
 
     checkCanApply(): boolean {
-       
-        
         if (!this.student) {
             this.message = 'You have to be logged in';
             this.messageClass = 'alert alert-danger';
@@ -132,10 +139,15 @@ export class OpeningInfoComponent implements OnInit {
         if (!this.student || !this.opening) {
             return false;
         }
+        if (!this.opening.applications) {
+            return false;
+        }
+        console.log(this.opening);
+
         let appStudentIds = this.opening.applications.map((a) => { return a.studentId; });
         console.log(appStudentIds);
         console.log(this.student._id);
-        
+
 
         if (appStudentIds.indexOf(this.student._id) != -1) {
             return true;
@@ -154,18 +166,26 @@ export class OpeningInfoComponent implements OnInit {
     }
 
     onSubmitApply() {
-        let app: Application = {
-            studentId: this.student._id,
-            cv: this.student.cv,
-            coverLetter: this.coverLetter.value.trim(),
-            coverLetterIsFile: false,
-            accepted: false
+        let form: FormData = new FormData();
+        form.append('studentId', this.student._id);
+        form.append('cv', JSON.stringify(this.student.cv));
+        if (this.file.value) {
+            form.append('coverLetter', this.file.value);
+            form.append('coverLetterIsFile', 'true');
+        } else {
+            form.append('coverLetter', this.coverLetter.value);
+            form.append('coverLetterIsFile', 'false');
         }
-        this.openingService.apply(this.openingId, app).subscribe((data: { success: boolean, message: string }) => {
+        form.append('accepted', 'false');
+
+        this.openingService.apply(this.openingId, form).subscribe((data: { success: boolean, message: string }) => {
             if (data.success) {
                 this.message = data.message;
                 this.messageClass = 'alert alert-success';
+                this.canApply = false;
             } else {
+                console.log(data.message);
+
                 this.message = data.message;
                 this.messageClass = 'alert alert-danger';
             }

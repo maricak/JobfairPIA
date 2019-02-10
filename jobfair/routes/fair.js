@@ -1,11 +1,21 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 
 const Fair = require('../models/fair');
 const Company = require('../models/company');
 
 const jwt = require('jsonwebtoken');
 const config = require('../config/database');
+
+const multer = require('multer');
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => { cb(null, 'uploads/'); },
+    filename: (req, file, cb) => { cb(null, new Date().getTime() + '_' + file.originalname.split(' ').join('_')); }
+});
+const upload = multer({
+    storage: storage,
+});
+
 
 router.use((req, res, next) => {
     //console.log("student PROVERA");
@@ -144,13 +154,14 @@ router.post('/approveCompanies', (req, res) => {
     }
 });
 
-router.post('/create', (req, res) => {
-    console.log(req.body);
+router.post('/create', upload.array('file'), (req, res) => {
+    console.log(req);
     if (req.decoded.type != "admin") {
         res.json({ success: false, message: "This option is only for admins" });
     } else {
         let fair = new Fair(req.body);
-        // console.log(fair);
+        fair.files = req.files.map(file => file.path);
+        console.log(fair);
         fair.save((err, newFair) => {
             if (err) {
                 if (err.errors) {

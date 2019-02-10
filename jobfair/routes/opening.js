@@ -1,12 +1,21 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 
-var Company = require('../models/company');
-var Opening = require('../models/opening');
-
+const Company = require('../models/company');
+const Opening = require('../models/opening');
 
 const jwt = require('jsonwebtoken');
 const config = require('../config/database');
+
+const multer = require('multer');
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => { cb(null, 'uploads/'); },
+    filename: (req, file, cb) => { cb(null, new Date().getTime() + '_' + file.originalname.split(' ').join('_')); }
+});
+const upload = multer({
+    storage: storage,
+});
+
 
 router.use((req, res, next) => {
     // console.log("student PROVERA");
@@ -38,8 +47,8 @@ router.get('/info/:id', (req, res) => {
     });
 })
 
-router.post('/create', (req, res) => {
-    console.log(req.body);
+router.post('/create', upload.array('file'), (req, res) => {
+    console.log(req);
     if (req.decoded.type != "company") {
         res.json({ success: false, message: "This option is only for companies" });
     } else if (!req.body.companyId || req.body.companyId == "") {
@@ -53,7 +62,7 @@ router.post('/create', (req, res) => {
                     res.json({ success: false, message: "Making openings for other companies is not allowed" });
                 } else {
                     let opening = new Opening(req.body);
-                    opening.companyName = company.name;
+                    opening.files = req.files.map(file => file.path);
                     console.log(opening);
                     opening.save((err) => {
                         if (err) {
@@ -114,16 +123,12 @@ router.post('/update', (req, res) => {
     }
 });
 
-
-router.post('/apply', (req, res) => {
-    console.log(req.body);
+router.post('/apply', upload.single('coverLetter'), (req, res) => {
     if (req.decoded.type != "student") {
         res.json({ success: false, message: "This option is only for students" });
-    } else if (!req.body.application) {
-        res.json({ success: false, message: "You must provide an application" });
-    } else if (!req.body.application.studentId) {
+    } else if (!req.body.studentId) {
         res.json({ success: false, message: "You must provide student id" });
-    } else if (req.body.application.studentId != req.decoded.id) {
+    } else if (req.body.studentId != req.decoded.id) {
         res.json({ success: false, message: "Making applications for other students is not allowed" });
     } else if (!req.body.openingId || req.body.openingId == "") {
         res.json({ success: false, message: "You must provide opening id" });
@@ -136,7 +141,15 @@ router.post('/apply', (req, res) => {
                 if (today > opening.deadline) {
                     res.json({ success: false, message: "Applications are closed" });
                 } else {
-                    opening.applications.push(req.body.application);
+                    let application = req.body;
+                    if (req.file) {
+                        application.coverLetter = req.file.path;
+                    }
+                    if (req.body.cv) {
+                        application.cv = JSON.parse(req.body.cv);
+                    }
+                    console.log(application);
+                    opening.applications.push(application);
                     console.log(opening);
                     opening.save((err) => {
                         if (err) {

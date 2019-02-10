@@ -12,7 +12,8 @@
     <!-- Username Input -->
     <div class="form-group">
         <label for="username">Username</label>
-        <input type="text" name="username" class="form-control" formControlName="username" [ngClass]="{'is-invalid':username.errors, 'is-valid': !username.errors}" />
+        <input type="text" name="username" class="form-control" formControlName="username"
+            [ngClass]="{'is-invalid':username.errors, 'is-valid': !username.errors}" />
         <!-- Validation -->
         <ul class="form-text text-danger">
             <span *ngFor="let v of vData.username | keyvalue">
@@ -25,7 +26,8 @@
     <!-- Password Input -->
     <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" name="password" class="form-control" formControlName="password" [ngClass]="{'is-invalid': password.errors, 'is-valid': !password.errors}" />
+        <input type="password" name="password" class="form-control" formControlName="password"
+            [ngClass]="{'is-invalid': password.errors, 'is-valid': !password.errors}" />
         <!-- Validation -->
         <ul class="form-text text-danger">
             <span *ngFor="let v of vData.password | keyvalue">
@@ -37,7 +39,8 @@
     <!-- Confirm Password Input -->
     <div class="form-group">
         <label for="confirm">Confirm Password</label>
-        <input type="password" name="confirm" class="form-control" formControlName="confirm" [ngClass]="{'is-invalid': confirm.errors || form.errors?.matchingPasswords, 'is-valid': !confirm.errors && !form.errors?.matchingPasswords}" />
+        <input type="password" name="confirm" class="form-control" formControlName="confirm"
+            [ngClass]="{'is-invalid': confirm.errors || form.errors?.matchingPasswords, 'is-valid': !confirm.errors && !form.errors?.matchingPasswords}" />
         <!-- Validation -->
         <ul class="form-text text-danger">
             <span *ngFor="let v of vData.password | keyvalue">
@@ -50,7 +53,8 @@
     <!-- Name Input -->
     <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" name="name" class="form-control" formControlName="name" [ngClass]="{'is-invalid': name.errors, 'is-valid': !name.errors}" />
+        <input type="text" name="name" class="form-control" formControlName="name"
+            [ngClass]="{'is-invalid': name.errors, 'is-valid': !name.errors}" />
         <!-- Validation -->
         <ul class="form-text text-danger">
             <span *ngFor="let v of vData.name | keyvalue">
@@ -62,7 +66,8 @@
     <!-- City Input -->
     <div class="form-group">
         <label for="city">City</label>
-        <input type="text" name="city" class="form-control" formControlName="city" [ngClass]="{'is-invalid': city.errors, 'is-valid': !city.errors}" />
+        <input type="text" name="city" class="form-control" formControlName="city"
+            [ngClass]="{'is-invalid': city.errors, 'is-valid': !city.errors}" />
         <!-- Validation -->
         <ul class="form-text text-danger">
             <span *ngFor="let v of vData.city | keyvalue">
@@ -74,7 +79,8 @@
     <!-- Address Input -->
     <div class="form-group">
         <label for="address">Address</label>
-        <input type="text" name="address" class="form-control" formControlName="address" [ngClass]="{'is-invalid': address.errors, 'is-valid': !address.errors}" />
+        <input type="text" name="address" class="form-control" formControlName="address"
+            [ngClass]="{'is-invalid': address.errors, 'is-valid': !address.errors}" />
         <!-- Validation -->
         <ul class="form-text text-danger">
             <span *ngFor="let v of vData.address | keyvalue">
@@ -86,7 +92,8 @@
     <!-- Pib Input -->
     <div class="form-group">
         <label for="pib">Pib</label>
-        <input type="text" name="pib" class="form-control" formControlName="pib" [ngClass]="{'is-invalid': pib.errors, 'is-valid': !pib.errors}" />
+        <input type="text" name="pib" class="form-control" formControlName="pib"
+            [ngClass]="{'is-invalid': pib.errors, 'is-valid': !pib.errors}" />
         <!-- Validation -->
         <ul class="form-text text-danger">
             <span *ngFor="let v of vData.pib | keyvalue">
@@ -112,7 +119,8 @@
     <!-- Email Input -->
     <div class="form-group">
         <label for="email">Email</label>
-        <input type="text" name="email" class="form-control" formControlName="email" [ngClass]="{'is-invalid': email.errors, 'is-valid': !email.errors}" />
+        <input type="text" name="email" class="form-control" formControlName="email"
+            [ngClass]="{'is-invalid': email.errors, 'is-valid': !email.errors}" />
         <!-- Validation -->
         <ul class="form-text text-danger">
             <span *ngFor="let v of vData.email | keyvalue">
@@ -124,7 +132,8 @@
     <!-- Website Input -->
     <div class="form-group">
         <label for="website">Web site</label>
-        <input type="text" name="website" class="form-control" formControlName="website" [ngClass]="{'is-invalid': website.errors, 'is-valid': !website.errors}" />
+        <input type="text" name="website" class="form-control" formControlName="website"
+            [ngClass]="{'is-invalid': website.errors, 'is-valid': !website.errors}" />
         <!-- Validation -->
         <ul class="form-text text-danger">
             <span *ngFor="let v of vData.website | keyvalue">
@@ -135,8 +144,9 @@
 
     <div class="form-group">
         <label for="workField">Work filed</label>
-        <select class="form-control" formControlName="workField" [ngClass]="{'is-invalid': workField.errors, 'is-valid': !workField.errors}">
-            <option selected value="">*Select work field</option>
+        <select class="form-control" formControlName="workField"
+            [ngClass]="{'is-invalid': workField.errors, 'is-valid': !workField.errors}">
+            <option selected value="">Select work field</option>
             <option value="IT">IT</option>
             <option value="Telecomunications">Telecomunications</option>
             <option value="Civil Engineering">Civil Engineering</option>
@@ -154,11 +164,23 @@
     <!-- specialty Input -->
     <div class="form-group">
         <label for="specialty">Specialty</label>
-        <input type="text" name="specialty" class="form-control" formControlName="specialty" [ngClass]="{'is-invalid': specialty.errors, 'is-valid': !specialty.errors}" />
+        <input type="text" name="specialty" class="form-control" formControlName="specialty"
+            [ngClass]="{'is-invalid': specialty.errors, 'is-valid': !specialty.errors}" />
         <!-- Validation -->
         <ul class="form-text text-danger">
             <span *ngFor="let v of vData.specialty | keyvalue">
                 <li *ngIf="specialty.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
+        </ul>
+    </div>
+
+    <!-- Image -->
+    <div class="form-group">
+        <label for="image">Image</label> <br />
+        <input type="file" class="btn btn-info" accept="image/*" (change)="onFileChange($event)">
+        <ul class="form-text text-danger">
+            <span *ngFor="let v of vData.image | keyvalue">
+                <li *ngIf="image.hasError(v.key)"> {{v.value[1]}}</li>
             </span>
         </ul>
     </div>

@@ -12,7 +12,8 @@ export interface Fair {
     packages: Package[],
     additional: Additional[],
     applications: Application[],
-    periods: Period[]
+    periods: Period[],
+    files: any[]
 }
 
 export interface Period {

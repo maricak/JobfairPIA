@@ -1,8 +1,8 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 
-var Student = require('../models/student');
-var Fair = require('../models/fair');
+const Student = require('../models/student');
+const Fair = require('../models/fair');
 
 const jwt = require('jsonwebtoken');
 const config = require('../config/database');

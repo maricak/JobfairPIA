@@ -6,7 +6,7 @@ import { FairService } from 'src/app/services/fair.service';
     selector: 'app-fair-create',
     templateUrl: './fair-create.component.html'
 })
-export class FairCreateComponent implements OnInit { 
+export class FairCreateComponent implements OnInit {
 
     message: string;
     messageClass: string;
@@ -31,9 +31,10 @@ export class FairCreateComponent implements OnInit {
             about: undefined,
             locations: [],
             packages: [],
-            additional: [], 
-            applications: [], 
-            periods: []
+            additional: [],
+            applications: [],
+            periods: [],
+            files: []
         }
     }
 
@@ -51,15 +52,20 @@ export class FairCreateComponent implements OnInit {
         this.fair.applyDeadline = new Date();
         this.fair.cvDeadline = new Date();
 
-        this.fairService.createFair(this.fair).subscribe((data: { success: boolean, message: string, fair: Fair }) => {
+        let data: FormData = new FormData();
+        data.append('fair', JSON.stringify(this.fair));
+        this.fair.files.forEach(file => {
+            data.append('file', file);
+        });
+        this.fairService.createFair(data).subscribe((data: { success: boolean, message: string, fair: Fair }) => {
             console.log(data);
-            
+
             if (data.success) {
                 this.message = data.message;
                 this.messageClass = 'alert alert-success';
                 console.log("updated fair");
                 console.log(data.fair);
-                
+
                 this.fairCreated.emit(data.fair);
             } else {
                 this.message = data.message;

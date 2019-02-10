@@ -97,14 +97,14 @@ const periodSchema = new Schema({
             values: ['lesson', 'workshop', 'presentation'],
             message: "Period type must be 'lesson', 'workshop' or 'presentation"
         }
-    }, 
+    },
     companyId: {
         type: String
-    }, 
-    companyName : {
-        type : String, 
-        minlength : v.data.name.minlength,
-        maxlength : v.data.name.maxlength
+    },
+    companyName: {
+        type: String,
+        minlength: v.data.name.minlength,
+        maxlength: v.data.name.maxlength
     }
 });
 
@@ -169,27 +169,16 @@ const fairSchema = new Schema({
         type: [applicationSchema]
     },
     periods: {
-        type: [periodSchema], 
+        type: [periodSchema],
         validate: v.periodValidator
+    },
+    files: {
+        type: [String]
     }
 });
 
 
 
-// adminSchema.pre('save', function (next) {
-//     if (!this.isModified('password'))
-//         return next();
-//     bcrypt.hash(this.password, null, null, (err, hash) => {
-//         if (err) {
-//             return next(err);
-//         }
-//         this.password = hash;
-//         next();
-//     });
-// });
 
-// adminSchema.methods.comparePassword = function (password) {
-//     return bcrypt.compareSync(password, this.password);
-// };
 
 module.exports = mongoose.model('fair', fairSchema);

@@ -21,23 +21,24 @@ export class OpeningService {
             { headers: { 'Content-type': 'application/json', 'auth': this.token } });
     }
 
-    createOpening(opening: Opening) {
+    createOpening(opening: FormData) {
         console.log(opening);
         this.loadData();
         return this.http.post(`${this.uri}/opening/create/`, opening,
-            { headers: { 'Content-type': 'application/json', 'auth': this.token } });
+            { headers: { /*'Content-type': 'application/json',*/ 'auth': this.token } });
     }
 
-    apply(openingId: string, application: Application) {
+    apply(openingId: string, application: FormData) {
         console.log(openingId);
         console.log(application);
+        application.append('openingId', openingId);
         this.loadData();
-        return this.http.post(`${this.uri}/opening/apply/`, { openingId: openingId, application: application },
-            { headers: { 'Content-type': 'application/json', 'auth': this.token } });
+        return this.http.post(`${this.uri}/opening/apply/`, application/*{ openingId: openingId, application: application }*/,
+            { headers: { /*'Content-type': 'application/json',*/ 'auth': this.token } });
     }
 
     update(opening: Opening) {
-        console.log(opening);    
+        console.log(opening);
         this.loadData();
         return this.http.post(`${this.uri}/opening/update/`, opening,
             { headers: { 'Content-type': 'application/json', 'auth': this.token } });

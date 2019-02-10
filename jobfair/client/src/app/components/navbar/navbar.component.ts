@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
 
-    constructor(private service: AuthService, private router: Router) { }
+    constructor(public service: AuthService, private router: Router) { }
     
     onLogoutClick() {
         this.service.logout();

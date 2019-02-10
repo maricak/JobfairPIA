@@ -46,7 +46,7 @@ export class AuthService {
             { headers: { 'Content-type': 'multipart/form_data' } }*/);
     }
 
-    registerCompany(company: Company) {
+    registerCompany(company: FormData) {
         return this.http.post(`${this.uri}/register/company`, company);
     }
 
@@ -70,11 +70,11 @@ export class AuthService {
         return this.http.post(`${this.uri}/changePassword/admin`, admin);
     }
 
-    getAdminData() {
-        this.loadData();
-        console.log(this.token);
-        return this.http.get(`${this.uri}/profile`, { headers: { 'Content-type': 'application/json', 'auth': this.token } });
-    }
+    // getAdminData() {
+    //     this.loadData();
+    //     console.log(this.token);
+    //     return this.http.get(`${this.uri}/profile`, { headers: { 'Content-type': 'application/json', 'auth': this.token } });
+    // }
 
     loggedIn() {
         this.loadData();

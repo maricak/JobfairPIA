@@ -86,6 +86,9 @@ export class RegisterCompanyComponent implements OnInit {
                 Validators.minLength(this.vData.specialty.minlength[0]),
                 Validators.maxLength(this.vData.specialty.maxlength[0])
             ])],
+            image: ['', Validators.compose([
+                Validators.required
+            ])]
         }, { validator: this.matchingPasswords('password', 'confirm') }); // Add custom validator to form for matching passwords
     }
 
@@ -111,24 +114,30 @@ export class RegisterCompanyComponent implements OnInit {
     get website() { return this.form.controls['website']; }
     get workField() { return this.form.controls['workField']; }
     get specialty() { return this.form.controls['specialty']; }
+    get image() { return this.form.controls['image']; }
+
+    onFileChange(event) {
+        if (event.target.files.length > 0) {
+            let file = event.target.files[0];
+            this.form.get('image').setValue(file);
+        }
+    }
 
     onRegisterSubmit() {
-        const company: Company = {
-            _id: undefined,
-            username: this.username.value.trim(),
-            password: this.password.value.trim(),
-            name: this.name.value.trim(),
-            city: this.city.value.trim(),
-            address: this.address.value.trim(),
-            numberOfEmployees: this.numberOfEmployees.value,
-            pib: this.pib.value.trim(),
-            email: this.email.value.trim(),
-            website: this.website.value.trim(),
-            workField: this.workField.value.trim(),
-            specialty: this.specialty.value.trim()
-        };
-
-        this.authService.registerCompany(company).subscribe((data: { success: boolean, message: string }) => {
+        const form: FormData = new FormData();
+        form.append('username', this.username.value.trim());
+        form.append('password', this.password.value.trim());
+        form.append('name', this.name.value.trim());
+        form.append('city', this.city.value.trim());
+        form.append('address', this.address.value.trim());
+        form.append('numberOfEmployees', this.numberOfEmployees.value);
+        form.append('pib', this.pib.value);
+        form.append('email', this.email.value.trim());
+        form.append('website', this.website.value.trim());
+        form.append('workField', this.workField.value.trim());
+        form.append('specialty', this.specialty.value);
+        form.append('image', this.image.value);
+        this.authService.registerCompany(form).subscribe((data: { success: boolean, message: string }) => {
             if (!data.success) {
                 this.message = data.message;
                 this.messageClass = 'alert alert-danger';

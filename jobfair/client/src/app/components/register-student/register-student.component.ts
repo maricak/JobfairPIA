@@ -12,7 +12,7 @@ import * as v from 'src/app/validators';
 })
 export class RegisterStudentComponent implements OnInit {
 
-    form: FormGroup;
+    form;
     vData: { [key: string]: { [type: string]: any[] } };
 
     message: string;
@@ -25,45 +25,45 @@ export class RegisterStudentComponent implements OnInit {
     createForm() {
         this.form = this.formBuilder.group({
             username: ['', Validators.compose([
-                Validators.required,
+               // Validators.required,
                 Validators.minLength(this.vData.username.minlength[0]),
                 Validators.maxLength(this.vData.username.maxlength[0])
             ])],
             password: ['', Validators.compose([
-                Validators.required,
+               // Validators.required,
                 Validators.minLength(this.vData.password.minlength[0]),
                 Validators.maxLength(this.vData.password.maxlength[0]),
                 Validators.pattern(this.vData.password.pattern[0])
             ])],
             confirm: ['', Validators.compose([
-                Validators.required,
+              //  Validators.required,
                 Validators.minLength(this.vData.password.minlength[0]),
                 Validators.maxLength(this.vData.password.maxlength[0]),
                 Validators.pattern(this.vData.password.pattern[0])
             ])],
             name: ['', Validators.compose([
-                Validators.required,
+               // Validators.required,
                 Validators.minLength(this.vData.name.minlength[0]),
                 Validators.maxLength(this.vData.name.maxlength[0])
             ])],
             surname: ['', Validators.compose([
-                Validators.required,
+              //  Validators.required,
                 Validators.minLength(this.vData.surname.minlength[0]),
                 Validators.maxLength(this.vData.surname.maxlength[0])
             ])],
             telephone: ['', Validators.compose([
-                Validators.required,
+               // Validators.required,
                 Validators.minLength(this.vData.telephone.minlength[0]),
                 Validators.maxLength(this.vData.telephone.maxlength[0]),
                 Validators.pattern(this.vData.telephone.pattern[0])
             ])],
             email: ['', Validators.compose([
-                Validators.required,
+               // Validators.required,
                 Validators.maxLength(this.vData.email.maxlength[0]),
                 Validators.pattern(this.vData.email.pattern[0])
             ])],
             currentYear: ['', Validators.compose([
-                Validators.required,
+              //  Validators.required,
                 Validators.min(this.vData.currentYear.min[0]),
                 Validators.max(this.vData.currentYear.max[0]),
             ])],

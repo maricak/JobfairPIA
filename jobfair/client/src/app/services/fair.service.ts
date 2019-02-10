@@ -25,10 +25,10 @@ export class FairService {
             { headers: { 'Content-type': 'application/json', 'auth': this.token } });
     }
 
-    createFair(fair: Fair) {
+    createFair(fair: FormData) {
         this.loadData();
         return this.http.post(`${this.uri}/fair/create`, fair,
-            { headers: { 'Content-type': 'application/json', 'auth': this.token } });
+            { headers: {/* 'Content-type': 'application/json',*/ 'auth': this.token } });
     }
 
     apply(packages: string[]) {

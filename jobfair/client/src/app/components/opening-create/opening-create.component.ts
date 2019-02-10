@@ -52,7 +52,7 @@ export class OpeningCreateComponent implements OnInit {
             deadline: ['', Validators.compose([
                 Validators.required
             ])],
-            // fajlovi
+            files : [undefined]
         })
     }
 
@@ -60,21 +60,29 @@ export class OpeningCreateComponent implements OnInit {
     get name() { return this.form.controls['name']; }
     get text() { return this.form.controls['text']; }
     get deadline() { return this.form.controls['deadline']; }
+    get files() { return this.form.controls['files']; }
+
+    onFileChange(event) {
+        if (event.target.files.length > 0) {
+            this.form.get('files').setValue(event.target.files);
+        }
+    }
 
     onOpeningSubmit() {
-        this.message = "";
+        this.message = "";        
 
-        const opening: Opening = {
-            _id: undefined,
-            type: this.form.get('type').value.trim(),
-            name: this.form.get('name').value.trim(),
-            text: this.form.get('text').value.trim(),
-            deadline: this.form.get('deadline').value.trim(),
-            companyId: this.company._id,
-            companyUSername: this.company.username,
-            applications: undefined
-        };
-        this.openingService.createOpening(opening).subscribe((data: { success: boolean, message: string }) => {
+        const form: FormData = new FormData();
+        form.append('type', this.type.value.trim());
+        form.append('name', this.name.value.trim());
+        form.append('text', this.text.value.trim());
+        form.append('deadline', this.deadline.value.trim());
+        form.append('companyId', this.company._id);
+        form.append('companyName', this.company.name);
+        for(var propertie in this.files.value) {
+            form.append('file', this.files.value[propertie]);
+        }
+        console.log(this.files.value);
+        this.openingService.createOpening(form).subscribe((data: { success: boolean, message: string }) => {
             console.log(data);
             if (!data.success) {
                 this.message = data.message;

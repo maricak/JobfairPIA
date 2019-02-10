@@ -1,3 +1,10 @@
+<!-- files -->
+<div class="form-group">
+    <label>Upload files:</label>
+    <input type="file" multiple class="btn btn-info float-right" (change)="onFileChange($event)"
+        [disabled]="coverLetter?.value">
+</div>
+
 <table class="table table-sm">
     <thead>
         <tr class="font-weight-bold">

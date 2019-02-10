@@ -17,7 +17,7 @@ const applicationSchema = new Schema({
     },
     coverLetter: {
         type: String,
-       // required: v.data.coverLetter.require,
+        // required: v.data.coverLetter.require,
         minlength: v.data.coverLetter.minlength,
         maxlength: v.data.coverLetter.maxlength
     },
@@ -65,9 +65,11 @@ const openingSchema = new Schema({
         type: Date,
         required: v.data.deadline.required
     },
-    //fajlovi
+    files: {
+        type: [String]
+    },
     applications: {
-        type : [applicationSchema],
+        type: [applicationSchema],
         default: []
     }
 });

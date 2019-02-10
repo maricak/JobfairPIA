@@ -12,5 +12,5 @@ export interface Student extends User{
     currentYear: number,
     graduated: boolean,
     cv: CV, 
-    image : any
+    image : string
 }

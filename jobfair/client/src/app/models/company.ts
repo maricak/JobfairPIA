@@ -13,4 +13,5 @@ export interface Company extends User{
     website: string,
     workField: string,
     specialty: string,
+    image : string
 }

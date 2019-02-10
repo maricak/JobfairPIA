@@ -10,8 +10,26 @@
 <br />
 <h3 class="text-center" *ngIf="fairActive">
     Active fair is {{fair?.name}}
-    <button *ngIf="fairActive && fairOver" class="btn btn-info float-right" (click)="onFinishFairClick()">Finish fair</button>
+    <button *ngIf="fairActive && fairOver" class="btn btn-info float-right" (click)="onFinishFairClick()">Finish
+        fair</button>
 </h3>
+
+<table *ngIf="fairActive && fair?.files && fair.files.length > 0">
+    <thead class="font-weight-bold">
+        Files
+    </thead>
+    <tbody>
+        <tr *ngFor="let file of opening.files">
+            <td>
+                <a [href]="file">
+                    {{ file |fileName}}
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
 <h3 class="text-center" *ngIf="!fairActive">No active fair</h3>
 <br />
 

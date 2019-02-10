@@ -25,9 +25,9 @@ mongoose.connect(config.uri, { useNewUrlParser: true }, (err) => {
 });
 
 app.use(cors({ origin: 'http://localhost:4200' }));
+// app.use('/uploads', express.static('/uploads'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use('/images', express.static('/images'));
 app.use(express.static(__dirname + '/client/dist'));
 
 app.use('/login', loginRouter);
@@ -38,15 +38,32 @@ app.use('/student', studentRouter);
 app.use('/company', companyRouter);
 app.use('/opening', openingRouter);
 app.use('/fair', fairRouter);
+app.use('/uploads', express.static(__dirname + '/uploads'));
 
 
-app.get('/profile', (req, res) => {
-    res.send(req.decoded);
-});
+// app.get('/profile', (req, res) => {
+//     res.send(req.decoded);
+// });
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname + '/client/dist/index.html'));
-});
+
+// app.use((req, res, next) => {
+//     const error = new Error("Not found");
+//     error.status = 404;
+//     next(error);
+// });
+
+// app.use((error, req, res, next) => {
+//     res.status(error.status || 500);
+//     res.json({
+//         error: {
+//             message: error.message
+//         }
+//     });
+// });
+
+// app.get('*', (req, res) => {
+//     res.sendFile(path.join(__dirname + '/client/dist/index.html'));
+// });
 
 app.listen(8080, () => {
     console.log("Listening on 8080");

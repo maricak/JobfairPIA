@@ -1,8 +1,8 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 
-var Company = require('../models/company');
-var Opening = require('../models/opening');
+const Company = require('../models/company');
+const Opening = require('../models/opening');
 
 
 const jwt = require('jsonwebtoken');
@@ -77,30 +77,30 @@ router.get('/account/:id', (req, res) => {
 
 router.get('/openings/:id', (req, res) => {
     let id = req.params.id;
-     if(req.decoded.type != "company") {
-         res.json({success : false, message : "This data is only for companies"});
-     } else if (id !== req.decoded.id) {
-         res.json({ success: false, message: "Access to others company's data is not allowed" })
-     } else {
-    Company.findById(id, (err, company) => {
-        if (err) {
-            res.json({ success: false, message: "Error happend while retrieving company's data: " + err.message });
-        } else if (company) {
-            Opening.find({ companyId: company._id }, (err, openings) => {
-                if (err) {
-                    res.json({ success: false, message: "Error happend while retrieving company's openings: " + err.message });
-                } else if (openings) {
-                    res.json({ success: true, message: "Success", openings: openings });
-                } else {
-                    res.json({ success: true, message: "No openings in the database", openings: [] });
-                }
-            });
-        } else {
-            res.json({ success: false, message: "No company in the database" });
-        }
-    })
-   }
-})
+    if (req.decoded.type != "company") {
+        res.json({ success: false, message: "This data is only for companies" });
+    } else if (id !== req.decoded.id) {
+        res.json({ success: false, message: "Access to others company's data is not allowed" })
+    } else {
+        Company.findById(id, (err, company) => {
+            if (err) {
+                res.json({ success: false, message: "Error happend while retrieving company's data: " + err.message });
+            } else if (company) {
+                Opening.find({ companyId: company._id }, (err, openings) => {
+                    if (err) {
+                        res.json({ success: false, message: "Error happend while retrieving company's openings: " + err.message });
+                    } else if (openings) {
+                        res.json({ success: true, message: "Success", openings: openings });
+                    } else {
+                        res.json({ success: true, message: "No openings in the database", openings: [] });
+                    }
+                });
+            } else {
+                res.json({ success: false, message: "No company in the database" });
+            }
+        });
+    }
+});
 
 
 module.exports = router;

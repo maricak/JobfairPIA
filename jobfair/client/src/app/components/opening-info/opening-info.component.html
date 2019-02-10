@@ -29,16 +29,30 @@
         <td class="w-25 font-weight-bold">Deadline:</td>
         <td>{{opening?.deadline | date:'d.M.y H:mm'}}</td>
     </tr>
+    <tr>
+        <td class="w-25 font-weight-bold">Files:</td>
+        <td>
+            <ng-container *ngIf="opening?.files && opening.files.length > 0">
+                <ng-container *ngFor="let file of opening.files">
+                    <a [href]="file">
+                        {{ file | fileName}}
+                    </a>
+                </ng-container>
+            </ng-container>
+        </td>
+    </tr>
 </table>
 
-<form [formGroup]="form" (submit)="onSubmitApply()" *ngIf="canApply">
+<form [formGroup]="form" *ngIf="canApply">
     <h5 class="text-center text-info">Apply</h5>
     <div>
         <label class="d-inline-block pt-2">Write your cover letter or upload a document:</label>
-        <button class="btn btn-info float-right" [disabled]="form.controls.coverLetter.value!==''">Upload cover letter</button>
+        <input type="file" class="btn btn-info float-right" (change)="onFileChange($event)"
+            [disabled]="coverLetter.value">
         <br />
     </div>
-    <textarea rows="10" class="w-100" class="form-control" formControlName="coverLetter" [ngClass]="{'is-invalid': coverLetter.errors, 'is-valid': !coverLetter.errors}"></textarea>
+    <textarea rows="10" class="w-100" class="form-control" formControlName="coverLetter"
+        [ngClass]="{'is-invalid': coverLetter.errors, 'is-valid': !coverLetter.errors}"></textarea>
     <ul class="form-text text-danger">
         <span *ngFor="let v of vData.coverLetter | keyvalue">
             <li *ngIf="coverLetter.hasError(v.key)"> {{v.value[1]}}</li>
@@ -46,7 +60,8 @@
     </ul>
     <div>
         <small class="float-right">Your CV will be sent with the cover letter</small>
-        <button class="btn btn-info">Apply</button>
+        <button class="btn btn-info" (click)="onSubmitApply()"
+            [disabled]="(!coverLetter.value || coverLetter.value == '' || coverLetter.errors) && !file.value">Apply</button>
     </div>
     <br />
 </form>
@@ -54,7 +69,7 @@
 <!-- student -->
 <h5 class="text-center text-info my-3" *ngIf="canSeeResults">Results</h5>
 <table *ngIf="opening?.applications.length > 0 && canSeeResults" class="table">
-    <thead>
+    <thead class="w-25 font-weight-bold">
         <td>#</td>
         <td>Name</td>
         <td>Surname</td>
@@ -77,98 +92,184 @@
     <div *ngFor="let app of opening?.applications; let i = index">
         <h5 class="bg-info mb-0 pl-2" id="headingOne">
             <input *ngIf="hasDeadlinePassed()" type="checkbox" [(ngModel)]="app.accepted" />
-            <button class="btn text-white" data-toggle="collapse" attr.data-target="#app{{app._id}}" aria-expanded="true"
-                attr.aria-controls="app{{app._id}}">
+            <button class="btn text-white" data-toggle="collapse" attr.data-target="#app{{app._id}}"
+                aria-expanded="true" attr.aria-controls="app{{app._id}}">
                 {{i+1}} {{app.cv?.name}} {{app.cv?.surname}}
             </button>
         </h5>
         <div id="app{{app._id}}" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
             <table class="table table-sm table-bordered mb-0">
                 <tr *ngIf="app.cv?.name">
-                    <td>Name:</td>
+                    <td class="w-25 font-weight-bold">Name:</td>
                     <td class="w-75">{{app.cv?.name}}</td>
                 </tr>
                 <tr *ngIf="app.cv?.surname">
-                    <td>Surname:</td>
+                    <td class="w-25 font-weight-bold">Surname:</td>
                     <td class="w-75">{{app.cv?.surname}}</td>
                 </tr>
                 <tr *ngIf="app.cv?.address">
-                    <td>Address:</td>
+                    <td class="w-25 font-weight-bold">Address:</td>
                     <td class="w-75">{{app.cv?.address}}</td>
                 </tr>
                 <tr *ngIf="app.cv?.telephone">
-                    <td>Telephone:</td>
+                    <td class="w-25 font-weight-bold">Telephone:</td>
                     <td class="w-75">{{app.cv?.telephone}}</td>
                 </tr>
                 <tr *ngIf="app.cv?.email">
-                    <td>Email:</td>
+                    <td class="w-25 font-weight-bold">Email:</td>
                     <td class="w-75">{{app.cv?.email}}</td>
                 </tr>
                 <tr *ngIf="app.cv?.website">
-                    <td>Web site:</td>
+                    <td class="w-25 font-weight-bold">Web site:</td>
                     <td class="w-75">{{app.cv?.website}}</td>
                 </tr>
                 <tr *ngIf="app.cv?.imAccount">
-                    <td>IM Account:</td>
+                    <td class="w-25 font-weight-bold">IM Account:</td>
                     <td class="w-75">{{app.cv?.imAccount}}</td>
                 </tr>
                 <tr *ngIf="app.cv?.sex">
-                    <td>Sex:</td>
+                    <td class="w-25 font-weight-bold">Sex:</td>
                     <td class="w-75">{{app.cv?.sex}}</td>
                 </tr>
                 <tr *ngIf="app.cv?.dateOfBirth">
-                    <td>Date of birth:</td>
+                    <td class="w-25 font-weight-bold">Date of birth:</td>
                     <td class="w-75">{{app.cv?.dateOfBirth}}</td>
                 </tr>
                 <tr *ngIf="app.cv?.nationality">
-                    <td>Nationality:</td>
+                    <td class="w-25 font-weight-bold">Nationality:</td>
                     <td class="w-75">{{app.cv?.nationality}}</td>
                 </tr>
+                <ng-container *ngIf="app.cv?.education && app.cv.education.length > 0">
+                    <tr *ngFor="let e of app.cv?.experience; let i = index">
+                        <td class="w-25 font-weight-bold">Education {{i+1}}</td>
+                        <td class="p-0">
+                            <table class="m-0 w-100 h-100">
+                                <tr *ngIf="e.startDate">
+                                    <td class="w-25 font-weight-bold">Start date</td>
+                                    <td> {{e.startDate | date:'d.M.y H:mm'}}</td>
+                                </tr>
+                                <tr *ngIf="e.endDate">
+                                    <td class="w-25 font-weight-bold">End date</td>
+                                    <td> {{e.endDate | date:'d.M.y H:mm'}}</td>
+                                </tr>
+                                <tr *ngIf="e.qualification">
+                                    <td class="w-25 font-weight-bold">Qualification</td>
+                                    <td> {{e.qualification}}</td>
+                                </tr>
+                                <tr *ngIf="e.institution">
+                                    <td class="w-25 font-weight-bold">Institution</td>
+                                    <td> {{e.institution}}</td>
+                                </tr>
+                                <tr *ngIf="e.subjects">
+                                    <td class="w-25 font-weight-bold">Subjects</td>
+                                    <td> {{e.subjects}}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </ng-container>
                 <tr *ngIf="app.cv?.personalStatement">
-                    <td>Personal statement:</td>
+                    <td class="w-25 font-weight-bold">Personal statement:</td>
                     <td class="w-75">{{app.cv?.personalStatement}}</td>
                 </tr>
-                <!-- <ng-container *ngIf="app.cv?.experience" >
+                <ng-container *ngIf="app.cv?.experience && app.cv.experience.length > 0">
                     <tr *ngFor="let e of app.cv?.experience; let i = index">
-                        <td>Experience {{i}}</td>
-                        <td>{{app.cv?.personalStatement}}</td>
+                        <td class="w-25 font-weight-bold">Experience {{i+1}}</td>
+                        <td class="p-0">
+                            <table class="m-0 w-100 h-100">
+                                <tr *ngIf="e.startDate">
+                                    <td class="w-25 font-weight-bold">Start date</td>
+                                    <td> {{e.startDate | date:'d.M.y H:mm'}}</td>
+                                </tr>
+                                <tr *ngIf="e.endDate">
+                                    <td class="w-25 font-weight-bold">End date</td>
+                                    <td> {{e.endDate | date:'d.M.y H:mm'}}</td>
+                                </tr>
+                                <tr *ngIf="e.employer">
+                                    <td class="w-25 font-weight-bold">Employer</td>
+                                    <td> {{e.employer}}</td>
+                                </tr>
+                                <tr *ngIf="e.position">
+                                    <td class="w-25 font-weight-bold">Position</td>
+                                    <td> {{e.position}}</td>
+                                </tr>
+                                <tr *ngIf="e.activities">
+                                    <td class="w-25 font-weight-bold">Activities</td>
+                                    <td> {{e.activities}}</td>
+                                </tr>
+                            </table>
+                        </td>
                     </tr>
-                </ng-container> -->
+                </ng-container>
                 <tr *ngIf="app.cv?.motherTongue">
-                    <td>Mother tongue:</td>
+                    <td class="w-25 font-weight-bold">Mother tongue:</td>
                     <td class="w-75">{{app.cv?.motherTongue}}</td>
                 </tr>
+                <ng-container *ngIf="app.cv?.languages && app.cv.languages.length > 0">
+                    <tr *ngFor="let e of app.cv?.experience; let i = index">
+                        <td class="w-25 font-weight-bold">Languages {{i+1}}</td>
+                        <td class="p-0">
+                            <table class="m-0 w-100 h-100">
+                                <tr *ngIf="e.language">
+                                    <td class="w-25 font-weight-bold">Language</td>
+                                    <td> {{e.language}}</td>
+                                </tr>
+                                <tr *ngIf="e.listenig">
+                                    <td class="w-25 font-weight-bold">Listenig</td>
+                                    <td> {{e.listenig}}</td>
+                                </tr>
+                                <tr *ngIf="e.reading">
+                                    <td class="w-25 font-weight-bold">Reading</td>
+                                    <td> {{e.reading}}</td>
+                                </tr>
+                                <tr *ngIf="e.writing">
+                                    <td class="w-25 font-weight-bold">Writing</td>
+                                    <td> {{e.writing}}</td>
+                                </tr>
+                                <tr *ngIf="e.speaking">
+                                    <td class="w-25 font-weight-bold">Speaking</td>
+                                    <td> {{e.speaking}}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </ng-container>
                 <tr *ngIf="app.cv?.communicationSkills">
-                    <td>Communication skills:</td>
+                    <td class="w-25 font-weight-bold">Communication skills:</td>
                     <td class="w-75">{{app.cv?.communicationSkills}}</td>
                 </tr>
                 <tr *ngIf="app.cv?.organisationalSkills">
-                    <td>Organisational skills:</td>
+                    <td class="w-25 font-weight-bold">Organisational skills:</td>
                     <td class="w-75">{{app.cv?.organisationalSkills}}</td>
                 </tr>
                 <tr *ngIf="app.cv?.jobRelatedSkills">
-                    <td>Job-related skills:</td>
+                    <td class="w-25 font-weight-bold">Job-related skills:</td>
                     <td class="w-75">{{app.cv?.jobRelatedSkills}}</td>
                 </tr>
                 <tr *ngIf="app.cv?.digitalSkills">
-                    <td>Digital skills:</td>
+                    <td class="w-25 font-weight-bold">Digital skills:</td>
                     <td class="w-75">{{app.cv?.digitalSkills}}</td>
                 </tr>
                 <tr *ngIf="app.cv?.otherSkills">
-                    <td>Other skills:</td>
+                    <td class="w-25 font-weight-bold">Other skills:</td>
                     <td class="w-75">{{app.cv?.otherSkills}}</td>
                 </tr>
                 <tr *ngIf="app.cv?.drivingLicence">
-                    <td>Driving licence:</td>
+                    <td class="w-25 font-weight-bold">Driving licence:</td>
                     <td class="w-75">{{app.cv?.drivingLicence ? 'YES' : 'NO'}}</td>
                 </tr>
                 <tr *ngIf="app.cv?.additionalInformation">
-                    <td>Additional Information:</td>
+                    <td class="w-25 font-weight-bold">Additional Information:</td>
                     <td class="w-75">{{app.cv?.additionalInformation}}</td>
                 </tr>
                 <tr *ngIf="app.coverLetter">
-                    <td>Cover letter:</td>
-                    <td class="w-75">{{app.coverLetter}}</td>
+                    <td class="w-25 font-weight-bold">Cover letter:</td>
+                    <td *ngIf="!app.coverLetterIsFile" class="w-75">{{app.coverLetter}}</td>
+                    <td *ngIf="app.coverLetterIsFile" class="w-75">
+                        <a [href]="app.coverLetter">
+                            {{app.coverLetter | fileName }}
+                        </a>
+                    </td>
                 </tr>
             </table>
         </div>
