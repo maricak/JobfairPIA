@@ -5,6 +5,7 @@ import { Student } from '../models/student';
 import { Company } from '../models/company';
 import { User, ChangePasswordUser } from '../models/user';
 import { Admin } from '../models/admin';
+import { CV } from '../models/cv';
 
 @Injectable({
     providedIn: 'root'
@@ -40,8 +41,9 @@ export class AuthService {
         localStorage.clear();
     }
 
-    registerStudent(student: Student) {
-        return this.http.post(`${this.uri}/register/student`, student);
+    registerStudent(student: FormData) {
+        return this.http.post(`${this.uri}/register/student`, student/*,
+            { headers: { 'Content-type': 'multipart/form_data' } }*/);
     }
 
     registerCompany(company: Company) {
@@ -97,7 +99,11 @@ export class AuthService {
     }
     getStudent(): Student {
         if (this.isStudent()) {
-            return <Student>this.user;
+            let student:Student = <Student>this.user;
+            // if (!student.cv) {
+            //     student.cv = {} as CV;
+            // }
+            return student;
         }
         return null;
     }

@@ -8,7 +8,7 @@
 </div>
 
 <!-- Registration Form -->
-<form [formGroup]="form" (submit)="onRegisterSubmit()" class="w-75 mx-auto">
+<form [formGroup]="form" (submit)="onRegisterSubmit($event)" class="w-75 mx-auto">
 
     <!-- Username Input -->
     <div class="form-group">
@@ -121,6 +121,16 @@
         </ul>
     </div>
 
+    <!-- Image -->
+    <div class="form-group">
+        <label for="image">Image</label> <br/>
+        <input type="file" accept="image/*,.pdf" (change)="onFileChange($event)">
+        <ul class="form-text text-danger">
+            <span *ngFor="let v of vData.image | keyvalue">
+                <li *ngIf="image.hasError(v.key)"> {{v.value[1]}}</li>
+            </span>
+        </ul>
+    </div>
     <!-- Submit Input -->
     <input [disabled]="!form.valid" type="submit" class="btn btn-info" value="Submit" />
 

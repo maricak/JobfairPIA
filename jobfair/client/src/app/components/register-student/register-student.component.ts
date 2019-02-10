@@ -68,6 +68,9 @@ export class RegisterStudentComponent implements OnInit {
                 Validators.max(this.vData.currentYear.max[0]),
             ])],
             graduated: [false],
+            image: ['', Validators.compose([
+                Validators.required
+            ])]
         }, { validator: this.matchingPasswords('password', 'confirm') });
     }
 
@@ -90,21 +93,26 @@ export class RegisterStudentComponent implements OnInit {
     get email() { return this.form.controls['email']; }
     get currentYear() { return this.form.controls['currentYear']; }
     get graduated() { return this.form.controls['graduated']; }
+    get image() { return this.form.controls['image']; }
 
+    onFileChange(event) {
+        if (event.target.files.length > 0) {
+            let file = event.target.files[0];
+            this.form.get('image').setValue(file);
+        }
+    }
     onRegisterSubmit() {
-        const student: Student = {
-            _id: undefined,
-            username: this.username.value.trim(),
-            password: this.password.value.trim(),
-            name: this.name.value.trim(),
-            surname: this.surname.value.trim(),
-            telephone: this.telephone.value.trim(),
-            email: this.email.value.trim(),
-            currentYear: this.currentYear.value,
-            graduated: this.graduated.value,
-            cv: null
-        };
-        this.authService.registerStudent(student).subscribe((data: { success: boolean, message: string }) => {
+        const form: FormData = new FormData();
+        form.append('username', this.username.value.trim());
+        form.append('password', this.password.value.trim());
+        form.append('name', this.name.value.trim());
+        form.append('surname', this.surname.value.trim());
+        form.append('telephone', this.telephone.value.trim());
+        form.append('email', this.email.value.trim());
+        form.append('currentYear', this.currentYear.value);
+        form.append('graduated', this.graduated.value);
+        form.append('image', this.image.value);
+        this.authService.registerStudent(form).subscribe((data: { success: boolean, message: string }) => {
             if (!data.success) {
                 this.message = data.message;
                 this.messageClass = 'alert alert-danger';

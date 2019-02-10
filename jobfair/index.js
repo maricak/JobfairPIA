@@ -18,7 +18,7 @@ const fairRouter = require('./routes/fair');
 mongoose.Promise = global.Promise;
 mongoose.connect(config.uri, { useNewUrlParser: true }, (err) => {
     if (err) {
-        console.log("Could not connect to database: " + err.message );
+        console.log("Could not connect to database: " + err.message);
     } else {
         console.log("Connected to database " + config.db)
     }
@@ -27,6 +27,7 @@ mongoose.connect(config.uri, { useNewUrlParser: true }, (err) => {
 app.use(cors({ origin: 'http://localhost:4200' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use('/images', express.static('/images'));
 app.use(express.static(__dirname + '/client/dist'));
 
 app.use('/login', loginRouter);

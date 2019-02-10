@@ -263,7 +263,6 @@ router.get('/forApproval/:id', (req, res) => {
     }
 });
 
-
 router.get('/finish/:id', (req, res) => {
     let id = req.params.id;
     if (req.decoded.type != "admin") {
@@ -293,7 +292,6 @@ router.get('/finish/:id', (req, res) => {
         })
     }
 });
-
 
 router.post('/updateMaxCompanies', (req, res) => {
     if (req.decoded.type != "admin") {
@@ -346,7 +344,6 @@ router.post('/updateMaxCompanies', (req, res) => {
         })
     }
 });
-
 
 router.post('/setPeriods', (req, res) => {
     if (req.decoded.type != "admin") {

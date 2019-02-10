@@ -43,25 +43,25 @@ export class CvComponent implements OnInit {
                 Validators.minLength(this.vData.surname.minlength[0]),
                 Validators.maxLength(this.vData.surname.maxlength[0])
             ])],
-            address: ['', Validators.compose([
+            address: [undefined, Validators.compose([
                 Validators.minLength(this.vData.address.minlength[0]),
                 Validators.maxLength(this.vData.address.maxlength[0])
             ])],
-            telephone: ['', Validators.compose([
+            telephone: [undefined, Validators.compose([
                 Validators.minLength(this.vData.telephone.minlength[0]),
                 Validators.maxLength(this.vData.telephone.maxlength[0]),
                 Validators.pattern(this.vData.telephone.pattern[0])
             ])],
-            email: ['', Validators.compose([
+            email: [undefined, Validators.compose([
                 Validators.maxLength(this.vData.email.maxlength[0]),
                 Validators.pattern(this.vData.email.pattern[0])
             ])],
-            website: ['', Validators.compose([
+            website: [undefined, Validators.compose([
                 Validators.minLength(this.vData.website.minlength[0]),
                 Validators.maxLength(this.vData.website.maxlength[0]),
                 Validators.pattern(this.vData.website.pattern[0])
             ])],
-            imAccount: ['', Validators.compose([
+            imAccount: [undefined, Validators.compose([
                 Validators.minLength(this.vData.imAccount.minlength[0]),
                 Validators.maxLength(this.vData.imAccount.maxlength[0])
             ])],
@@ -70,43 +70,43 @@ export class CvComponent implements OnInit {
                 // ???????????????
                 Validators.max(this.vData.dateOfBirth.max[0]),
             ])],
-            nationality: ['', Validators.compose([
+            nationality: [undefined, Validators.compose([
                 Validators.minLength(this.vData.nationality.minlength[0]),
                 Validators.maxLength(this.vData.nationality.maxlength[0])
             ])],
-            personalStatement: ['', Validators.compose([
+            personalStatement: [undefined, Validators.compose([
                 Validators.minLength(this.vData.personalStatement.minlength[0]),
                 Validators.maxLength(this.vData.personalStatement.maxlength[0])
             ])],
             experience: this.formBuilder.array([]),
             education: this.formBuilder.array([]),
-            motherTongue: ['', Validators.compose([
+            motherTongue: [undefined, Validators.compose([
                 Validators.minLength(this.vData.motherTongue.minlength[0]),
                 Validators.maxLength(this.vData.motherTongue.maxlength[0])
             ])],
             languages: this.formBuilder.array([]),
-            communicationSkills: ['', Validators.compose([
+            communicationSkills: [undefined, Validators.compose([
                 Validators.minLength(this.vData.skill.minlength[0]),
                 Validators.maxLength(this.vData.skill.maxlength[0])
             ])],
-            organisationalSkills: ['', Validators.compose([
+            organisationalSkills: [undefined, Validators.compose([
                 Validators.minLength(this.vData.skill.minlength[0]),
                 Validators.maxLength(this.vData.skill.maxlength[0])
             ])],
-            jobRelatedSkills: ['', Validators.compose([
+            jobRelatedSkills: [undefined, Validators.compose([
                 Validators.minLength(this.vData.skill.minlength[0]),
                 Validators.maxLength(this.vData.skill.maxlength[0])
             ])],
-            digitalSkills: ['', Validators.compose([
+            digitalSkills: [undefined, Validators.compose([
                 Validators.minLength(this.vData.skill.minlength[0]),
                 Validators.maxLength(this.vData.skill.maxlength[0])
             ])],
-            otherSkills: ['', Validators.compose([
+            otherSkills: [undefined, Validators.compose([
                 Validators.minLength(this.vData.skill.minlength[0]),
                 Validators.maxLength(this.vData.skill.maxlength[0])
             ])],
             drivingLicence: [false],
-            additionalInformation: ['', Validators.compose([
+            additionalInformation: [undefined, Validators.compose([
                 Validators.minLength(this.vData.additionalInformation.minlength[0]),
                 Validators.maxLength(this.vData.additionalInformation.maxlength[0])
             ])]
@@ -140,9 +140,11 @@ export class CvComponent implements OnInit {
     ngOnInit() {
         this.student = this.authService.getStudent();
         if (this.student) {
-            this.refreshForm();
+            if (this.student.cv) {
+                this.refreshForm();
+            }
         } else {
-            this.message = 'You must bew logged in';
+            this.message = 'You must be logged in';
             this.messageClass = 'alert alert-danger';
         }
 
@@ -168,7 +170,7 @@ export class CvComponent implements OnInit {
                 this.canUpdateCV = false;
             }
             console.log(`can update ${this.canUpdateCV}`);
-            if(!this.canUpdateCV) {
+            if (!this.canUpdateCV) {
                 this.message = 'Updating CV is not allowed at the moment';
                 this.messageClass = 'alert alert-danger'
             }
@@ -232,7 +234,6 @@ export class CvComponent implements OnInit {
         });
         return ret;
     }
-
 
     createEducation(startDate: Date, endDate: Date, qualification: string, institution: string, subjects: string): FormGroup {
         return this.formBuilder.group({

@@ -21,6 +21,10 @@ const studentSchema = new Schema({
         maxlength: v.data.password.maxlength,
         match: v.data.password.pattern
     },
+    image: {
+        type: String,
+        required: v.data.image.required
+    },
     name: {
         type: String,
         required: v.data.name.required,

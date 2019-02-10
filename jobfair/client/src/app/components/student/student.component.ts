@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Student } from 'src/app/models/student';
 import { AuthService } from 'src/app/services/auth.service';
+import { CV } from 'src/app/models/cv';
 
 @Component({
     selector: 'app-student',

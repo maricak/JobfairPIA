@@ -5,40 +5,56 @@ const Student = require('../models/student');
 const Admin = require('../models/admin');
 const Company = require('../models/company');
 
-router.post('/student', (req, res) => {
-    console.log(req.body);
-    found = false;
-    Admin.find({ $or: [{ username: req.body.username }, { email: req.body.email }] }, (err, admin) => {
-        if (err) { console.log(err); }
-        else if (admin) { found = true; }
-    });
-    Company.find({ $or: [{ username: req.body.username }, { email: req.body.email }] }, (err, company) => {
-        if (err) { console.log(err); }
-        else if (company) { found = true; }
-    });
+var formidable = require('formidable');
+var fs = require('fs');
 
-    if (found) {
-        res.json({ success: false, message: 'Username or e-mail already exists' });
-    } else {
-        let student = new Student(req.body);
-        console.log(student);
-        student.save((err) => {
-            if (err) {
-                if (err.code && err.code === 11000) {
-                    res.json({ success: false, message: 'Username or e-mail already exists' });
-                } else if (err.errors) {
-                    for (const key in err.errors) {
-                        res.json({ success: false, message: err.errors[key].message });
-                        break;
-                    }
-                } else {
-                    res.json({ success: false, message: 'Could not save student. Error: ' + err.message });
-                }
+
+router.post('/student', (req, res) => {
+    var form = new formidable.IncomingForm({
+        uploadDir: __dirname + '\\..\\images',
+        keepExtensions: true
+    });
+    var imagePath = "";
+    form.parse(req, (err, fields, files) => {
+        if (err) {
+            res.json({ success: false, message: 'Error happened while saving the profile picture ' + err });
+        } else {
+            imagePath = files.image.path;
+            found = false;
+            Admin.find({ $or: [{ username: fields.username }, { email: fields.email }] }, (err, admin) => {
+                if (err) { console.log(err); }
+                else if (admin) { found = true; }
+            });
+            Company.find({ $or: [{ username: fields.username }, { email: fields.email }] }, (err, company) => {
+                if (err) { console.log(err); }
+                else if (company) { found = true; }
+            });
+
+            if (found) {
+                res.json({ success: false, message: 'Username or e-mail already exists' });
             } else {
-                res.json({ success: true, message: 'Acount registered!' }); // Return success
+                let student = new Student(fields);
+                student.image = imagePath;
+                console.log(student);
+                student.save((err) => {
+                    if (err) {
+                        if (err.code && err.code === 11000) {
+                            res.json({ success: false, message: 'Username or e-mail already exists' });
+                        } else if (err.errors) {
+                            for (const key in err.errors) {
+                                res.json({ success: false, message: err.errors[key].message });
+                                break;
+                            }
+                        } else {
+                            res.json({ success: false, message: 'Could not save student. Error: ' + err.message });
+                        }
+                    } else {
+                        res.json({ success: true, message: 'Account registered!' }); // Return success
+                    }
+                });
             }
-        });
-    }
+        }
+    });
 });
 
 router.post('/admin', (req, res) => {
@@ -51,7 +67,7 @@ router.post('/admin', (req, res) => {
         if (err) { console.log(err); }
         else if (company) { found = true; }
     });
-    
+
     if (found) {
         res.json({ success: false, message: 'Username or e-mail already exists' });
     } else {
