@@ -61,9 +61,9 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
 //     });
 // });
 
-// app.get('*', (req, res) => {
-//     res.sendFile(path.join(__dirname + '/client/dist/index.html'));
-// });
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname + '/client/dist/index.html'));
+});
 
 app.listen(8080, () => {
     console.log("Listening on 8080");

@@ -30,8 +30,8 @@ import { FairApproveComponent } from './components/fair-approve/fair-approve.com
 import { FairApplyComponent } from './components/fair-apply/fair-apply.component';
 import { FairUpdateMaxCompaniesComponent } from './components/fair-update-max-companies/fair-update-max-companies.component';
 import { FairUpdatePeriodsComponent } from './components/fair-update-periods/fair-update-periods.component';
+
 import { FileNamePipe } from './pipes/file-name.pipe';
-// import { ErrorMessageDirective } from './directives/error-message.directive';
 
 @NgModule({
     declarations: [
@@ -62,14 +62,13 @@ import { FileNamePipe } from './pipes/file-name.pipe';
         FairUpdateMaxCompaniesComponent,
         FairUpdatePeriodsComponent,
         FileNamePipe,
-        // ErrorMessageDirective
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         ReactiveFormsModule, 
         HttpClientModule,
-        FormsModule
+        FormsModule, 
     ],
     providers: [],
     bootstrap: [AppComponent]

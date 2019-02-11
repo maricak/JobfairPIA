@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Opening } from 'src/app/models/opening';
+import { Opening, Application } from 'src/app/models/opening';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { OpeningService } from 'src/app/services/opening.service';
@@ -28,8 +28,11 @@ export class OpeningInfoComponent implements OnInit {
     student: Student;
     company: Company;
 
+    application: Application;
+
     canApply: boolean = false;
     canSeeResults: boolean = false;
+    canRate: boolean = false;
 
     constructor(private formBuilder: FormBuilder, private route: ActivatedRoute, public authService: AuthService, private openingService: OpeningService, private location: Location) {
         this.vData = v.data;
@@ -69,14 +72,14 @@ export class OpeningInfoComponent implements OnInit {
             opening: Opening
         }) => {
             if (data.success) {
-                console.log(data.opening);
-
                 this.opening = data.opening;
+                console.log(this.opening);
                 this.opening.deadline = new Date(data.opening.deadline);
 
                 if (this.authService.isStudent()) {
                     this.canApply = this.checkCanApply();
                     this.canSeeResults = this.checkCanSeeResults();
+                    this.canRate = this.checkCanRate();
                 }
             } else {
                 console.log(data);
@@ -128,9 +131,32 @@ export class OpeningInfoComponent implements OnInit {
         return true;
     }
 
-    checkCanSeeResults() {
+    checkCanSeeResults(): boolean {
         if (this.hasApplied() && this.hasDeadlinePassed()) {
             return true;
+        }
+        return false;
+    }
+
+    checkCanRate() {
+        if (!this.hasApplied()) {
+            return false;
+        }
+        this.application = this.opening.applications.find(a => a.studentId == this.student._id);
+        console.log(this.application);
+        if (this.application.accepted) {
+            let now: Date = new Date();
+            let deadline = new Date(this.opening.deadline);
+            if(deadline.getMonth() == 11) {
+                deadline.setMonth(0);
+                deadline.setFullYear(deadline.getFullYear() + 1);
+            } else {
+                deadline.setMonth(deadline.getMonth() + 1);
+            }
+            if(now.getTime() > deadline.getTime()) {
+                return true;
+            }
+            return false;
         }
         return false;
     }

@@ -50,7 +50,6 @@ router.get('/current', (req, res) => {
 
 router.post('/updateDeadlines', (req, res) => {
     console.log(req.body);
-
     if (req.decoded.type != "admin") {
         res.json({ success: false, message: "This data is only for admins" });
     } else if (!req.body.fairId || req.body._id == "") {
@@ -58,7 +57,7 @@ router.post('/updateDeadlines', (req, res) => {
     } else {
         Fair.findById(req.body.fairId, (err, fair) => {
             if (err) {
-                res.json({ success: false, message: "Error happened whil searchig for fair" + err.message });
+                res.json({ success: false, message: "Error happened while searching for fair" + err.message });
             } else if (fair) {
                 if (fair.finished) {
                     res.json({ success: false, message: "The fair is closed" });
@@ -99,7 +98,7 @@ router.post('/approveCompanies', (req, res) => {
     } else {
         Fair.findById(req.body.fairId, (err, fair) => {
             if (err) {
-                res.json({ success: false, message: "Error happened whil searchig for fair" + err.message });
+                res.json({ success: false, message: "Error happened while searching for fair" + err.message });
             } else if (fair) {
                 if (fair.finished) {
                     res.json({ success: false, message: "The fair is closed" });
@@ -112,7 +111,6 @@ router.post('/approveCompanies', (req, res) => {
                             a.packages.forEach(package => {
                                 let packageIndex = fair.packages.findIndex(p => p._id == package._id);
                                 console.log(`packgage index ${packageIndex}`);
-
                                 if (packageIndex != -1 && fair.packages[packageIndex].maxCompanies != -1) {
                                     if (fair.packages[packageIndex].companiesLeft > 0) {
                                         fair.packages[packageIndex].companiesLeft--;
@@ -155,13 +153,13 @@ router.post('/approveCompanies', (req, res) => {
 });
 
 router.post('/create', upload.array('file'), (req, res) => {
-    console.log(req);
+    //console.log(req);
     if (req.decoded.type != "admin") {
         res.json({ success: false, message: "This option is only for admins" });
     } else {
-        let fair = new Fair(req.body);
+        let fair = new Fair(JSON.parse(req.body.fair));
         fair.files = req.files.map(file => file.path);
-        console.log(fair);
+        //console.log(fair);
         fair.save((err, newFair) => {
             if (err) {
                 if (err.errors) {
@@ -174,7 +172,7 @@ router.post('/create', upload.array('file'), (req, res) => {
                 }
             }
             else if (newFair) {
-                console.log(newFair);
+                //console.log(newFair);
                 res.json({ success: true, message: 'Fair created', fair: newFair }); // Return success
             } else {
                 res.json({ success: false, message: 'Could not save the fair. Error: ' + err.message });
@@ -185,7 +183,6 @@ router.post('/create', upload.array('file'), (req, res) => {
 
 router.post('/apply', (req, res) => {
     console.log(req.body);
-
     if (req.decoded.type != "company") {
         res.json({ success: false, message: "This data is only for companies" });
     } else {
@@ -281,7 +278,7 @@ router.get('/finish/:id', (req, res) => {
     } else {
         Fair.findById(id, (err, fair) => {
             if (err) {
-                res.json({ success: false, message: "Error happened while searching for the fair " + err.message });
+                res.json({ success: false, message: "Error happened while searching for the fair: " + err.message });
             } else if (fair) {
                 if (fair.finished) {
                     res.json({ success: false, message: "The fair is already finished" });
@@ -289,7 +286,7 @@ router.get('/finish/:id', (req, res) => {
                     fair.finished = true;
                     fair.save((err, newFair) => {
                         if (err) {
-                            res.json({ success: false, message: "Error happened while saving fair " + err.message });
+                            res.json({ success: false, message: "Error happened while saving fair: " + err.message });
                         } else if (newFair) {
                             res.json({ success: true, message: "Success", fair: newFair });
                         } else {
@@ -389,4 +386,5 @@ router.post('/setPeriods', (req, res) => {
         })
     }
 });
+
 module.exports = router;

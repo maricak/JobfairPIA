@@ -67,6 +67,28 @@
 </form>
 
 <!-- student -->
+<table *ngIf="canRate">
+    <tr>
+        <td>
+            <select [(ngModel)]="application.rating">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+        </td>
+        <td>
+            <button class="btn btn-info" (click)="onSave()">Rate</button>
+        </td>
+    </tr>
+    {{application.rating}}
+</table>
 <h5 class="text-center text-info my-3" *ngIf="canSeeResults">Results</h5>
 <table *ngIf="opening?.applications.length > 0 && canSeeResults" class="table">
     <thead class="w-25 font-weight-bold">

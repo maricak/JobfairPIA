@@ -184,7 +184,7 @@ module.exports.data = {
         ['maxlength']: [200, 'Place max length is 200']
     },
     ['about']: {
-        ['required']: [true, 'Fair description is required is required'],
+        ['required']: [true, 'Fair description is required'],
         ['minlength']: [5, 'Fair description min length is 5'],
         ['maxlength']: [1000, 'Fair description max length is 1000']
     },
@@ -246,6 +246,10 @@ module.exports.data = {
     ['perEndDate']: {
         ['required']: [true, 'Period end date is required']
     },
+    ['rating']: {
+        ['min']: [1, 'Minimal rating value is 1'],
+        ['max']: [10, 'Maximal rating value is 10']
+    }
 };
 
 //date of birth
@@ -297,15 +301,15 @@ let checkOverlaps = function (periods) {
     return err;
 }
 
-let checkDatesInsideFair = function(periods) {
+let checkDatesInsideFair = function (periods) {
     let start = this.startDate;
     let end = this.endDate;
     for (let i = 0; i < periods.length; i++) {
         const period = periods[i];
-        if(period.startDate < start || period.startDate > end) {
+        if (period.startDate < start || period.startDate > end) {
             return false;
         }
-        if(period.endDate < start || period.endDate > end) {
+        if (period.endDate < start || period.endDate > end) {
             return false;
         }
     }
@@ -320,7 +324,7 @@ module.exports.educationValidators = [
 ]
 module.exports.periodValidator = [
     { validator: checkDates, message: "Period start date must be before period end date" },
-   // { validator: checkOverlaps, message: "There are periods in one location that overlap" },
+    // { validator: checkOverlaps, message: "There are periods in one location that overlap" },
     { validator: checkDatesInsideFair, message: "Cannot create period with time outside of fair startDate and endDate" }
 ]
 

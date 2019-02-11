@@ -17,5 +17,6 @@ export interface Application {
     cv: CV,
     coverLetter: string,
     coverLetterIsFile: boolean,
-    accepted: boolean
+    accepted: boolean,
+    rating: number
 }

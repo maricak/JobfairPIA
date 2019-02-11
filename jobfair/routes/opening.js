@@ -89,38 +89,38 @@ router.post('/create', upload.array('file'), (req, res) => {
 
 router.post('/update', (req, res) => {
     console.log(req.body);
-    if (req.decoded.type != "company") {
-        res.json({ success: false, message: "This option is only for companies" });
-    } else if (!req.body.companyId || req.body.companyId == "") {
-        res.json({ success: false, message: "You must provide company id" });
-    } else if (req.decoded.id != req.decoded.id) {
-        res.json({ success: false, message: "Making decisions for other companies is not allowed" });
-    } else {
-        Opening.findById(req.body._id, (err, opening) => {
-            if (err) {
-                res.json({ success: false, message: 'Error happened while retrieving opening data' + err.message });
-            } else if (opening) {
-                opening.set({ applications: req.body.applications });
-                opening.save((err) => {
-                    if (err) {
-                        if (err.errors) {
-                            for (const key in err.errors) {
-                                res.json({ success: false, message: err.errors[key].message });
-                                break;
-                            }
-                        } else {
-                            res.json({ success: false, message: 'Could not save the opening. Error: ' + err.message });
+    // if (req.decoded.type != "company") {
+    //     res.json({ success: false, message: "This option is only for companies" });
+    // } else if (!req.body.companyId || req.body.companyId == "") {
+    //     res.json({ success: false, message: "You must provide company id" });
+    // } else if (req.decoded.id != req.body.companyId) {
+    //     res.json({ success: false, message: "Making decisions for other companies is not allowed" });
+    // } else {
+    Opening.findById(req.body._id, (err, opening) => {
+        if (err) {
+            res.json({ success: false, message: 'Error happened while retrieving opening data' + err.message });
+        } else if (opening) {
+            opening.set({ applications: req.body.applications });
+            opening.save((err) => {
+                if (err) {
+                    if (err.errors) {
+                        for (const key in err.errors) {
+                            res.json({ success: false, message: err.errors[key].message });
+                            break;
                         }
+                    } else {
+                        res.json({ success: false, message: 'Could not save the opening. Error: ' + err.message });
                     }
-                    else {
-                        res.json({ success: true, message: 'Opening updated' }); // Return success
-                    }
-                });
-            } else {
-                res.json({ success: false, message: 'There is no opening in the database' });
-            }
-        });
-    }
+                }
+                else {
+                    res.json({ success: true, message: 'Opening updated' }); // Return success
+                }
+            });
+        } else {
+            res.json({ success: false, message: 'There is no opening in the database' });
+        }
+    });
+    // }
 });
 
 router.post('/apply', upload.single('coverLetter'), (req, res) => {

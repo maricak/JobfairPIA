@@ -185,7 +185,7 @@ export var data: { [key: string]: { [type: string]: any[] } } = {
         ['maxlength']: [200, 'Place max length is 200']
     },
     ['about']: {
-        ['required']: [true, 'Fair description is required is required'],
+        ['required']: [true, 'Fair description is required'],
         ['minlength']: [5, 'Fair description min length is 5'],
         ['maxlength']: [1000, 'Fair description max length is 1000']
     },
@@ -247,6 +247,10 @@ export var data: { [key: string]: { [type: string]: any[] } } = {
     ['perEndDate']: {
         ['required']: [true, 'Period end date is required']
     },
+    ['rating']: {
+        ['min']: [1, 'Minimal rating value is 1'],
+        ['max']: [10, 'Maximal rating value is 10']
+    }
 };
 
 //date of birth

@@ -85,6 +85,6 @@ export class FairUpdateDeadlinesComponent implements OnInit {
         this.form.patchValue({
             applyDeadline : new Date(this.fair.applyDeadline), 
             cvDeadline : new Date(this.fair.cvDeadline)
-        })
+        });       
     }
 }

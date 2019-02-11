@@ -9,7 +9,7 @@ import { FairService } from 'src/app/services/fair.service';
 export class FairCreateStep2Component implements OnInit {
 
     periods: Period[] = [];
-    files: FileList;
+    files: File[] = [];
 
     @Output() message = new EventEmitter<string>();
     @Output() messageClass = new EventEmitter<string>();
@@ -47,8 +47,9 @@ export class FairCreateStep2Component implements OnInit {
 
     onFileChange(event) {
         if (event.target.files.length > 0) {
-            this.files = event.target.files;
-        }
+            for(let i = 0; i < event.target.files.length; i++)
+            this.files.push(event.target.files[i]);
+        }        
     }
 
     onNextClick() {

@@ -28,6 +28,11 @@ const applicationSchema = new Schema({
     accepted: {
         type: Boolean,
         default: false
+    },
+    rating: {
+        type: Number,
+        min: v.data.rating.min,
+        max: v.data.rating.max
     }
 })
 

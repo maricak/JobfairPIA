@@ -74,7 +74,6 @@ router.get('/account/:id', (req, res) => {
     }
 })
 
-
 router.get('/openings/:id', (req, res) => {
     let id = req.params.id;
     if (req.decoded.type != "company") {
@@ -101,6 +100,5 @@ router.get('/openings/:id', (req, res) => {
         });
     }
 });
-
 
 module.exports = router;

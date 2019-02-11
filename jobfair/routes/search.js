@@ -25,7 +25,6 @@ router.post('/basic', (req, res) => {
             res.json({ success: false, message: "Error happened while searching: " + err.message  });
         } else {
             res.json({ success: true, message: "Sucess!", companies: companies });
-
         }
     })
 });
@@ -77,13 +76,13 @@ router.post('/complex', (req, res) => {
             } else {
                 Opening.find(searchOptions, (err, openings) => {
                     if (err) {
-                        res.json({ success: false, message: "Error happened whil searching openings" + err.message  });
+                        res.json({ success: false, message: "Error happened while searching openings" + err.message  });
                     } else {
                         if (req.body.choice == "company") {
                             let companyIds = openings.map((e) => { return e.companyId; });
                             Company.find({ _id: { $in: companyIds } }, { password: 0 }, (err, companies) => {
                                 if (err) {
-                                    res.json({ success: false, message: "Error happened whil searchig companies" + err.message  });
+                                    res.json({ success: false, message: "Error happened while searching companies" + err.message  });
                                 } else {
                                     res.json({ success: true, message: "Success", companies: companies });
                                 }

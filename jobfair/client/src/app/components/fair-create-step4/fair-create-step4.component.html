@@ -81,7 +81,7 @@
         <td class="w-25 font-weight-bold">Files:</td>
         <td *ngIf="fair.files">
             <ng-container *ngFor="let f of fair.files">
-                {{f | fileName}}
+                {{f.name}}
             </ng-container>
         </td>
     </tr>
